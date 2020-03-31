@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:makingfriends/widgets/custom_image.dart';
 
 /// @description： 抽屉
 /// @author：liuzhidong
@@ -17,7 +18,10 @@ class DrawerPage extends StatelessWidget {
           SizedBox(
             height: ScreenUtil().setHeight(20),
           ),
-          Advertisement(),
+
+          CommonImage(
+            image: 'assets/3.jpg',
+          ),
           SizedBox(
             height: ScreenUtil().setHeight(20),
           ),
@@ -156,23 +160,6 @@ class Head extends StatelessWidget {
   }
 }
 
-class Advertisement extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: ScreenUtil().setHeight(150),
-      margin: EdgeInsets.only(left: 5, right: 5),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Image.asset(
-          'assets/3.jpg',
-          fit: BoxFit.fill,
-        ),
-      ),
-    );
-  }
-}
 
 class HeadLine extends StatelessWidget {
   @override

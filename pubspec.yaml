@@ -60,6 +60,8 @@ dependencies:
   flutter_splash_screen: ^0.1.0
   #图标
   font_awesome_flutter: ^8.8.0
+  #查看图片
+  photo_view: ^0.9.2
 
 
 dev_dependencies:

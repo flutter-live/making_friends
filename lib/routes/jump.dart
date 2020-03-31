@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:makingfriends/config/application.dart';
 import 'package:makingfriends/config/global.dart';
 
 /// @description：路由参数配置
@@ -10,9 +11,9 @@ import 'package:makingfriends/config/global.dart';
 
 
 class Jump {
-  final router = Router();
-  final BuildContext context = navigatorKey.currentState.overlay.context;
-  push(String path,
+  static final router = Router();
+
+  static push(String path,
       { bool token = true,
         bool replace = false,
         bool clearStack = false,
@@ -20,8 +21,9 @@ class Jump {
         TransitionType transition = TransitionType.inFromRight,
         Duration transitionDuration = const Duration(milliseconds: 250),
         RouteTransitionsBuilder transitionBuilder}) async {
+    final BuildContext context = navigatorKey.currentState.overlay.context;
     if (token) {
-      return router.navigateTo(context, path,
+      return Application.router.navigateTo(context, path,
           replace: replace,
           clearStack: clearStack,
           transition: transition,

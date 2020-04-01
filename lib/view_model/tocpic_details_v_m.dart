@@ -7,6 +7,15 @@ import 'package:makingfriends/provider/view_state_refresh.dart';
 /// @version: 1.0 
 
 class TocpicDetailsVM extends ViewStateRefresh {
+  double height = 300;
+
+  void setHeigth(double h){
+    print(h);
+    height = h;
+    print(height);
+    notifyListeners();
+  }
+
   List<Map<String, dynamic>> map = [
     {'title': '默认', 'id': 1},
     {'title': '最新', 'id': 2},

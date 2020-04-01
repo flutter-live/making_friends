@@ -32,6 +32,7 @@ class CommonImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      borderRadius: BorderRadius.circular(borderRadius),
       child: Container(
         height: ScreenUtil().setHeight(height),
         width: width == double.infinity ? width : ScreenUtil().setWidth(width),
@@ -100,7 +101,7 @@ class IFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaY: 3, sigmaX: 3),
+      filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
       child: Opacity(
         opacity: 0.7,
         child: new Container(

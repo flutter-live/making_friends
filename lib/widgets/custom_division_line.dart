@@ -11,7 +11,7 @@ class DivisionLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(20),
+      height: ScreenUtil().setHeight(15),
       color: Color.fromRGBO(245, 245, 245, 1),
       width: double.infinity,
     );

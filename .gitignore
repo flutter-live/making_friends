@@ -9,6 +9,8 @@
 .history
 .svn/
 
+# AndroidStudio
+.packages
 # IntelliJ related
 *.iml
 *.ipr

@@ -10,7 +10,6 @@ class TocpicDetailsVM extends ViewStateRefresh {
   double height = 300;
 
   void setHeigth(double h){
-    print(h);
     height = h;
     print(height);
     notifyListeners();

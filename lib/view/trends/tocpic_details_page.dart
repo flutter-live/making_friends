@@ -20,64 +20,6 @@ class TocpicDetailsPage extends StatefulWidget {
 
 class _TocpicDetailsPageState extends State<TocpicDetailsPage>
     with TickerProviderStateMixin {
-  double sliding = 0;
-  double imageHeight = 0;
-  double imageWidth = 0;
-  Animation<double> animation;
-  AnimationController controller;
-//  double height = 300;
-//
-//  void setHeigth(double h){
-//    setState(() {
-//      height = h;
-//    });
-//  }
-
-  @override
-  void initState() {
-    controller = new AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
-    animation = new Tween(begin: 0.0, end: 0.0).animate(controller);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-
-  ///手指移动
-  updateSliding(double h, double w) {
-      if(imageWidth == 0){
-        imageWidth = w;
-      }
-      if(imageHeight == 0){
-        imageHeight = h;
-      }
-
-      ///解决手势冲突 还不完美 待完善
-      if((w-imageWidth) > (h-imageHeight)) return;
-      sliding = h - imageHeight;
-      setState(() {
-        sliding = sliding;
-      });
-  }
-
-  ///手指松开
-  retuenSliding(){
-    controller.forward(from: 0);
-    setState(() {
-      animation = new Tween(begin: sliding, end: 0.0).animate(controller)..addListener((){
-        setState(() {
-          sliding = animation.value;
-        });
-      });
-    });
-    imageHeight = 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<TocpicDetailsVM>(
@@ -87,9 +29,6 @@ class _TocpicDetailsPageState extends State<TocpicDetailsPage>
         return DefaultTabController(
           length: 2,
           initialIndex: 0,
-          child: Listener(
-            onPointerMove: (PointerMoveEvent e) => updateSliding(e.position.dy, e.position.dx),
-            onPointerUp: (PointerUpEvent e) => retuenSliding(),
             child: Scaffold(
               body: NestedScrollView(
                 physics: ClampingScrollPhysics(),
@@ -105,9 +44,9 @@ class _TocpicDetailsPageState extends State<TocpicDetailsPage>
                         IconButton(
                             icon: Icon(Icons.more_horiz), onPressed: () {}),
                       ],
-                      expandedHeight: model.height+ScreenUtil().setHeight(sliding),
+                      expandedHeight: model.height,
                       flexibleSpace: FlexibleSpaceBar(
-                        background: TocpicDetailsHeadContent(sliding: sliding,),
+                        background: TocpicDetailsHeadContent(),
                       ),
                       bottom: PreferredSize(
                         preferredSize: Size.fromHeight(50),
@@ -135,7 +74,6 @@ class _TocpicDetailsPageState extends State<TocpicDetailsPage>
                 ),
               ),
             ),
-          ),
         );
       },
     );
@@ -143,13 +81,11 @@ class _TocpicDetailsPageState extends State<TocpicDetailsPage>
 }
 
 class TocpicDetailsHeadContent extends StatefulWidget {
-  final double sliding;
-
-  const TocpicDetailsHeadContent({Key key, this.sliding}) : super(key: key);
   @override
   _TocpicDetailsHeadContentState createState() =>
       _TocpicDetailsHeadContentState();
 }
+
 
 class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
     with AfterLayoutMixin<TocpicDetailsHeadContent> {
@@ -165,7 +101,7 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
               ///图片
               CommonImage(
                 image: 'assets/3.jpg',
-                height: 300 + widget.sliding,
+                height: 300,
                 isFilter: true,
                 margin: EdgeInsets.all(0),
                 borderRadius: 0,
@@ -221,7 +157,7 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
           ),
           Positioned(
             left: 10,
-            top: ScreenUtil().setHeight(240+widget.sliding),
+            top: ScreenUtil().setHeight(240),
             child: CommonImage(
               image: 'assets/3.jpg',
               height: 120,
@@ -236,11 +172,10 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
 
   @override
   void afterFirstLayout(BuildContext context) {
-    RenderBox box = context.findRenderObject();
-    double height =
-        box.getMaxIntrinsicHeight(MediaQuery.of(context).size.width);
-    TocpicDetailsVM tocpicDetailsVMp = Provider.of(context, listen: false);
-    tocpicDetailsVMp.setHeigth(height);
+      RenderBox box = context.findRenderObject();
+      double height = box.getMaxIntrinsicHeight(MediaQuery.of(context).size.width);
+      TocpicDetailsVM tocpicDetailsVMp = Provider.of(context, listen: false);
+      tocpicDetailsVMp.setHeigth(height);
   }
 }
 

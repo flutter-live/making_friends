@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
+import 'package:makingfriends/view/community/community_details_page.dart';
 import 'package:makingfriends/view/trends/tocpic_classification_page.dart';
 import 'package:makingfriends/view/trends/tocpic_details_page.dart';
 import '../view/tab/tab_page.dart';
@@ -29,4 +30,5 @@ final Map<String, Handler> pageRouters = {
   '/': Handler(handlerFunc: (context, params) => TabPage()),
   'view/trends/tocpic_classification_page': Handler(handlerFunc: (context, params) => TocpicClassificationPage()),
   'view/trends/tocpic_details_page': Handler(handlerFunc: (context, params) => TocpicDetailsPage()),
+  'view/community/community_details_page': Handler(handlerFunc: (context, params) => CommunityDetailsPage()),
 };

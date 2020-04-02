@@ -29,51 +29,53 @@ class _TocpicDetailsPageState extends State<TocpicDetailsPage>
         return DefaultTabController(
           length: 2,
           initialIndex: 0,
-            child: Scaffold(
-              body: NestedScrollView(
-                physics: ClampingScrollPhysics(),
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      floating: false,
-                      pinned: true,
-                      snap: false,
-                      title: Text('话题详情'),
-                      actions: <Widget>[
-                        IconButton(
-                            icon: Icon(Icons.more_horiz), onPressed: () {}),
-                      ],
-                      expandedHeight: model.height,
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: TocpicDetailsHeadContent(),
-                      ),
-                      bottom: PreferredSize(
+          child: Scaffold(
+            body: NestedScrollView(
+              physics: ClampingScrollPhysics(),
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    floating: false,
+                    pinned: true,
+                    snap: false,
+                    title: Text('话题详情'),
+                    actions: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.more_horiz), onPressed: () {}),
+                    ],
+                    expandedHeight: model.height,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: TocpicDetailsHeadContent(),
+                    ),
+                    bottom: PreferredSize(
                         preferredSize: Size.fromHeight(50),
                         child: Material(
-                          //这里设置tab的背景色
-                          color: Theme.of(context).primaryColor,
-                          child: TabBar(tabs: <Widget>[
-                            Tab(
-                              text: '默认',
-                            ),
-                            Tab(
-                              text: '最新',
-                            ),
-                          ]),
-                        ),
-                      ),
-                    ),
-                  ];
-                },
-                body: TabBarView(
-                  children: <Widget>[
-                    TocpicDetailsItemPage(),
-                    TocpicDetailsItemPage()
-                  ],
-                ),
+                          color: Colors.white,
+                          child: TabBar(
+                              labelColor: Colors.pinkAccent,
+                              indicatorColor: Colors.pinkAccent,
+                              unselectedLabelColor: Colors.black,
+                              tabs: <Widget>[
+                                Tab(
+                                  text: '默认',
+                                ),
+                                Tab(
+                                  text: '最新',
+                                ),
+                              ]),
+                        )),
+                  ),
+                ];
+              },
+              body: TabBarView(
+                children: <Widget>[
+                  TocpicDetailsItemPage(),
+                  TocpicDetailsItemPage()
+                ],
               ),
             ),
+          ),
         );
       },
     );
@@ -85,7 +87,6 @@ class TocpicDetailsHeadContent extends StatefulWidget {
   _TocpicDetailsHeadContentState createState() =>
       _TocpicDetailsHeadContentState();
 }
-
 
 class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
     with AfterLayoutMixin<TocpicDetailsHeadContent> {
@@ -172,10 +173,11 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
 
   @override
   void afterFirstLayout(BuildContext context) {
-      RenderBox box = context.findRenderObject();
-      double height = box.getMaxIntrinsicHeight(MediaQuery.of(context).size.width);
-      TocpicDetailsVM tocpicDetailsVMp = Provider.of(context, listen: false);
-      tocpicDetailsVMp.setHeigth(height);
+    RenderBox box = context.findRenderObject();
+    double height =
+        box.getMaxIntrinsicHeight(MediaQuery.of(context).size.width);
+    TocpicDetailsVM tocpicDetailsVMp = Provider.of(context, listen: false);
+    tocpicDetailsVMp.setHeigth(height);
   }
 }
 

@@ -31,7 +31,7 @@ class _TabPageState extends State<TabPage> {
   @override
   Widget build(BuildContext context) {
     //适配
-    ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: false);
+    ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
 
     return Scaffold(
       body: WillPopScope(

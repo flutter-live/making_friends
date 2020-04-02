@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/view/community/category_page.dart';
+import 'package:makingfriends/view/search/search_page.dart';
 import 'package:provider/provider.dart';
 import '../../provider/provider_widget.dart';
 import '../../view_model/community_v_m.dart';
@@ -62,31 +63,36 @@ class _CommunityPageState extends State<CommunityPage>
                 return Scaffold(
                   key: _scaffoldKey,
                   appBar: AppBar(
-                    title: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(ScreenUtil().setSp(10))),
-                        color: Colors.white70,
-                      ),
-                      width: ScreenUtil().setWidth(750),
-                      height: ScreenUtil().setHeight(50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.search,
-                            color: Colors.black26,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5),
-                            child: Text(
-                              '搜索帖子',
-                              style: TextStyle(
-                                  color: Colors.black26,
-                                  fontSize: ScreenUtil().setSp(24)),
+                    title: GestureDetector(
+                      onTap: (){
+                        showSearch(context: context, delegate: DefaultSearchDelegate(), query: '222');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(ScreenUtil().setSp(10))),
+                          color: Colors.white70,
+                        ),
+                        width: ScreenUtil().setWidth(750),
+                        height: ScreenUtil().setHeight(50),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.search,
+                              color: Colors.black26,
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child: Text(
+                                '搜索帖子',
+                                style: TextStyle(
+                                    color: Colors.black26,
+                                    fontSize: ScreenUtil().setSp(24)),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     bottom: TabBar(

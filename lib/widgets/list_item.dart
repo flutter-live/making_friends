@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:makingfriends/model/hot_topic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:makingfriends/widgets/cirle_avatar_image.dart';
+import 'package:makingfriends/widgets/custom_list_title.dart';
+import 'package:share/share.dart';
 
 /// @description： 话题列表
 /// @author：liuzhidong
@@ -10,89 +13,97 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ListItem extends StatelessWidget {
   final HotTopic hotTopic;
+  final Function onTap;
 
-  const ListItem({Key key, this.hotTopic}) : super(key: key);
+  const ListItem({Key key, this.hotTopic, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
         elevation: 0,
-        margin: EdgeInsets.only(bottom: 10),
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(0))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(0))),
         child: Material(
           child: InkWell(
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  ListTile(
-                    leading: CircleAvatar(
-                      child: Image.asset('assets/default.png'),
+                  HeadLine(
+                    leadingWidget: CircleAvatarImage(
+                      width: 80,
                     ),
-                    title: Row(
-                      children: <Widget>[
-                        Text('18811475898'),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          padding: EdgeInsets.only(
-                              left: 5, right: 5, top: 1, bottom: 1),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(22)),
-                            color: Colors.pinkAccent,
+                    title: '18811475898',
+                    titleWidget: Container(
+                      margin: EdgeInsets.only(left: 20.w),
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 10.w,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20.w)),
+                        color: Colors.pinkAccent,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          FaIcon(
+                            FontAwesomeIcons.mars,
+                            size: 25.sp,
+                            color: Colors.white,
                           ),
-                          child: Row(
-                            children: <Widget>[
-                              FaIcon(
-                                FontAwesomeIcons.mars,
-                                size: ScreenUtil().setSp(25),
-                                color: Colors.white,
-                              ),
-                              Text(
-                                '未知',
-                                style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(22),
-                                    color: Colors.white),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                          Text(
+                            '未知',
+                            style:
+                                TextStyle(fontSize: 22.sp, color: Colors.white),
+                          )
+                        ],
+                      ),
                     ),
-                    subtitle: Text('2019-06-30 下午 9：16'),
-                    trailing: FlatButton(
-                      color: Colors.pinkAccent,
-                      onPressed: () {},
-                      child: Text(
-                        '关注',
-                        style:
-                            TextStyle(color: Colors.white, letterSpacing: 10),
+                    subtitle: '2019-06-30 下午 9：16',
+                    trailingWidget: Material(
+                      borderRadius: BorderRadius.all(Radius.circular(10.w)),
+                      color: Theme.of(context).primaryColor,
+                      child: InkWell(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.w, vertical: 10.w),
+                          child: Text(
+                            '关注',
+                            style: TextStyle(
+                                letterSpacing: 10.w, color: Colors.white),
+                          ),
+                        ),
+                        onTap: () {},
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
                     child: Text('第一个项目'),
                   ),
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(10.w),
                       child: Image.asset(
                         'assets/3.jpg',
-                        height: ScreenUtil().setHeight(300),
+                        height: 300.h,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
                     child: Operation(),
                   ),
                 ],
               ),
             ),
-            onTap: () {},
+            onTap: onTap,
           ),
         ));
   }
@@ -105,38 +116,67 @@ class Operation extends StatelessWidget {
       children: <Widget>[
         Expanded(
           flex: 1,
-          child: Row(
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.thumb_up), onPressed: () {}),
-              Text('顶'),
-            ],
+          child: FlatButton(
+            onPressed: () {
+            },
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.thumb_up),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Text('顶'),
+              ],
+            ),
           ),
         ),
         Expanded(
           flex: 1,
-          child: Row(
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.thumb_down), onPressed: () {}),
-              Text('踩'),
-            ],
+          child: FlatButton(
+            onPressed: () {
+            },
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.thumb_down),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Text('踩'),
+              ],
+            ),
           ),
         ),
         Expanded(
           flex: 1,
-          child: Row(
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.message), onPressed: () {}),
-              Text('1'),
-            ],
+          child: FlatButton(
+            onPressed: () {
+            },
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.message),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Text('1'),
+              ],
+            ),
           ),
         ),
         Expanded(
           flex: 1,
-          child: Row(
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.launch), onPressed: () {}),
-              Text('分享'),
-            ],
+          child: FlatButton(
+            onPressed: () {
+              Share.share('check out my website https://example.com');
+            },
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.launch),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Text('分享'),
+              ],
+            ),
           ),
         ),
       ],

@@ -8,11 +8,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CircleAvatarImage extends StatelessWidget {
   final double width;
+  final double height;
   final BoxFit fit;
 
   const CircleAvatarImage({
     Key key,
     this.width = 80,
+    this.height = 80,
     this.fit = BoxFit.fill,
   }) : super(key: key);
 
@@ -20,6 +22,7 @@ class CircleAvatarImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width.w,
+      height: height.h,
       child: CircleAvatar(
         child: Image.asset(
           'assets/default.png',

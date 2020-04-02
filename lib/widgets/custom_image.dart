@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// @description: 自定义图片 可高斯模糊
 /// @author: liuzhidong
@@ -34,18 +34,18 @@ class CommonImage extends StatelessWidget {
     return Material(
       borderRadius: BorderRadius.circular(borderRadius),
       child: Container(
-        height: ScreenUtil().setHeight(height),
-        width: width == double.infinity ? width : ScreenUtil().setWidth(width),
+        height: height.h,
+        width: width == double.infinity ? width : width.w,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
             Container(
               width: width == double.infinity
                   ? width
-                  : ScreenUtil().setWidth(width),
-              height: ScreenUtil().setHeight(height),
+                  : width.w,
+              height: height.h,
               margin: margin,
-              child: SettingImage(image: 'assets/3.jpg', width: width, height: height, isFilter: isFilter, borderRadius: borderRadius,),
+              child: SettingImage(image: image, width: width, height: height, isFilter: isFilter, borderRadius: borderRadius,),
             ),
             Material(
               type: MaterialType.transparency,
@@ -85,8 +85,8 @@ class SettingImage extends StatelessWidget {
         children: <Widget>[
           Image.asset(
             image,
-            width: width == double.infinity ? width : ScreenUtil().setWidth(width),
-            height: ScreenUtil().setHeight(height),
+            width: width == double.infinity ? width : width.w,
+            height: height.h,
             fit: BoxFit.fill,
           ),
           isFilter ? IFilter() : Container(),

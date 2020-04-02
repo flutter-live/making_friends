@@ -65,7 +65,7 @@ class _CommunityPageState extends State<CommunityPage>
                   appBar: AppBar(
                     title: GestureDetector(
                       onTap: (){
-                        showSearch(context: context, delegate: DefaultSearchDelegate(), query: '222');
+                        showSearch(context: context, delegate: DefaultSearchDelegate());
                       },
                       child: Container(
                         decoration: BoxDecoration(

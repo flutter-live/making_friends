@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/view/community/category_page.dart';
 import 'package:makingfriends/view/search/search_page.dart';
+import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:provider/provider.dart';
 import '../../provider/provider_widget.dart';
 import '../../view_model/community_v_m.dart';
-import '../drawer_page.dart';
+import '../community/drawer_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// @description： 社区
 /// @author：liuzhidong
@@ -102,10 +104,13 @@ class _CommunityPageState extends State<CommunityPage>
                     ),
                     leading: GestureDetector(
                       child: Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: CircleAvatar(
-                          child: Image.asset('assets/default.png'),
+                        margin: EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 2),
+                          borderRadius: BorderRadius.all(Radius.circular(80)),
                         ),
+                        child: CircleAvatarImage(),
                       ),
                       onTap: () {
                         _scaffoldKey.currentState.openDrawer();

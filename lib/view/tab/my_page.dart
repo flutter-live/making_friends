@@ -1,9 +1,8 @@
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
+import 'package:makingfriends/view/my/my_head_page.dart';
+import 'package:makingfriends/view/my/my_list_item_page.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
-import 'package:makingfriends/widgets/custom_list_title.dart';
 
 /// @description： 我的
 /// @author：liuzhidong
@@ -23,7 +22,7 @@ class _MyPageState extends State<MyPage>
   AnimationController animationController;
   Animation<double> anim;
   TabController tabController;
-  double expanedHeight = 300;
+  double expanedHeight = 400;
 
   @override
   void initState() {
@@ -35,14 +34,16 @@ class _MyPageState extends State<MyPage>
   }
 
   updatePicHeight(changed) {
-    if (prevDy == 0) {
-      prevDy = changed;
+    if(changed - prevDy > 0){
+      if (prevDy == 0) {
+        prevDy = changed;
+      }
+      extraPicHeight += changed - prevDy;
+        setState(() {
+          prevDy = changed;
+          extraPicHeight = extraPicHeight;
+        });
     }
-    extraPicHeight += changed - prevDy;
-    setState(() {
-      prevDy = changed;
-      extraPicHeight = extraPicHeight;
-    });
   }
 
   runAnimate() {
@@ -61,8 +62,7 @@ class _MyPageState extends State<MyPage>
   // ignore: must_call_super
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).padding.top;
-    return Scaffold(
-      body: Listener(
+    return Listener(
         onPointerMove: (result) {
           updatePicHeight(result.position.dy);
         },
@@ -71,35 +71,41 @@ class _MyPageState extends State<MyPage>
           animationController.forward(from: 0);
         },
         child: CustomScrollView(
-          physics: ClampingScrollPhysics(),
-          slivers: <Widget>[
-            SliverAppBar(
-                primary: false,
-                floating: true,
-                pinned: false,
-                snap: false,
-                expandedHeight: expanedHeight.h + extraPicHeight.h,
-                flexibleSpace: MyHeadContent(
-                  height: _height,
-                  extraPicHeight: extraPicHeight,
-                )
-            ),
-            SliverToBoxAdapter(
-                child: Container(
-                  height: 200,
-                  child: ListView(
-                    children: <Widget>[
-                      HeadLine(title: 'MVP', titleWidget: Icon(Icons.beenhere, color: Colors.pinkAccent,),)
-                    ],
-                  ),
-                )
-
-            ),
-          ],
-        ),
-
-
-      ),
+            physics: ClampingScrollPhysics(),
+            slivers: <Widget>[
+              SliverAppBar(
+                  primary: false,
+                  floating: true,
+                  pinned: false,
+                  snap: false,
+                  expandedHeight: expanedHeight.h + extraPicHeight.h,
+                  flexibleSpace: MyHeadContent(
+                    height: _height,
+                    extraPicHeight: extraPicHeight,
+                  )),
+              SliverList(
+                delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.only(top: 20.w),
+                    child: Column(
+                      children: <Widget>[
+                        CommonImage(
+                          image: 'assets/3.jpg',
+                          height: 180,
+                          margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(20),
+                        ),
+                        MyListItemPage(),
+                      ],
+                    ),
+                  );
+                }, childCount: 1),
+              )
+            ],
+          ),
     );
   }
 
@@ -117,9 +123,7 @@ class MyHeadContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(extraPicHeight);
-    //print(350 + extraPicHeight);
-    double _imageHeight = 300 + extraPicHeight;
+    double _imageHeight = 500 + extraPicHeight;
     return Stack(
       children: <Widget>[
         ///图片
@@ -131,109 +135,10 @@ class MyHeadContent extends StatelessWidget {
           borderRadius: 0,
         ),
         Positioned(
-          top: height.h + extraPicHeight.h,
+          top: height.h + extraPicHeight.h + 100.h,
           child: Container(
             width: 750.w,
-            child: Column(
-              children: <Widget>[
-                HeadLine(
-                  leadingWidget: CircleAvatarImage(
-                    width: 100,
-                    height: 100,
-                  ),
-                  title: '18811475898',
-                  subtitle: '2019-06-30 下午 9：16',
-                  isIcon: false,
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            '1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '帖子',
-                            style: TextStyle(
-                              fontSize: 28.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            '1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '帖子',
-                            style: TextStyle(
-                              fontSize: 28.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            '1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '帖子',
-                            style: TextStyle(
-                              fontSize: 28.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            '1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '帖子',
-                            style: TextStyle(
-                              fontSize: 28.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
+            child: MyHead(),
           ),
         )
       ],

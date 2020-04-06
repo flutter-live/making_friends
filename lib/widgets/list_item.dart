@@ -30,6 +30,7 @@ class ListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   HeadLine(
+                    isIcon: false,
                     leadingWidget: CircleAvatarImage(
                       width: 80,
                     ),

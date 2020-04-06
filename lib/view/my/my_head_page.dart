@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 
@@ -14,6 +15,7 @@ class MyHead extends StatelessWidget {
     return Column(
       children: <Widget>[
         HeadLine(
+          isRipple: false,
           leadingWidget: Container(
             height: 80.h,
             width: 80.h,
@@ -27,6 +29,9 @@ class MyHead extends StatelessWidget {
           title: '18811475898',
           subtitle: '总帖子1 今日发贴0',
           isIcon: false,
+          onTop: (){
+            Jump.push('view/my/my_details_page');
+          },
         ),
         SizedBox(
           height: 20.h,

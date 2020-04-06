@@ -13,6 +13,7 @@ class ThemeVM with ChangeNotifier {
       primaryColorBrightness: Brightness.dark,
       accentColor: Colors.pinkAccent,
       accentColorBrightness: Brightness.dark,
+      buttonColor: Colors.pinkAccent
     );
   }
 

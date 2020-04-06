@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/view/my/my_head_page.dart';
 import 'package:makingfriends/view/my/my_list_item_page.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
-import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// @description： 抽屉
@@ -44,16 +42,21 @@ class Head extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: height, bottom: 20),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/1.jpg"),
-          fit: BoxFit.fill,
-        ),
+      child: Stack(
+        children: <Widget>[
+          CommonImage(
+            image: 'assets/1.jpg',
+            height: 450.h,
+            margin: EdgeInsets.all(0),
+            borderRadius: 0,
+            isFilter: true,
+          ),
+          Container(
+            margin: EdgeInsets.only(top: height, bottom: 20),
+            child: MyHead(),
+          ),
+        ],
       ),
-      child: MyHead(),
     );
   }
 }
-
-

@@ -39,11 +39,13 @@ class MyApp extends StatelessWidget {
                   onGenerateRoute: Application.router.generator,
                   localizationsDelegates: const [
                     RefreshLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate
                   ],
                   supportedLocales: [
                     const Locale('zh'),
+                    const Locale('en'),
                   ],
                   locale: const Locale('zh'),
                   localeResolutionCallback:

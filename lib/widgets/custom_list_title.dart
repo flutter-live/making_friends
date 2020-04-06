@@ -20,6 +20,7 @@ class HeadLine extends StatelessWidget {
   final bool isIcon;
   final double iconSize;
   final Function onTop;
+  final bool isRipple; //是否禁用水波纹
 
   const HeadLine({
     Key key,
@@ -36,6 +37,7 @@ class HeadLine extends StatelessWidget {
     this.onTop,
     this.isIcon: true,
     this.titleWidget,
+    this.isRipple: true,
   }) : super(key: key);
 
   @override
@@ -56,7 +58,10 @@ class HeadLine extends StatelessWidget {
             titleWidget: titleWidget,
           )
         : Material(
+            color: Colors.transparent,
             child: InkWell(
+              highlightColor: isRipple ? null : Colors.transparent,
+              splashColor: isRipple ? null : Colors.transparent,
               child: CoustomHeadLine(
                 title: title,
                 trailingWidget: trailingWidget,
@@ -129,7 +134,7 @@ class CoustomHeadLine extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         title,
-                        style: TextStyle(fontSize: titleSize.sp),
+                        style: TextStyle(fontSize: titleSize.sp, letterSpacing: 1.w),
                       ),
                       titleWidget ?? Container(),
                     ],
@@ -148,15 +153,15 @@ class CoustomHeadLine extends StatelessWidget {
               ),
             ],
           ),
-          trailingWidget ??
               Row(
                 children: <Widget>[
-                  trailing == null
+                  trailingWidget == null ? trailing == null
                       ? Container()
                       : Text(
                           trailing,
                           style: TextStyle(color: Colors.grey),
-                        ),
+
+                        ): trailingWidget,
                   isIcon
                       ? Icon(
                           icon,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/view/my/my_head_page.dart';
 import 'package:makingfriends/view/my/my_list_item_page.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
@@ -74,11 +75,12 @@ class _MyPageState extends State<MyPage>
             physics: ClampingScrollPhysics(),
             slivers: <Widget>[
               SliverAppBar(
-                  primary: false,
-                  floating: true,
-                  pinned: false,
-                  snap: false,
-                  expandedHeight: expanedHeight.h + extraPicHeight.h,
+                  actions: <Widget>[
+                    IconButton(icon: Icon(Icons.more_horiz), onPressed: (){
+                      Jump.push('view/my/my_details_page');
+                    }),
+                  ],
+                  expandedHeight: expanedHeight.h + extraPicHeight.h - 50,
                   flexibleSpace: MyHeadContent(
                     height: _height,
                     extraPicHeight: extraPicHeight,

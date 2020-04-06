@@ -2,6 +2,17 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/view/community/community_details_page.dart';
+import 'package:makingfriends/view/my/my_details_page.dart';
+import 'package:makingfriends/view/setting/about_page.dart';
+import 'package:makingfriends/view/setting/account_security_page.dart';
+import 'package:makingfriends/view/setting/clear_cache_page.dart';
+import 'package:makingfriends/view/setting/editing_from_page.dart';
+import 'package:makingfriends/view/setting/editing_materials_page.dart';
+import 'package:makingfriends/view/setting/feedback_page.dart';
+import 'package:makingfriends/view/setting/setting_mail_page.dart';
+import 'package:makingfriends/view/setting/setting_page.dart';
+import 'package:makingfriends/view/setting/setting_password_page.dart';
+import 'package:makingfriends/view/setting/setting_phone_page.dart';
 import 'package:makingfriends/view/trends/tocpic_classification_page.dart';
 import 'package:makingfriends/view/trends/tocpic_details_page.dart';
 import '../view/tab/tab_page.dart';
@@ -31,4 +42,29 @@ final Map<String, Handler> pageRouters = {
   'view/trends/tocpic_classification_page': Handler(handlerFunc: (context, params) => TocpicClassificationPage()),
   'view/trends/tocpic_details_page': Handler(handlerFunc: (context, params) => TocpicDetailsPage()),
   'view/community/community_details_page': Handler(handlerFunc: (context, params) => CommunityDetailsPage()),
+  'view/my/my_details_page': Handler(handlerFunc: (context, params) => MyDetailsPage()),
+  //设置
+  'setting/setting_page': Handler(handlerFunc: (context, params) => SettingPage()),
+  //账号与安全
+  'setting/account_security_page': Handler(handlerFunc: (context, params) => AccountSecurityPage()),
+  //清除缓存
+  'setting/clear_cache_page': Handler(handlerFunc: (context, params) => ClearCachePage()),
+  //编辑资料
+  'setting/editing_materials_page': Handler(handlerFunc: (context, params) => EditingMaterials()),
+  //意见反馈
+  'setting/feedack_page': Handler(handlerFunc: (context, params) => FeedbackPage()),
+  //关于
+  'setting/about_page': Handler(handlerFunc: (context, params) => AboutPage()),
+  //绑定邮箱
+  'setting/setting_mail_page': Handler(handlerFunc: (context, params) => SettingMailPage()),
+  //修改手机号
+  'setting/setting_phone_page': Handler(handlerFunc: (context, params) => SettingPhonePage()),
+  //修改密码
+  'setting/setting_password_page': Handler(handlerFunc: (context, params) => SettingPasswordPage()),
+  //昵称，情感，职业表单
+  'setting/editing_from_page': Handler(handlerFunc: (context, params) {
+    String title = FluroConvertUtils.fluroCnParamsDecode(params['title']?.first);
+    String hitText = FluroConvertUtils.fluroCnParamsDecode(params['hintText'].first);
+    return EditingFromPage(title: title, hintText: hitText,);
+  }),
 };

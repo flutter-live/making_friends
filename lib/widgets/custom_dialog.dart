@@ -57,15 +57,18 @@ class CustomDialog {
 
   ///弹出框默认底部
   static dialogBottomSheet(
-      {double width: double.infinity,
+      {BuildContext context,
+        double width: double.infinity,
       double borderRadius: 0,
       Gravity gravity: Gravity.bottom}) {
-    return YYDialog().build()
+    return YYDialog().build(context)
       ..width = width
       ..gravity = gravity
       ..gravityAnimationEnable = true
       ..borderRadius = borderRadius
-      ..widget(Text('自定义'))
+      ..widget(Container(
+        height: 200,
+      ))
       ..show();
   }
 }

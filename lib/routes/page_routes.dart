@@ -2,6 +2,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/view/community/community_details_page.dart';
+import 'package:makingfriends/view/information/chat_page.dart';
+import 'package:makingfriends/view/information/find_friends_page.dart';
 import 'package:makingfriends/view/my/my_details_page.dart';
 import 'package:makingfriends/view/setting/about_page.dart';
 import 'package:makingfriends/view/setting/account_security_page.dart';
@@ -67,4 +69,8 @@ final Map<String, Handler> pageRouters = {
     String hitText = FluroConvertUtils.fluroCnParamsDecode(params['hintText'].first);
     return EditingFromPage(title: title, hintText: hitText,);
   }),
+  //查找好友
+  'information/find_friends_page': Handler(handlerFunc: (context, params) => FindFriendsPage()),
+  //聊天
+  'information/chat_page': Handler(handlerFunc: (context, params) => ChatPage()),
 };

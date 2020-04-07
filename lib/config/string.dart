@@ -11,6 +11,8 @@ class TitleConfig {
   static final SETTING_PASSWORD_TITLE = '修改密码';
   static final SETTING_PHONE_TITLE = '绑定手机号';
   static final EDITING_MATERIALS_TITLE = '修改资料';
+  static final ABOUT_PAGE_TITLR = '关于社区';
+  static final INFORMATION_TITLE = '消息列表';
 
 
 }

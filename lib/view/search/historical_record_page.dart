@@ -15,6 +15,7 @@ class HistoricalRecordPage extends StatelessWidget {
         children: <Widget>[
           HeadLine(
             title: '历史记录',
+            isIcon: false,
             trailingWidget: FlatButton(
               onPressed: () {},
               child: Row(

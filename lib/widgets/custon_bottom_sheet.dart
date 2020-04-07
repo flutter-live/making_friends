@@ -25,24 +25,19 @@ class _ShowBottomSheet extends StatelessWidget {
         children: <Widget>[
           Container(
             child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4.w,
-                    mainAxisSpacing: 4.w,
-                ),
-                itemBuilder: (BuildContext context, int index){
-                  return Column(
-                    children: <Widget>[
-
-                    ],
-                  );
-                },
-
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4.w,
+                mainAxisSpacing: 4.w,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: <Widget>[],
+                );
+              },
             ),
-
-
-          )
-
+          ),
         ],
-      ),);
+      ),
+    );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/view/trends/tocpic_page.dart';
 import 'package:makingfriends/view/trends/trends_list_page.dart';

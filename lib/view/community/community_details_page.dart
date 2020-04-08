@@ -32,7 +32,7 @@ class CommunityDetailsPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 HeadLine(
-                  title: '最新评论 3',
+                  title: Text('最新评论 3'),
                   isIcon: false,
                 ),
                 CustomComment(),

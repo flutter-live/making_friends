@@ -28,7 +28,7 @@ class _FindFriendsStatePageState extends State<FindFriendsStatePage> with Automa
           leadingWidget: CircleAvatarImage(
             width: 70,
           ),
-          title: '18811475898',
+          title: Text('18811475898'),
           titleWidget: Container(
             margin: EdgeInsets.only(left: 20.w),
             padding: EdgeInsets.only(

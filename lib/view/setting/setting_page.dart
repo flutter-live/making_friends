@@ -21,21 +21,21 @@ class SettingPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 10.w),
           children: <Widget>[
             HeadLine(
-              title: '账号与安全',
+              title: Text('账号与安全'),
               titleSize: 30,
               onTop: () {
                 Jump.push('setting/account_security_page');
               },
             ),
             HeadLine(
-              title: '资料编辑',
+              title: Text('资料编辑'),
               titleSize: 30,
               onTop: () {
                 Jump.push('setting/editing_materials_page');
               },
             ),
             HeadLine(
-              title: '清除缓存',
+              title: Text('清除缓存'),
               trailing: '0.00KB',
               titleSize: 30,
               isIcon: false,
@@ -44,14 +44,14 @@ class SettingPage extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '意见反馈',
+              title: Text('意见反馈'),
               titleSize: 30,
               onTop: () {
                 Jump.push('setting/feedack_page');
               },
             ),
             HeadLine(
-              title: '关于社区',
+              title: Text('关于社区'),
               titleSize: 30,
               onTop: () {
                 Jump.push('setting/about_page');

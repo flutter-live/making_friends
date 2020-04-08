@@ -34,7 +34,7 @@ class ListItem extends StatelessWidget {
                     leadingWidget: CircleAvatarImage(
                       width: 80,
                     ),
-                    title: '18811475898',
+                    title: Text('18811475898'),
                     titleWidget: Container(
                       margin: EdgeInsets.only(left: 20.w),
                       padding: EdgeInsets.only(

@@ -33,13 +33,13 @@ class AboutPage extends StatelessWidget {
             ),
             SizedBox(height: 50.h,),
             HeadLine(
-              title: '新版本检测',
+              title: Text('新版本检测'),
               titleSize: 30,
               onTop: () {
               },
             ),
             HeadLine(
-              title: '社区用户协议',
+              title: Text('社区用户协议'),
               titleSize: 30,
               onTop: () {
               },

@@ -71,7 +71,7 @@ class _InformationPageState extends State<InformationPage>
             leadingWidget: CircleAvatarImage(
               width: 80,
             ),
-            title: '18811475898',
+            title: Text('18811475898'),
             subtitle: '2019-06-30 下午 9：16',
             trailingWidget: Container(
               child: Column(
@@ -96,7 +96,9 @@ class _InformationPageState extends State<InformationPage>
                 ],
               ),
             ),
-            onTop: () {},
+            onTop: () {
+              Jump.push('information/chat_page');
+            },
           );
         },
         itemCount: 20,

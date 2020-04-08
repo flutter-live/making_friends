@@ -21,7 +21,7 @@ class AccountSecurityPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 10.w),
           children: <Widget>[
             HeadLine(
-              title: '手机号',
+              title: Text('手机号'),
               titleSize: 30,
               trailing: '1881475898',
               onTop: () {
@@ -29,7 +29,7 @@ class AccountSecurityPage extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '登陆密码',
+              title: Text('登陆密码'),
               trailing: '******',
               titleSize: 30,
               onTop: () {
@@ -37,7 +37,7 @@ class AccountSecurityPage extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '邮箱绑定',
+              title: Text('邮箱绑定'),
               trailing: '1956252575@qq.com',
               titleSize: 30,
               onTop: () {
@@ -45,14 +45,14 @@ class AccountSecurityPage extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '微信账号',
+              title: Text('微信账号'),
               trailing: '18811475898',
               titleSize: 30,
               onTop: () {
               },
             ),
             HeadLine(
-              title: 'QQ账号',
+              title: Text('QQ账号'),
               trailing: '1956252575',
               titleSize: 30,
               onTop: () {

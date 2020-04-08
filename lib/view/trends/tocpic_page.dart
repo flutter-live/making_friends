@@ -41,7 +41,7 @@ class _TocpicPageState extends State<TocpicPage>
             enablePullUp: true,
             child: ListView(
               children: <Widget>[
-                HeadLine(title: '热门推荐', trailing: '更多', onTop: (){
+                HeadLine(title: Text('热门推荐'), trailing: '更多', onTop: (){
                   Jump.push('view/trends/tocpic_classification_page');
                 },),
 
@@ -69,7 +69,7 @@ class _TocpicPageState extends State<TocpicPage>
                 DivisionLine(),
 
                 HeadLine(
-                  title: '最近更新',
+                  title: Text('最近更新'),
                   isIcon: false,
                 ),
 

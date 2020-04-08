@@ -23,7 +23,7 @@ class EditingMaterials extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 10.w),
           children: <Widget>[
             HeadLine(
-              title: '头像',
+              title: Text('头像'),
               titleSize: 30,
               trailingWidget: CircleAvatarImage(
                 width: 60,
@@ -33,7 +33,7 @@ class EditingMaterials extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '昵称',
+              title: Text('昵称'),
               trailing: '六枝顶',
               titleSize: 30,
               onTop: () {
@@ -43,21 +43,21 @@ class EditingMaterials extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '性别',
+              title: Text('性别'),
               trailing: '男',
               titleSize: 30,
               onTop: () {
               },
             ),
             HeadLine(
-              title: '生日',
+              title: Text('生日'),
               trailing: '1994-09-18',
               titleSize: 30,
               onTop: () {
               },
             ),
             HeadLine(
-              title: '情感',
+              title: Text('情感'),
               trailing: '保密',
               titleSize: 30,
               onTop: () {
@@ -67,7 +67,7 @@ class EditingMaterials extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '职业',
+              title: Text('职业'),
               trailing: '保密',
               titleSize: 30,
               onTop: () {
@@ -77,7 +77,7 @@ class EditingMaterials extends StatelessWidget {
               },
             ),
             HeadLine(
-              title: '家乡',
+              title: Text('家乡'),
               trailing: '保密',
               titleSize: 30,
               onTop: () {

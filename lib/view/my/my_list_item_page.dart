@@ -17,21 +17,21 @@ class MyListItemPage extends StatelessWidget {
               Icons.visibility,
               color: Colors.pinkAccent,
             ),
-            title: '浏览历史',
+            title: Text('浏览历史'),
           ),
           HeadLine(
             leadingWidget: Icon(
               Icons.beenhere,
               color: Colors.pinkAccent,
             ),
-            title: '社区认证',
+            title: Text('社区认证'),
           ),
           HeadLine(
             leadingWidget: Icon(
               Icons.library_books,
               color: Colors.pinkAccent,
             ),
-            title: '审核帖子',
+            title: Text('审核帖子'),
           ),
         ],
       ),

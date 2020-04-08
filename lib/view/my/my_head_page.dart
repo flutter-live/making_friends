@@ -26,7 +26,7 @@ class MyHead extends StatelessWidget {
             child: CircleAvatarImage(
             ),
           ),
-          title: '18811475898',
+          title: Text('18811475898'),
           subtitle: '总帖子1 今日发贴0',
           isIcon: false,
           onTop: (){

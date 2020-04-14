@@ -29,7 +29,7 @@ abstract class ViewStateList<T> extends ViewStateProvider{
       return data;
     }catch(e, s){
       list.clear();
-      setError();
+      setError(e, s);
       return null;
     }
   }

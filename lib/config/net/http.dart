@@ -12,7 +12,7 @@ final Http http = Http();
 class Http extends BaseHttp {
   @override
   void init() {
-    options.baseUrl = '';
+    options.baseUrl = 'http://ceshi2.dishait.cn/api/v1/';
     interceptors..add(CustomInterceptors());
   }
 
@@ -29,8 +29,9 @@ class CustomInterceptors extends InterceptorsWrapper{
 
   @override
   Future onResponse(Response response) {
-
-
+    if(response.statusCode == 200){
+      response.data = response.data['data'];
+    }
     return super.onResponse(response);
   }
 }

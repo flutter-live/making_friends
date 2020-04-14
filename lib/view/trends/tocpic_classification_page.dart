@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/view/community/category_page.dart';
 import 'package:makingfriends/view/trends/tocpic_classification_item_page.dart';
-import 'package:makingfriends/view_model/tocpic_v_m.dart';
+import 'package:makingfriends/viewModel/tocpic_v_m.dart';
 import 'package:provider/provider.dart';
 import '../../provider/provider_widget.dart';
 import '../../config/string.dart';

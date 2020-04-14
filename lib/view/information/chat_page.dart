@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makingfriends/view/information/triangle_custom_painter_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'dart:math' as math;
 
@@ -73,10 +72,18 @@ class LeftChat extends StatelessWidget {
           leadingWidgetRight: 10,
           crossAxisAlignment: CrossAxisAlignment.start,
           isIcon: false,
-          leadingWidget: CircleAvatarImage(
-            width: 60,
-            height: 60,
-          ),
+//          leadingWidget: Container(
+//            width: 60,
+//            height: 60,
+//            child: HttpImage(
+//              url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//              imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//              errUrl: 'assets/nothing.png',
+//              borderRadius: 100,
+//              placeholderWidth: 10,
+//              placeholderHeight: 10,
+//            ),
+//          ),
           title: Row(
             children: <Widget>[
               Container(
@@ -150,10 +157,18 @@ class RightChat extends StatelessWidget {
                   ),
                 ),
               ),
-              CircleAvatarImage(
-                width: 60,
-                height: 60,
-              )
+//              Container(
+//                width: 60,
+//                height: 60,
+//                child: HttpImage(
+//                  url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//                  imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//                  errUrl: 'assets/nothing.png',
+//                  borderRadius: 100,
+//                  placeholderWidth: 10,
+//                  placeholderHeight: 10,
+//                ),
+//              ),
             ],
           ),
         ),

@@ -7,7 +7,7 @@ import 'package:makingfriends/provider/view_state_refresh.dart';
 /// @version: 1.0 
 
 class TocpicDetailsVM extends ViewStateRefresh {
-  double height = 300;
+  double height = 200;
 
   void setHeigth(double h){
     height = h;

@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/view/community/category_page.dart';
 import 'package:makingfriends/view/search/search_page.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
-import 'package:provider/provider.dart';
+import 'package:makingfriends/widgets/view_state.dart';
 import '../../provider/provider_widget.dart';
-import '../../view_model/community_v_m.dart';
+import '../../viewModel/tab/community_v_m.dart';
 import '../community/drawer_page.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// @description： 社区
 /// @author：liuzhidong
@@ -22,117 +20,105 @@ class CommunityPage extends StatefulWidget {
 
 class _CommunityPageState extends State<CommunityPage>
     with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
-  ValueNotifier<int> valueNotifier;
-
-  TabController tabController;
-
   @override
-  void initState() {
-    valueNotifier = ValueNotifier(0);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    valueNotifier.dispose();
-    super.dispose();
-  }
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return ProviderWidget<CommunityVM>(
       model: CommunityVM(),
-      onModelReady: (communityVM) {},
-      builder: (context, communityVM, child) {
-        return ValueListenableProvider<int>.value(
-            value: valueNotifier,
-            child: DefaultTabController(
-              length: communityVM.map.length,
-              initialIndex: valueNotifier.value,
-              child: Builder(builder: (context) {
-                if (tabController == null) {
-                  tabController = DefaultTabController.of(context);
-                  tabController.addListener(() {
-                    valueNotifier.value = tabController.index;
-                  });
-                }
-                return Scaffold(
-                  key: _scaffoldKey,
-                  appBar: AppBar(
-                    title: GestureDetector(
-                      onTap: (){
-                        showSearch(context: context, delegate: DefaultSearchDelegate());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(ScreenUtil().setSp(10))),
-                          color: Colors.white70,
-                        ),
-                        width: ScreenUtil().setWidth(750),
-                        height: ScreenUtil().setHeight(50),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.search,
-                              color: Colors.black26,
+      onModelReady: (model) {
+        model.initData();
+      },
+      builder: (context, model, child) {
+        if(model.isBusy){
+          return ViewStateBusyWidget();
+        }
+
+        if(model.isError){
+          return ViewStateErrorWidget(error: model.viewStateError, onPressed: model.initData);
+        }
+
+        List<PostClass> list = model.list;
+        return DefaultTabController(
+          length: list.length,
+          child: Builder(
+            builder: (context) {
+              return Scaffold(
+                key: _scaffoldKey,
+                appBar: AppBar(
+                  title: GestureDetector(
+                    onTap: () {
+                      showSearch(
+                          context: context, delegate: DefaultSearchDelegate());
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(5)),
+                        color: Colors.white70,
+                      ),
+                      width: 1000,
+                      height: 30,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.search,
+                            color: Colors.black26,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Text(
+                              '搜索帖子',
+                              style: TextStyle(
+                                  color: Colors.black26,
+                                  fontSize: 16),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Text(
-                                '搜索帖子',
-                                style: TextStyle(
-                                    color: Colors.black26,
-                                    fontSize: ScreenUtil().setSp(24)),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    bottom: TabBar(
-                      tabs: communityVM.map
-                          .map((v) => Tab(text: v['title']))
-                          .toList(),
-                    ),
-                    leading: GestureDetector(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                        height: 30,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(80)),
-                        ),
-                        child: CircleAvatarImage(),
+                  ),
+                  bottom: TabBar(
+                    tabs: list.map((item) => Tab(text: item.classname)).toList(),
+                  ),
+                  leading: GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 2),
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
                       ),
-                      onTap: () {
-                        _scaffoldKey.currentState.openDrawer();
-                      },
+//                      child: Container(
+//                        width: 60,
+//                        height: 60,
+//                        child: HttpImage(
+//                          url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//                          imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//                          errUrl: 'assets/nothing.png',
+//                          borderRadius: 100,
+//                          placeholderWidth: 10,
+//                          placeholderHeight: 10,
+//                        ),
+//                      ),
                     ),
-                    actions: <Widget>[
-                      FlatButton(
-                        onPressed: () {},
-                        child: Icon(
-                          Icons.local_offer,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
+                    onTap: () {
+                      _scaffoldKey.currentState.openDrawer();
+                    },
                   ),
-                  drawer: DrawerPage(),
-                  body: TabBarView(
-                    children: communityVM.map.map((v) => CommunityListPage()).toList(),
-                  ),
-                );
-              }),
-            ));
+                ),
+                drawer: DrawerPage(),
+                body: TabBarView(
+                  children: list.map((item) => CommunityListPage(id: item.id,)).toList(),
+                ),
+              );
+            },
+          ),
+        );
       },
     );
   }

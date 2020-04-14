@@ -4,7 +4,9 @@ import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/view/community/community_details_page.dart';
 import 'package:makingfriends/view/information/chat_page.dart';
 import 'package:makingfriends/view/information/find_friends_page.dart';
+import 'package:makingfriends/view/login/login_page.dart';
 import 'package:makingfriends/view/my/my_details_page.dart';
+import 'package:makingfriends/view/release/release_page.dart';
 import 'package:makingfriends/view/setting/about_page.dart';
 import 'package:makingfriends/view/setting/account_security_page.dart';
 import 'package:makingfriends/view/setting/clear_cache_page.dart';
@@ -41,6 +43,8 @@ class PageRoutes {
 
 final Map<String, Handler> pageRouters = {
   '/': Handler(handlerFunc: (context, params) => TabPage()),
+  //登陆页
+  'view/login/login_page': Handler(handlerFunc: (context, params) => LoginPage()),
   'view/trends/tocpic_classification_page': Handler(handlerFunc: (context, params) => TocpicClassificationPage()),
   'view/trends/tocpic_details_page': Handler(handlerFunc: (context, params) => TocpicDetailsPage()),
   'view/community/community_details_page': Handler(handlerFunc: (context, params) => CommunityDetailsPage()),
@@ -73,4 +77,7 @@ final Map<String, Handler> pageRouters = {
   'information/find_friends_page': Handler(handlerFunc: (context, params) => FindFriendsPage()),
   //聊天
   'information/chat_page': Handler(handlerFunc: (context, params) => ChatPage()),
+  //发布页
+  'release/release_page': Handler(handlerFunc: (context, params) => ReleasePage()),
+
 };

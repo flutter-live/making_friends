@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../view_model/theme_v_m.dart';
+import '../viewModel/theme_v_m.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 

@@ -1,9 +1,9 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/view/my/my_invitation_page.dart';
 import 'package:makingfriends/view/my/my_trends_page.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,8 +17,6 @@ class MyDetailsPage extends StatefulWidget {
 
   const MyDetailsPage({Key key, this.type: 0}) : super(key: key);
 
-
-
   @override
   _MyDetailsPageState createState() => _MyDetailsPageState();
 }
@@ -27,10 +25,9 @@ class _MyDetailsPageState extends State<MyDetailsPage>
     with SingleTickerProviderStateMixin, TickerProviderStateMixin {
   double extraPicHeight = 0;
   double prevDy = 0;
-  double rpx;
   AnimationController animationController;
   Animation<double> anim;
-  double expanedHeight = 400;
+  double expanedHeight = 170;
   bool T = true;
   bool D = true;
   bool X = true;
@@ -43,7 +40,8 @@ class _MyDetailsPageState extends State<MyDetailsPage>
     primaryTC = new TabController(length: 2, vsync: this);
     primaryTC.addListener(tabControlerListener);
     prevDy = 0;
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     anim = Tween(begin: 0.0, end: 0.0).animate(animationController);
   }
 
@@ -71,6 +69,8 @@ class _MyDetailsPageState extends State<MyDetailsPage>
 
   ///下拉动画
   updatePicHeight(changed) {
+    if((expanedHeight + extraPicHeight) > 500) return;
+
     if (changed - prevDy > 0 && X) {
       if (prevDy == 0) {
         prevDy = changed;
@@ -96,6 +96,13 @@ class _MyDetailsPageState extends State<MyDetailsPage>
     });
   }
 
+  ///计算头高度
+  comtupeHeight(double h) {
+    setState(() {
+      expanedHeight = h;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -115,18 +122,21 @@ class _MyDetailsPageState extends State<MyDetailsPage>
             return <Widget>[
               SliverAppBar(
                 pinned: true,
-                expandedHeight: expanedHeight.h + extraPicHeight.h,
+                expandedHeight: (expanedHeight + extraPicHeight) - statusBarHeight,
                 title: Text(title),
                 actions: <Widget>[
                   IconButton(icon: Icon(Icons.more_horiz), onPressed: () {}),
                 ],
                 flexibleSpace: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
-                    constraints.biggest.height < 140.0 ? title = '刘志东' : title = '';
+                    constraints.biggest.height < 140.0
+                        ? title = '刘志东'
+                        : title = '';
                     return FlexibleSpaceBar(
-                      background: MyDetailsHead(
+                      background: ComputeMyDetailsHead(
                         type: widget.type,
-                        height: extraPicHeight,
+                        comtupeHeight: comtupeHeight,
+                        extraPicHeight: extraPicHeight,
                       ),
                     );
                   },
@@ -171,8 +181,41 @@ class _MyDetailsPageState extends State<MyDetailsPage>
   }
 }
 
-class MyDetailsHead extends StatelessWidget {
+class ComputeMyDetailsHead extends StatefulWidget {
+  final Function comtupeHeight;
+  final double extraPicHeight;
+  final int type;
 
+  const ComputeMyDetailsHead(
+      {Key key, this.comtupeHeight, this.extraPicHeight, this.type})
+      : super(key: key);
+
+  @override
+  _ComputeMyDetailsHeadState createState() => _ComputeMyDetailsHeadState();
+}
+
+class _ComputeMyDetailsHeadState extends State<ComputeMyDetailsHead>
+    with AfterLayoutMixin<ComputeMyDetailsHead> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: MyDetailsHead(
+        type: widget.type,
+        height: widget.extraPicHeight,
+      ),
+    );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    RenderBox box = context.findRenderObject();
+    double height =
+        box.getMaxIntrinsicHeight(MediaQuery.of(context).size.height);
+    widget.comtupeHeight(height);
+  }
+}
+
+class MyDetailsHead extends StatelessWidget {
   final int type;
   final double height;
 
@@ -185,6 +228,7 @@ class MyDetailsHead extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 10),
       child: Stack(
         children: <Widget>[
           Column(
@@ -192,12 +236,14 @@ class MyDetailsHead extends StatelessWidget {
             children: <Widget>[
               CommonImage(
                 image: 'assets/3.jpg',
-                height: 200 + height,
-                margin: EdgeInsets.all(0),
+                height: 150 + height,
                 borderRadius: 0,
               ),
+
               ///按钮
-              MyDetailsButton(type: type,),
+              MyDetailsButton(
+                type: type,
+              ),
 
               Padding(
                 padding: EdgeInsets.only(top: 20.w, left: 20.w),
@@ -210,8 +256,8 @@ class MyDetailsHead extends StatelessWidget {
                       color: Colors.white),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 40.w),
+              Container(
+                padding: EdgeInsets.only(top: 20.w),
                 child: Row(
                   children: <Widget>[
                     Container(
@@ -283,17 +329,28 @@ class MyDetailsHead extends StatelessWidget {
             ],
           ),
           Positioned(
-            top: 220.w + height.h,
+            top: 130 + height,
             left: 20.w,
             child: Container(
-              height: 120.h,
-              width: 150.w,
+              height: 130.w,
+              width: 130.w,
               padding: EdgeInsets.all(5.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
                 color: Theme.of(context).accentColor,
               ),
-              child: CircleAvatarImage(),
+//              child: Container(
+//                width: 60,
+//                height: 60,
+//                child: HttpImage(
+//                  url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//                  imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//                  errUrl: 'assets/nothing.png',
+//                  borderRadius: 100,
+//                  placeholderWidth: 10,
+//                  placeholderHeight: 10,
+//                ),
+//              ),
             ),
           ),
         ],
@@ -301,7 +358,6 @@ class MyDetailsHead extends StatelessWidget {
     );
   }
 }
-
 
 class MyDetailsButton extends StatelessWidget {
   final int type;
@@ -311,7 +367,7 @@ class MyDetailsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 20.w, left: 200.w),
+        margin: EdgeInsets.only(top: 20.w, left: 180.w),
         child: Row(
           children: <Widget>[
             Container(
@@ -325,7 +381,9 @@ class MyDetailsButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    type == 0 ? Container() : Icon(Icons.add, color: Theme.of(context).accentColor),
+                    type == 0
+                        ? Container()
+                        : Icon(Icons.add, color: Theme.of(context).accentColor),
                     Padding(
                       padding: EdgeInsets.only(left: 10.w),
                       child: Text(
@@ -342,27 +400,28 @@ class MyDetailsButton extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 20.w),
               width: 150.w,
-              child: type == 0 ? RaisedButton(
-                padding: EdgeInsets.all(0),
-                color: Colors.white,
-                onPressed: () {},
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.add, color: Theme.of(context).accentColor),
-                    Text(
-                      '好友',
-                      style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                          letterSpacing: 5.w),
-                    ),
-                  ],
-                ),
-              ) : Container(),
+              child: type == 0
+                  ? RaisedButton(
+                      padding: EdgeInsets.all(0),
+                      color: Colors.white,
+                      onPressed: () {},
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.add, color: Theme.of(context).accentColor),
+                          Text(
+                            '好友',
+                            style: TextStyle(
+                                color: Theme.of(context).accentColor,
+                                letterSpacing: 5.w),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
             )
           ],
-        )
-    );
+        ));
   }
 }

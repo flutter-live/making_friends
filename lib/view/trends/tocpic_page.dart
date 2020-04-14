@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
-import 'package:makingfriends/view_model/tocpic_v_m.dart';
+import 'package:makingfriends/viewModel/tocpic_v_m.dart';
 import 'package:makingfriends/widgets/custom_division_line.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
@@ -57,8 +57,7 @@ class _TocpicPageState extends State<TocpicPage>
                 ///图片
                 CommonImage(
                   image: 'assets/3.jpg',
-                  height: 250,
-                  margin: EdgeInsets.only(left: 10, right: 10),
+                  height: 150,
                 ),
 
                 SizedBox(
@@ -117,7 +116,7 @@ class TocpicRecommendation extends StatelessWidget {
             child: RaisedButton(
                 child: Text(
                   '关注',
-                  style: TextStyle(color: Colors.black54, letterSpacing: 5),
+                  style: TextStyle(color: Colors.white, letterSpacing: 5),
                 ),
                 onPressed: () {}),
           ),
@@ -126,7 +125,7 @@ class TocpicRecommendation extends StatelessWidget {
             child: RaisedButton(
                 child: Text(
                   '推荐',
-                  style: TextStyle(color: Colors.black54, letterSpacing: 5),
+                  style: TextStyle(color: Colors.white, letterSpacing: 5),
                 ),
                 onPressed: () {}),
           ),
@@ -135,7 +134,7 @@ class TocpicRecommendation extends StatelessWidget {
             child: RaisedButton(
                 child: Text(
                   '体育',
-                  style: TextStyle(color: Colors.black54, letterSpacing: 5),
+                  style: TextStyle(color: Colors.white, letterSpacing: 5),
                 ),
                 onPressed: () {}),
           ),
@@ -144,7 +143,7 @@ class TocpicRecommendation extends StatelessWidget {
             child: RaisedButton(
                 child: Text(
                   '热点',
-                  style: TextStyle(color: Colors.black54, letterSpacing: 5),
+                  style: TextStyle(color: Colors.white, letterSpacing: 5),
                 ),
                 onPressed: () {}),
           ),
@@ -153,7 +152,7 @@ class TocpicRecommendation extends StatelessWidget {
             child: RaisedButton(
                 child: Text(
                   '财经',
-                  style: TextStyle(color: Colors.black54, letterSpacing: 5),
+                  style: TextStyle(color: Colors.white, letterSpacing: 5),
                 ),
                 onPressed: () {}),
           ),
@@ -162,7 +161,7 @@ class TocpicRecommendation extends StatelessWidget {
             child: RaisedButton(
                 child: Text(
                   '娱乐',
-                  style: TextStyle(color: Colors.black54, letterSpacing: 5),
+                  style: TextStyle(color: Colors.white, letterSpacing: 5),
                 ),
                 onPressed: () {}),
           ),
@@ -183,9 +182,9 @@ class TocpicSearch extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: Colors.grey[300],
+              color: Colors.grey[200],
             ),
-            height: ScreenUtil().setHeight(60),
+            height: 30,
             width: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:makingfriends/model/hot_topic.dart';
+import 'package:makingfriends/model/article_details.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
+import 'package:makingfriends/utils/date_utils.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'package:share/share.dart';
+import 'custom_image.dart';
+import 'image_setting.dart';
 
 /// @description： 话题列表
 /// @author：liuzhidong
@@ -12,101 +13,102 @@ import 'package:share/share.dart';
 /// @version：1.0
 
 class ListItem extends StatelessWidget {
-  final HotTopic hotTopic;
+  final ArticleDetails article;
   final Function onTap;
 
-  const ListItem({Key key, this.hotTopic, this.onTap}) : super(key: key);
+  const ListItem({Key key, this.article, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0))),
-        child: Material(
-          child: InkWell(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  HeadLine(
-                    isIcon: false,
-                    leadingWidget: CircleAvatarImage(
-                      width: 80,
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(0))),
+      child: Material(
+        child: InkWell(
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                HeadLine(
+                  isIcon: false,
+                  leadingWidget: Container(
+                    width: 40,
+                    height: 40,
+                    child: HttpImage(
+                      url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+                      errUrl: 'assets/nothing.png',
+                      borderRadius: 100,
+                      placeholderWidth: 10,
+                      placeholderHeight: 10,
                     ),
-                    title: Text('18811475898'),
-                    titleWidget: Container(
-                      margin: EdgeInsets.only(left: 20.w),
-                      padding: EdgeInsets.only(
-                        left: 10.w,
-                        right: 10.w,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20.w)),
-                        color: Colors.pinkAccent,
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          FaIcon(
-                            FontAwesomeIcons.mars,
-                            size: 25.sp,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            '未知',
-                            style:
-                                TextStyle(fontSize: 22.sp, color: Colors.white),
-                          )
-                        ],
-                      ),
+                  ),
+                  title: Text(article.user.username),
+                  titleWidget: Container(
+                    margin: EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.pinkAccent,
                     ),
-                    subtitle: '2019-06-30 下午 9：16',
-                    trailingWidget: Material(
-                      borderRadius: BorderRadius.all(Radius.circular(10.w)),
-                      color: Theme.of(context).primaryColor,
-                      child: InkWell(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20.w, vertical: 10.w),
-                          child: Text(
-                            '关注',
-                            style: TextStyle(
-                                letterSpacing: 10.w, color: Colors.white),
-                          ),
+                    child: Row(
+                      children: <Widget>[
+                        FaIcon(
+                          FontAwesomeIcons.mars,
+                          size: 12,
+                          color: Colors.white,
                         ),
-                        onTap: () {},
-                      ),
+                        SizedBox(width: 5,),
+                        Text(
+                          article.user.userinfo.sex == 0 ? '男' : '女',
+                          style:
+                              TextStyle(fontSize: 12, color: Colors.white),
+                        )
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
-                    child: Text('第一个项目'),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.w),
-                      child: Image.asset(
-                        'assets/3.jpg',
-                        height: 300.h,
-                        fit: BoxFit.cover,
+                  subtitle: DateUtils.instance.getFormartData(timeSamp: article.createTime, format: 'yyyy-MM-dd hh:mm:ss'),
+                  trailingWidget: Material(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    color: Theme.of(context).primaryColor,
+                    child: InkWell(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        child: Text(
+                          '关注',
+                          style: TextStyle(
+                              letterSpacing: 5, color: Colors.white),
+                        ),
                       ),
+                      onTap: () {},
                     ),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.w),
-                    child: Operation(),
-                  ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Text(article.title, style: TextStyle(fontSize: 18),),
+                ),
+                article.titlepic.isEmpty
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: CommonImage(
+                          height: 150,
+                          image: article.titlepic,
+                        ),
+                      ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Operation(),
+                ),
+              ],
             ),
-            onTap: onTap,
           ),
-        ));
+          onTap: onTap,
+        ),
+      ),
+    );
   }
 }
 
@@ -114,70 +116,56 @@ class Operation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            onPressed: () {
-            },
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.thumb_up),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Text('顶'),
-              ],
-            ),
+        FlatButton(
+          onPressed: () {},
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.thumb_up),
+              SizedBox(
+                width: 5,
+              ),
+              Text('顶'),
+            ],
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            onPressed: () {
-            },
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.thumb_down),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Text('踩'),
-              ],
-            ),
+        FlatButton(
+          onPressed: () {},
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.thumb_down),
+              SizedBox(
+                width: 5,
+              ),
+              Text('踩'),
+            ],
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            onPressed: () {
-            },
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.message),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Text('1'),
-              ],
-            ),
+        FlatButton(
+          onPressed: () {},
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.message),
+              SizedBox(
+                width: 5,
+              ),
+              Text('1'),
+            ],
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            onPressed: () {
-              Share.share('check out my website https://example.com');
-            },
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.launch),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Text('分享'),
-              ],
-            ),
+        FlatButton(
+          onPressed: () {
+            Share.share('check out my website https://example.com');
+          },
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.launch),
+              SizedBox(
+                width: 5,
+              ),
+              Text('分享'),
+            ],
           ),
         ),
       ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
-import 'package:makingfriends/view_model/tocpic_v_m.dart';
+import 'package:makingfriends/viewModel/tocpic_v_m.dart';
 import 'package:makingfriends/widgets/tocpic_list_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -46,7 +46,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
                     Jump.push('view/trends/tocpic_details_page');
                   },
                 ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
+                SizedBox(height: 10),
 
                 TocpicListItem(
                   title: '#话题名称###',
@@ -54,7 +54,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
                   devDayNumber: 1,
                   devNumber: 0,
                 ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
+                SizedBox(height: 10),
 
                 TocpicListItem(
                   title: '#话题名称###',
@@ -62,7 +62,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
                   devDayNumber: 1,
                   devNumber: 0,
                 ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
+                SizedBox(height: 10),
 
                 TocpicListItem(
                   title: '#话题名称###',
@@ -70,7 +70,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
                   devDayNumber: 1,
                   devNumber: 0,
                 ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
+                SizedBox(height: 10),
 
                 TocpicListItem(
                   title: '#话题名称###',
@@ -78,7 +78,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
                   devDayNumber: 1,
                   devNumber: 0,
                 ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
+                SizedBox(height: 10),
 
                 TocpicListItem(
                   title: '#话题名称###',
@@ -86,7 +86,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
                   devDayNumber: 1,
                   devNumber: 0,
                 ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
+                SizedBox(height: 10),
 
                 TocpicListItem(
                   title: '#话题名称###',
@@ -94,7 +94,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
                   devDayNumber: 1,
                   devNumber: 0,
                 ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
+                SizedBox(height: 10),
               ],
             ),
           ),

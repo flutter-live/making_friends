@@ -25,7 +25,7 @@ abstract class ViewStateBasic extends ViewStateProvider {
       }
       return data;
     }catch(e, s){
-      setError();
+      setError(e, s);
       return null;
     }
   }
@@ -42,7 +42,7 @@ abstract class ViewStateBasic extends ViewStateProvider {
       }
       return data;
     }catch(e, s){
-      setError();
+      setError(e, s);
       return null;
     }
   }

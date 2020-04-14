@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'image_setting.dart';
 
 /// @description: 评论
 /// @author: liuzhidong
@@ -17,9 +17,14 @@ class CustomComment extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           ///头像
-          CircleAvatarImage(
-            width: 80,
-          ),
+//          HttpImage(
+//            url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//            imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//            errUrl: 'assets/nothing.png',
+//            borderRadius: 100,
+//            placeholderWidth: 10,
+//            placeholderHeight: 10,
+//          ),
           SizedBox(
             width: 20.w,
           ),
@@ -76,9 +81,14 @@ class SecondComment extends StatelessWidget {
           Row(
             children: <Widget>[
               ///头像
-              CircleAvatarImage(
-                width: 40,
-              ),
+//              HttpImage(
+//                url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//                imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//                errUrl: 'assets/nothing.png',
+//                borderRadius: 100,
+//                placeholderWidth: 10,
+//                placeholderHeight: 10,
+//              ),
               Container(
                 margin: EdgeInsets.only(
                   left: 10.w,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// @description: HeadLine
 /// @author: liuzhidong
@@ -27,15 +26,15 @@ class HeadLine extends StatelessWidget {
   const HeadLine({
     Key key,
     @required this.title,
-    this.titleSize: 32,
+    this.titleSize: 18,
     this.trailing,
     this.trailingSize,
     this.subtitle,
-    this.subtitleSize: 26,
+    this.subtitleSize: 14,
     this.icon: Icons.chevron_right,
     this.iconSize,
     this.leadingWidget,
-    this.leadingWidgetRight: 20,
+    this.leadingWidgetRight: 10,
     this.trailingWidget,
     this.onTop,
     this.isIcon: true,
@@ -125,7 +124,7 @@ class CoustomHeadLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -135,7 +134,7 @@ class CoustomHeadLine extends StatelessWidget {
               leadingWidget == null
                   ? Container()
                   : Container(
-                      margin: EdgeInsets.only(right: leadingWidgetRight.w),
+                      margin: EdgeInsets.only(right: leadingWidgetRight),
                       child: leadingWidget,
                     ),
               Column(
@@ -145,8 +144,8 @@ class CoustomHeadLine extends StatelessWidget {
                     children: <Widget>[
                       DefaultTextStyle(
                         style: TextStyle(
-                            fontSize: titleSize.sp,
-                            letterSpacing: 1.w,
+                            fontSize: titleSize,
+                            letterSpacing: 1,
                             color: Colors.black),
                         child: title,
                       ),
@@ -159,7 +158,7 @@ class CoustomHeadLine extends StatelessWidget {
                           child: Text(
                             subtitle,
                             style: TextStyle(
-                                fontSize: subtitleSize.sp,
+                                fontSize: subtitleSize,
                                 color: Colors.black54),
                           ),
                         )

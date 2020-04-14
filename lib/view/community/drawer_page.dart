@@ -1,9 +1,8 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/view/my/my_head_page.dart';
 import 'package:makingfriends/view/my/my_list_item_page.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// @description： 抽屉
 /// @author：liuzhidong
@@ -19,13 +18,13 @@ class DrawerPage extends StatelessWidget {
         children: <Widget>[
           Head(height: _height),
           SizedBox(
-            height: ScreenUtil().setHeight(20),
+            height: 10,
           ),
           CommonImage(
             image: 'assets/3.jpg',
           ),
           SizedBox(
-            height: ScreenUtil().setHeight(20),
+            height: 10,
           ),
           MyListItemPage(),
         ],
@@ -34,10 +33,23 @@ class DrawerPage extends StatelessWidget {
   }
 }
 
-class Head extends StatelessWidget {
+class Head extends StatefulWidget {
   final double height;
 
   const Head({Key key, this.height}) : super(key: key);
+
+  @override
+  _HeadState createState() => _HeadState();
+}
+
+class _HeadState extends State<Head> {
+  double h = 100;
+
+  comtupeHeight(double l) {
+    setState(() {
+      h = l;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +58,49 @@ class Head extends StatelessWidget {
         children: <Widget>[
           CommonImage(
             image: 'assets/1.jpg',
-            height: 450.h,
-            margin: EdgeInsets.all(0),
+            height: h,
             borderRadius: 0,
             isFilter: true,
           ),
-          Container(
-            margin: EdgeInsets.only(top: height, bottom: 20),
-            child: MyHead(),
-          ),
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: widget.height,
+              ),
+              Container(
+                  child: Hqgd(
+                comtupeHeight: comtupeHeight,
+                height: widget.height,
+              ))
+            ],
+          )
         ],
       ),
     );
+  }
+}
+
+class Hqgd extends StatefulWidget {
+  final Function comtupeHeight;
+  final double height;
+
+  const Hqgd({Key key, this.comtupeHeight, this.height}) : super(key: key);
+
+  @override
+  _HqgdState createState() => _HqgdState();
+}
+
+class _HqgdState extends State<Hqgd> with AfterLayoutMixin<Hqgd> {
+  @override
+  Widget build(BuildContext context) {
+    return MyHead();
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    RenderBox box = context.findRenderObject();
+    double height =
+        box.getMaxIntrinsicHeight(MediaQuery.of(context).size.height);
+    widget.comtupeHeight(height + widget.height + 10);
   }
 }

@@ -44,7 +44,7 @@ class User {
         fens.add(new Fens.fromJson(v));
       });
     }
-    blacklist = json['blacklist'].cast<String>();
+    //blacklist = json['blacklist'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {

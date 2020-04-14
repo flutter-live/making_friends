@@ -1,60 +1,54 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'image_setting.dart';
 
 /// @description: 自定义图片 可高斯模糊
 /// @author: liuzhidong
 /// @date: 2020/3/31 16:14
-/// @version: 1.0 
+/// @version: 1.0
 
 ///自定义图片
 class CommonImage extends StatelessWidget {
   final String image;
   final double height;
   final double width;
+  final bool isType;
   final double borderRadius;
-  final EdgeInsetsGeometry margin;
   final bool isFilter;
   final Function onTap;
 
   const CommonImage({
     Key key,
     @required this.image,
-    this.height: 150,
-    this.width: double.infinity,
+    this.height: 120,
+    this.width,
     this.borderRadius: 5,
-    this.margin: const EdgeInsets.only(left: 5, right: 5),
     this.isFilter: false,
     this.onTap,
+    this.isType: true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: Container(
-        height: height.h,
-        width: width == double.infinity ? width : width.w,
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              width: width == double.infinity
-                  ? width
-                  : width.w,
-              height: height.h,
-              margin: margin,
-              child: SettingImage(image: image, width: width, height: height, isFilter: isFilter, borderRadius: borderRadius,),
+    return Container(
+      height: height,
+      child: Stack(
+        children: <Widget>[
+          SettingImage(
+            image: image,
+            width: width,
+            height: height,
+            isFilter: isFilter,
+            borderRadius: borderRadius,
+            isType: isType,
+          ),
+          Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: onTap,
             ),
-            Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                onTap: onTap,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -66,6 +60,7 @@ class SettingImage extends StatelessWidget {
   final double width;
   final double height;
   final bool isFilter;
+  final bool isType;
   final double borderRadius;
 
   const SettingImage({
@@ -75,37 +70,57 @@ class SettingImage extends StatelessWidget {
     this.height,
     this.isFilter,
     this.borderRadius,
+    this.isType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: Stack(
-        children: <Widget>[
-          Image.asset(
-            image,
-            width: width == double.infinity ? width : width.w,
-            height: height.h,
-            fit: BoxFit.fill,
-          ),
-          isFilter ? IFilter() : Container(),
-        ],
-      ),
+    return Stack(
+      children: <Widget>[
+        isType
+            ? HttpImage(
+                height: height,
+                url: image,
+                errUrl: 'assets/nothing.png',
+                borderRadius: borderRadius,
+                alignment: Alignment.center,
+              )
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius),
+                child: Image.asset(
+                  image,
+                  height: height,
+                  width: width,
+                  fit: BoxFit.fill,
+                ),
+              ),
+        isFilter
+            ? IFilter(
+                borderRadius: borderRadius,
+              )
+            : Container(),
+      ],
     );
   }
 }
 
 ///图片高斯模糊
 class IFilter extends StatelessWidget {
+  final double borderRadius;
+
+  const IFilter({Key key, this.borderRadius}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
-      child: Opacity(
-        opacity: 0.7,
-        child: new Container(
-          color: Colors.white.withOpacity(0.1),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
+        child: Opacity(
+          opacity: 0.7,
+          child: new Container(
+            color: Colors.white.withOpacity(0.1),
+          ),
         ),
       ),
     );

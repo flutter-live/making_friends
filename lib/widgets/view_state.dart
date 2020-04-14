@@ -200,7 +200,7 @@ class ViewStateImage extends StatelessWidget {
     return Hero(
       tag: 'error',
       child: Image.asset(
-        'assets/images/nothing.png',
+        'assets/nothing.png',
         width: 130,
         height: 100,
         fit: BoxFit.fitWidth,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/view/my/land_page.dart';
 import 'package:makingfriends/view/my/my_head_page.dart';
 import 'package:makingfriends/view/my/my_list_item_page.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
@@ -19,11 +20,10 @@ class _MyPageState extends State<MyPage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   double extraPicHeight = 0;
   double prevDy = 0;
-  double rpx;
   AnimationController animationController;
   Animation<double> anim;
   TabController tabController;
-  double expanedHeight = 400;
+  double expanedHeight = 220;
 
   @override
   void initState() {
@@ -35,15 +35,17 @@ class _MyPageState extends State<MyPage>
   }
 
   updatePicHeight(changed) {
-    if(changed - prevDy > 0){
+    if ((expanedHeight + extraPicHeight) > 300) return;
+
+    if (changed - prevDy > 0) {
       if (prevDy == 0) {
         prevDy = changed;
       }
       extraPicHeight += changed - prevDy;
-        setState(() {
-          prevDy = changed;
-          extraPicHeight = extraPicHeight;
-        });
+      setState(() {
+        prevDy = changed;
+        extraPicHeight = extraPicHeight;
+      });
     }
   }
 
@@ -64,50 +66,57 @@ class _MyPageState extends State<MyPage>
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).padding.top;
     return Listener(
-        onPointerMove: (result) {
-          updatePicHeight(result.position.dy);
-        },
-        onPointerUp: (_) {
-          runAnimate();
-          animationController.forward(from: 0);
-        },
-        child: CustomScrollView(
-            physics: ClampingScrollPhysics(),
-            slivers: <Widget>[
-              SliverAppBar(
-                  actions: <Widget>[
-                    IconButton(icon: Icon(Icons.more_horiz), onPressed: (){
-                      Jump.push('view/my/my_details_page');
-                    }),
-                  ],
-                  expandedHeight: expanedHeight.h + extraPicHeight.h - 50,
-                  flexibleSpace: MyHeadContent(
-                    height: _height,
-                    extraPicHeight: extraPicHeight,
-                  )),
-              SliverList(
-                delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.only(top: 20.w),
-                    child: Column(
-                      children: <Widget>[
-                        CommonImage(
-                          image: 'assets/3.jpg',
-                          height: 180,
-                          margin: EdgeInsets.only(left: 20.w, right: 20.w),
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setHeight(20),
-                        ),
-                        MyListItemPage(),
-                      ],
-                    ),
-                  );
-                }, childCount: 1),
-              )
+      onPointerMove: (result) {
+        updatePicHeight(result.position.dy);
+      },
+      onPointerUp: (_) {
+        runAnimate();
+        animationController.forward(from: 0);
+      },
+      child: CustomScrollView(
+        physics: ClampingScrollPhysics(),
+        slivers: <Widget>[
+          SliverAppBar(
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.more_horiz),
+                  onPressed: () {
+                    Jump.push('view/my/my_details_page');
+                  }),
             ],
+            expandedHeight: expanedHeight + extraPicHeight,
+            flexibleSpace: MyHeadContent(
+              height: _height,
+              extraPicHeight: extraPicHeight,
+            ),
           ),
+          SliverList(
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
+              return Container(
+                margin: EdgeInsets.only(top: 10),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: CommonImage(
+                        borderRadius: 5,
+                        image: 'assets/3.jpg',
+                        isType: false,
+                        width: double.infinity,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    MyListItemPage(),
+                  ],
+                ),
+              );
+            }, childCount: 1),
+          )
+        ],
+      ),
     );
   }
 
@@ -125,25 +134,29 @@ class MyHeadContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _imageHeight = 500 + extraPicHeight;
-    return Stack(
-      children: <Widget>[
-        ///图片
-        CommonImage(
-          image: 'assets/1.jpg',
-          height: _imageHeight > 0 ? _imageHeight : 0,
-          isFilter: true,
-          margin: EdgeInsets.all(0),
-          borderRadius: 0,
-        ),
-        Positioned(
-          top: height.h + extraPicHeight.h + 100.h,
-          child: Container(
-            width: 750.w,
-            child: MyHead(),
+    double _imageHeight = 220 + extraPicHeight + height;
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          ///图片
+          CommonImage(
+            image: 'assets/1.jpg',
+            isType: false,
+            width: double.infinity,
+            height: _imageHeight > 0 ? _imageHeight : 0,
+            isFilter: true,
+            borderRadius: 0,
           ),
-        )
-      ],
+          Positioned(
+            top: height + extraPicHeight + 50,
+            child: Container(
+              width: 750.w,
+              // child: MyHead(),
+              child: LandPage(),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

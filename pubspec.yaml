@@ -33,7 +33,7 @@ dependencies:
   #dio
   dio: ^3.0.9
   #图片缓存
-  cached_network_image: ^2.0.0
+  cached_network_image: ^2.1.0+1
   #下拉刷新
   pull_to_refresh: ^1.5.8
   #吐司
@@ -120,7 +120,9 @@ flutter:
   assets:
     - assets/nothing.png
     - assets/default.png
-    - assets/9.jpg
     - assets/1.jpg
     - assets/2.jpg
     - assets/3.jpg
+    - assets/wb.png
+    - assets/QQ.png
+    - assets/wx.png

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import '../../config/string.dart';
 
@@ -25,10 +24,18 @@ class EditingMaterials extends StatelessWidget {
             HeadLine(
               title: Text('头像'),
               titleSize: 30,
-              trailingWidget: CircleAvatarImage(
-                width: 60,
-                height: 60,
-              ),
+//              trailingWidget: Container(
+//                width: 60,
+//                height: 60,
+//                child: HttpImage(
+//                  url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//                  imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//                  errUrl: 'assets/nothing.png',
+//                  borderRadius: 100,
+//                  placeholderWidth: 10,
+//                  placeholderHeight: 10,
+//                ),
+//              ),
               onTop: () {
               },
             ),

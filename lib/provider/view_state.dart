@@ -40,8 +40,18 @@ class ViewStateError {
   get isNetworkTimeOut => _errorType == ViewStateErrorType.networkTimeOutError;
   get isUnauthorized => _errorType == ViewStateErrorType.unauthorizedError;
 
+
   @override
   String toString() {
     return 'ViewStateError{errorType: $_errorType, message: $message, errorMessage: $errorMessage}';
   }
 }
+
+/// 用于未登录等权限不够,需要跳转授权页面
+class UnAuthorizedException implements Exception {
+  const UnAuthorizedException();
+
+  @override
+  String toString() => 'UnAuthorizedException';
+}
+

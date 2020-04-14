@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:makingfriends/widgets/cirle_avatar_image.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import '../../config/string.dart';
 
@@ -22,10 +21,18 @@ class AboutPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 40.w),
               alignment: Alignment.center,
-              child: CircleAvatarImage(
-                width: 250,
-                height: 250,
-              ),
+//              child: Container(
+//                width: 250,
+//                height: 250,
+//                child: HttpImage(
+//                  url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
+//                  imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
+//                  errUrl: 'assets/nothing.png',
+//                  borderRadius: 100,
+//                  placeholderWidth: 10,
+//                  placeholderHeight: 10,
+//                ),
+//              ),
             ),
             Container(
               alignment: Alignment.center,

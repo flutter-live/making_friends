@@ -20,6 +20,8 @@ class ArticleDetails {
   int shareId;
   int isopen;
   int status;
+  int dingCount;
+  int caiCount;
   User user;
   List<Images> images;
   Share share;
@@ -39,6 +41,8 @@ class ArticleDetails {
       this.shareId,
       this.isopen,
       this.status,
+      this.dingCount,
+      this.caiCount,
       this.user,
       this.images,
       this.share,
@@ -58,6 +62,8 @@ class ArticleDetails {
     shareId = json['share_id'];
     isopen = json['isopen'];
     status = json['status'];
+    dingCount = json['dingCount'];
+    caiCount = json['caiCount'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     if (json['images'] != null) {
       images = new List<Images>();
@@ -84,6 +90,8 @@ class ArticleDetails {
     data['share_id'] = this.shareId;
     data['isopen'] = this.isopen;
     data['status'] = this.status;
+    data['dingCount'] = this.dingCount;
+    data['caiCount'] = this.caiCount;
     if (this.user != null) {
       data['user'] = this.user.toJson();
     }

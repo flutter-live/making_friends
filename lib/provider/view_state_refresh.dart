@@ -11,7 +11,7 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
   List<T> list = [];
 
   ///第一页
-  static const int pageFirst = 0;
+  static const int pageFirst = 1;
 
   ///每页条数
   static final int pageTotal = 20;
@@ -28,6 +28,7 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
     await refresh();
   }
 
+  ///上拉加载
   Future<List<T>> refresh() async {
     try {
       List<T> data = await loadData(pageFirst: pageFirst);
@@ -51,8 +52,10 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
       }
       return data;
     } catch (e, s) {
+      print(e);
+      print(s);
       list.clear();
-      setError();
+      setError(e, s);
       refreshController.loadFailed();
       return null;
     }
@@ -78,7 +81,7 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
       }
       return data;
     } catch (e, s) {
-      setError();
+      setError(e, s);
       _currentPage--;
       refreshController.loadFailed();
       return null;

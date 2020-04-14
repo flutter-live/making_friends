@@ -9,7 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'config/application.dart';
 import 'config/global.dart';
 import 'routes/page_routes.dart';
-import 'view_model/theme_v_m.dart';
+import 'viewModel/theme_v_m.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 
 void main() {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:makingfriends/viewModel/user_v_m.dart';
 import '../viewModel/theme_v_m.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -11,6 +11,9 @@ import 'package:provider/single_child_widget.dart';
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider<ThemeVM>(
     create: (context) => ThemeVM(),
+  ),
+  ChangeNotifierProvider<UserVM>(
+    create: (context) => UserVM(),
   )
 
 ];

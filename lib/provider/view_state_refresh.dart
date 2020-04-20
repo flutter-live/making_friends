@@ -20,8 +20,9 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
   int _currentPage = pageFirst;
 
   ///分页控制器
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  RefreshController get refreshController => _refreshController;
 
   initData() async {
     setBusy();
@@ -31,10 +32,11 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
   ///上拉加载
   Future<List<T>> refresh() async {
     try {
+      _currentPage = pageFirst;
       List<T> data = await loadData(pageFirst: pageFirst);
-      if (data.isEmpty) {
+      if (data.isEmpty || data.length == 0) {
+        refreshController.refreshCompleted(resetFooterState: true);
         setEmpty();
-        refreshController = RefreshController(initialRefresh: true);
         list.clear();
       } else {
         onCompleted(data);
@@ -66,7 +68,7 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
   Future<List<T>> loadMore() async {
     try {
       List<T> data = await loadData(pageFirst: ++_currentPage);
-      if (data.isEmpty) {
+      if (data.isEmpty || data.length == 0) {
         _currentPage--;
         refreshController.loadNoData();
       } else {
@@ -98,4 +100,5 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
     refreshController.dispose();
     super.dispose();
   }
+
 }

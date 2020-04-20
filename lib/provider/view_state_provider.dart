@@ -31,7 +31,7 @@ class ViewStateProvider with ChangeNotifier {
 
   ViewStateError get viewStateError => _viewStateError;
 
-  bool get isDel => viewState == ViewState.def;
+  bool get isDef => viewState == ViewState.def;
 
   bool get isBusy => viewState == ViewState.busy;
 
@@ -72,6 +72,7 @@ class ViewStateProvider with ChangeNotifier {
         // to be continue...
         message = e.error;
       } else {
+        print(e);
         // dio将原error重新套了一层
         e = e.error;
 //        if (e is UnAuthorizedException) {

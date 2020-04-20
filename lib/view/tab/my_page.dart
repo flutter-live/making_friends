@@ -4,7 +4,9 @@ import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/view/my/land_page.dart';
 import 'package:makingfriends/view/my/my_head_page.dart';
 import 'package:makingfriends/view/my/my_list_item_page.dart';
+import 'package:makingfriends/viewModel/user_v_m.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
+import 'package:provider/provider.dart';
 
 /// @description： 我的
 /// @author：liuzhidong
@@ -134,6 +136,7 @@ class MyHeadContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserVM model = Provider.of<UserVM>(context);
     double _imageHeight = 220 + extraPicHeight + height;
     return Container(
       child: Stack(
@@ -151,8 +154,7 @@ class MyHeadContent extends StatelessWidget {
             top: height + extraPicHeight + 50,
             child: Container(
               width: 750.w,
-              // child: MyHead(),
-              child: LandPage(),
+              child: model.user == null ? LandPage() : MyHead(),
             ),
           )
         ],

@@ -30,7 +30,13 @@ class CustomInterceptors extends InterceptorsWrapper{
   @override
   Future onResponse(Response response) {
     if(response.statusCode == 200){
-      response.data = response.data['data'];
+      if(response.data['errorCode'] !=null){
+        if(response.data['errorCode'] == false){
+          response.data = response.data['msg'];
+        }
+      }else{
+        response.data = response.data['data'];
+      }
     }
     return super.onResponse(response);
   }

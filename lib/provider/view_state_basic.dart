@@ -6,7 +6,7 @@ import 'package:makingfriends/provider/view_state_provider.dart';
 /// @date：2020/3/27 21:48
 /// @version：1.0
 
-abstract class ViewStateBasic extends ViewStateProvider {
+abstract class ViewStateBasic<T> extends ViewStateProvider {
   ///初始化加载
   initData({Map map}) async{
     setBusy();
@@ -14,10 +14,10 @@ abstract class ViewStateBasic extends ViewStateProvider {
   }
 
   ///查询数据
-  Future<Map> findData({Map map}) async{
+  Future<T> findData({Map map}) async{
     try{
-      Map data = await loadData(data: map);
-      if(data.isEmpty || data == null){
+      T data = await find(data: map);
+      if(data == null){
         setEmpty();
       }else{
         await onCompleted(data, ViewFunction.find);
@@ -31,10 +31,10 @@ abstract class ViewStateBasic extends ViewStateProvider {
   }
 
   ///上传数据
-  Future<Map> saveData({Map map}) async{
+  Future<T> saveData({Map map}) async{
     try{
-      Map data = await loadData(data: map);
-      if(data.isEmpty || data == null){
+      T data = await save(data: map);
+      if(data == null){
         setEmpty();
       }else{
         await onCompleted(data, ViewFunction.save);
@@ -48,8 +48,10 @@ abstract class ViewStateBasic extends ViewStateProvider {
   }
 
 
-  Future<Map> loadData({Map data});
+  Future<T> find({Map data});
 
-  Future<void> onCompleted(Map data, ViewFunction type);
+  Future<T> save({Map data});
+
+  Future<void> onCompleted(T data, ViewFunction type);
 
 }

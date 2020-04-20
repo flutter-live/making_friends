@@ -29,7 +29,7 @@ class _TocpicClassificationItemPageState extends State<TocpicClassificationItemP
       builder: (context, model, child) {
         return Container(
           child: SmartRefresher(
-            controller: model.refreshController,
+           // controller: model.refreshController,
             header: WaterDropMaterialHeader(),
             footer: ClassicFooter(),
             //onRefresh: model.refresh,

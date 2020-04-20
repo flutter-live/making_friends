@@ -24,6 +24,7 @@ class HttpImage extends StatelessWidget {
   final String url;
   final String errUrl;
   final double borderRadius;
+  final BoxFit fit;
 
   const HttpImage({
     Key key,
@@ -37,6 +38,7 @@ class HttpImage extends StatelessWidget {
     this.errorHeight,
     this.errUrl,
     this.borderRadius: 5,
+    this.fit: BoxFit.fill,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,7 @@ class HttpImage extends StatelessWidget {
           imageUrl: url,
           width: width,
           height: height,
+          fit: fit,
           placeholder: (context, url) => Container(
             child: ImageHelper.placeHolder(height: placeholderHeight, width: placeholderWidth),
           ),

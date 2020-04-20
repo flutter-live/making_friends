@@ -35,17 +35,23 @@ class TocpicListItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              CommonImage(
-                width: 100,
-                height: 100,
-                image: 'assets/3.jpg',
+              Container(
+                width: 80,
+                height: 80,
+                child: CommonImage(
+                  image: image,
+                ),
               ),
-              TocpicListTile(
-                title: title,
-                subtitle: subtitle,
-                devNumber: devDayNumber,
-                devDayNumber: devDayNumber,
+              Container(
+                height: 80,
+                child: TocpicListTile(
+                  title: title,
+                  subtitle: subtitle,
+                  devNumber: devNumber,
+                  devDayNumber: devDayNumber,
+                ),
               ),
+
             ],
           ),
         ),
@@ -65,8 +71,8 @@ class TocpicListTile extends StatelessWidget {
     Key key,
     @required this.title,
     @required this.subtitle,
-    this.devNumber: 0,
-    this.devDayNumber: 0,
+    this.devNumber,
+    this.devDayNumber,
   }) : super(key: key);
 
   @override
@@ -75,20 +81,19 @@ class TocpicListTile extends StatelessWidget {
       margin: EdgeInsets.only(left: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(bottom: 10),
             child: Text(
-              title,
-              style: TextStyle(fontSize: ScreenUtil().setSp(34)),
+              '#$title#',
+              style: TextStyle(fontSize: 18),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 10),
             child: Text(
               title,
               style: TextStyle(
-                  color: Colors.grey, fontSize: ScreenUtil().setSp(30)),
+                  color: Colors.grey, fontSize: 16),
             ),
           ),
           Container(
@@ -98,7 +103,7 @@ class TocpicListTile extends StatelessWidget {
                   child: Text(
                     '动态 $devNumber',
                     style: TextStyle(
-                        color: Colors.grey, fontSize: ScreenUtil().setSp(30)),
+                        color: Colors.grey, fontSize: 16),
                   ),
                 ),
                 Container(
@@ -106,7 +111,7 @@ class TocpicListTile extends StatelessWidget {
                   child: Text(
                     '今日 $devDayNumber',
                     style: TextStyle(
-                        color: Colors.grey, fontSize: ScreenUtil().setSp(30)),
+                        color: Colors.grey, fontSize: 16),
                   ),
                 )
               ],

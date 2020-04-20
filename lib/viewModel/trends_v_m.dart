@@ -19,7 +19,7 @@ class TrendsVM extends ViewStateRefresh<ArticleDetails> {
 
   @override
   Future<List<ArticleDetails>> loadData({int pageFirst}) async{
-    return await MakingFriendsApi.fetchfollow();
+    return await MakingFriendsApi.fetchFollow(pageFirst);
   }
 
 }

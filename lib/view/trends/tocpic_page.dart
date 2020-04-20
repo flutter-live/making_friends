@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/viewModel/tocpic_v_m.dart';
+import 'package:makingfriends/widgets/article_skeleton.dart';
 import 'package:makingfriends/widgets/custom_division_line.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
+import 'package:makingfriends/widgets/skeleton.dart';
 import 'package:makingfriends/widgets/tocpic_list_item.dart';
+import 'package:makingfriends/widgets/view_state.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// @description： 话题
@@ -29,72 +34,112 @@ class _TocpicPageState extends State<TocpicPage>
     super.build(context);
     return ProviderWidget<TocpicVM>(
       model: TocpicVM(),
-      onModelReady: (model) {},
+      onModelReady: (model) {
+        model.initData();
+      },
+      builder: (context, model, child) {
+        if (model.isBusy) {
+          return Skeleton(
+            betweeChild: (BuildContext context, int index) => ArticleSkeleton(),
+          );
+        }
+        if (model.isError) {
+          return ViewStateErrorWidget(
+              error: model.viewStateError, onPressed: model.initData);
+        }
+
+        return Container(
+          child: ListView(
+            children: <Widget>[
+              HeadLine(
+                title: Text('热门推荐'),
+                trailing: '更多',
+                onTop: () {
+                  Jump.push('view/trends/tocpic_classification_page');
+                },
+              ),
+
+              ///热门推荐
+              TocpicRecommendation(),
+
+              ///分割线
+              Divider(height: 1, color: Colors.grey),
+
+              ///搜索
+              TocpicSearch(),
+
+              ///轮播图
+              TocpicSwiper(),
+
+              SizedBox(height: 10),
+
+              ///分割线
+              DivisionLine(),
+
+              HeadLine(
+                title: Text('最近更新'),
+                isIcon: false,
+              ),
+
+              ///最近话题
+              LateTocpic(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+///轮播广告栏
+class TocpicSwiper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<TocpicVM>(
       builder: (context, model, child) {
         return Container(
-          child: SmartRefresher(
-            controller: model.refreshController,
-            header: WaterDropMaterialHeader(),
-            footer: ClassicFooter(),
-            //onRefresh: model.refresh,
-            //  onLoading: model.loadMore,
-            enablePullUp: true,
-            child: ListView(
-              children: <Widget>[
-                HeadLine(title: Text('热门推荐'), trailing: '更多', onTop: (){
-                  Jump.push('view/trends/tocpic_classification_page');
-                },),
-
-                ///热门推荐
-                TocpicRecommendation(),
-
-                ///分割线
-                Divider(height: 1, color: Colors.grey),
-
-                ///搜索
-                TocpicSearch(),
-
-                ///图片
-                CommonImage(
-                  image: 'assets/3.jpg',
-                  height: 150,
-                ),
-
-                SizedBox(
-                  height: ScreenUtil().setHeight(20),
-                ),
-
-                ///分割线
-                DivisionLine(),
-
-                HeadLine(
-                  title: Text('最近更新'),
-                  isIcon: false,
-                ),
-
-                TocpicListItem(
-                  title: '#话题名称###',
-                  subtitle: '话题描述',
-                  devDayNumber: 1,
-                  devNumber: 0,
-                ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
-                TocpicListItem(
-                  title: '#话题名称###',
-                  subtitle: '话题描述',
-                  devDayNumber: 1,
-                  devNumber: 0,
-                ),
-                SizedBox(height: ScreenUtil().setHeight(20)),
-                TocpicListItem(
-                  title: '#话题名称###',
-                  subtitle: '话题描述',
-                  devDayNumber: 1,
-                  devNumber: 0,
-                ),
-              ],
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          width: double.infinity,
+          height: 150,
+          child: Swiper(
+            loop: true,
+            autoplay: true,
+            autoplayDelay: 5000,
+            pagination: SwiperPagination(),
+            itemCount: model.listAdsense.length,
+            itemBuilder: (BuildContext context, int index) {
+              return CommonImage(
+                width: double.infinity,
+                height: 150,
+                image: model.listAdsense[index].src,
+              );
+            },
           ),
+        );
+      },
+    );
+  }
+}
+
+///最近话题
+class LateTocpic extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<TocpicVM>(
+      builder: (context, model, child) {
+        return Column(
+          children: model.listHotTopic.map((item) {
+            return Container(
+              margin: EdgeInsets.only(bottom: 10, left: 5, right: 5),
+              child: TocpicListItem(
+                title: item.title,
+                subtitle: item.desc,
+                devDayNumber: item.todaypostCount,
+                devNumber: item.postCount,
+                image: item.titlepic,
+              ),
+            );
+          }).toList(),
         );
       },
     );
@@ -105,68 +150,30 @@ class _TocpicPageState extends State<TocpicPage>
 class TocpicRecommendation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      scrollDirection: Axis.horizontal,
-      child: ButtonBar(
-        buttonPadding: EdgeInsets.all(0),
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: RaisedButton(
-                child: Text(
-                  '关注',
-                  style: TextStyle(color: Colors.white, letterSpacing: 5),
-                ),
-                onPressed: () {}),
+    return Consumer<TocpicVM>(
+      builder: (context, model, child) {
+        return SingleChildScrollView(
+          padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+          scrollDirection: Axis.horizontal,
+          child: ButtonBar(
+            buttonPadding: EdgeInsets.all(0),
+            children: model.listPostClass
+                .map(
+                  (item) => Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: RaisedButton(
+                        child: Text(
+                          item.classname,
+                          style:
+                              TextStyle(color: Colors.white, letterSpacing: 5),
+                        ),
+                        onPressed: () {}),
+                  ),
+                )
+                .toList(),
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: RaisedButton(
-                child: Text(
-                  '推荐',
-                  style: TextStyle(color: Colors.white, letterSpacing: 5),
-                ),
-                onPressed: () {}),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: RaisedButton(
-                child: Text(
-                  '体育',
-                  style: TextStyle(color: Colors.white, letterSpacing: 5),
-                ),
-                onPressed: () {}),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: RaisedButton(
-                child: Text(
-                  '热点',
-                  style: TextStyle(color: Colors.white, letterSpacing: 5),
-                ),
-                onPressed: () {}),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: RaisedButton(
-                child: Text(
-                  '财经',
-                  style: TextStyle(color: Colors.white, letterSpacing: 5),
-                ),
-                onPressed: () {}),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: RaisedButton(
-                child: Text(
-                  '娱乐',
-                  style: TextStyle(color: Colors.white, letterSpacing: 5),
-                ),
-                onPressed: () {}),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -184,7 +191,7 @@ class TocpicSearch extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: Colors.grey[200],
             ),
-            height: 30,
+            height: 35,
             width: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -197,9 +204,7 @@ class TocpicSearch extends StatelessWidget {
                   padding: EdgeInsets.only(left: 5),
                   child: Text(
                     '搜索帖子',
-                    style: TextStyle(
-                        color: Colors.black45,
-                        fontSize: ScreenUtil().setSp(30)),
+                    style: TextStyle(color: Colors.black45, fontSize: 16),
                   ),
                 ),
               ],

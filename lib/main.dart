@@ -5,19 +5,20 @@ import 'package:makingfriends/provider/provider_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'config/application.dart';
 import 'config/global.dart';
 import 'routes/page_routes.dart';
 import 'viewModel/theme_v_m.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'viewModel/user_v_m.dart';
 
-void main() {
+void main() async{
   Router router = Router();
   PageRoutes.setRouters(router);
   Application.router = router;
-
-  return runApp(MyApp());
+  Provider.debugCheckInvalidValueType = null;
+  WidgetsFlutterBinding.ensureInitialized();
+  await Application.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,8 +27,8 @@ class MyApp extends StatelessWidget {
     return OKToast(
       child: MultiProvider(
         providers: providers,
-        child: Consumer<ThemeVM>(
-            builder: (context, themeVM, child){
+        child: Consumer2<ThemeVM, UserVM>(
+            builder: (context, themeVM, userVM, child){
               return RefreshConfiguration(
                 hideFooterWhenNotFull: true,
                 child: MaterialApp(

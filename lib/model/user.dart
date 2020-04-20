@@ -7,10 +7,13 @@ class User {
   int id;
   String username;
   String userpic;
+  bool password;
   String phone;
   String email;
   int status;
   int createTime;
+  String logintype;
+  String token;
   Userinfo userinfo;
   List<Fens> fens;
   List<String> blacklist;
@@ -19,10 +22,13 @@ class User {
       {this.id,
         this.username,
         this.userpic,
+        this.password,
         this.phone,
         this.email,
         this.status,
         this.createTime,
+        this.logintype,
+        this.token,
         this.userinfo,
         this.fens,
         this.blacklist});
@@ -31,10 +37,13 @@ class User {
     id = json['id'];
     username = json['username'];
     userpic = json['userpic'];
+    password = json['password'];
     phone = json['phone'];
     email = json['email'];
     status = json['status'];
     createTime = json['create_time'];
+    logintype = json['logintype'];
+    token = json['token'];
     userinfo = json['userinfo'] != null
         ? new Userinfo.fromJson(json['userinfo'])
         : null;
@@ -52,10 +61,13 @@ class User {
     data['id'] = this.id;
     data['username'] = this.username;
     data['userpic'] = this.userpic;
+    data['password'] = this.password;
     data['phone'] = this.phone;
     data['email'] = this.email;
     data['status'] = this.status;
     data['create_time'] = this.createTime;
+    data['logintype'] = this.logintype;
+    data['token'] = this.token;
     if (this.userinfo != null) {
       data['userinfo'] = this.userinfo.toJson();
     }

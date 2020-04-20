@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio/native_imp.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:makingfriends/viewModel/user_v_m.dart';
+import 'package:provider/provider.dart';
+
+import '../global.dart';
 
 /// @description： dio
 /// @author：liuzhidong
@@ -33,8 +36,10 @@ abstract class BaseHttp extends DioForNative {
 class HeaderInterceptor extends InterceptorsWrapper {
   @override
   Future onRequest(RequestOptions options) async{
+    String token = Provider.of<UserVM>(navigatorKey.currentState.context, listen: false).user.token;
     options.connectTimeout = 3000;
     options.receiveTimeout = 3000;
+    options.headers['token'] = token;
     return options;
   }
 }

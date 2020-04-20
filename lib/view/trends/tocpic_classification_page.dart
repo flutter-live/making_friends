@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:makingfriends/view/community/category_page.dart';
 import 'package:makingfriends/view/trends/tocpic_classification_item_page.dart';
+import 'package:makingfriends/viewModel/tocpic_classification_v_m.dart';
 import 'package:makingfriends/viewModel/tocpic_v_m.dart';
 import 'package:provider/provider.dart';
 import '../../provider/provider_widget.dart';
@@ -43,8 +44,8 @@ class _TocpicClassificationPageState extends State<TocpicClassificationPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ProviderWidget<TocpicVM>(
-      model: TocpicVM(),
+    return ProviderWidget<TocpicClassificationVM>(
+      model: TocpicClassificationVM(),
       onModelReady: (communityVM) {},
       builder: (context, model, child) {
         return ValueListenableProvider<int>.value(

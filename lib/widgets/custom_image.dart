@@ -16,6 +16,7 @@ class CommonImage extends StatelessWidget {
   final double borderRadius;
   final bool isFilter;
   final Function onTap;
+  final BoxFit fit;
 
   const CommonImage({
     Key key,
@@ -26,12 +27,14 @@ class CommonImage extends StatelessWidget {
     this.isFilter: false,
     this.onTap,
     this.isType: true,
+    this.fit: BoxFit.fill,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
+      width: width,
       child: Stack(
         children: <Widget>[
           SettingImage(
@@ -41,6 +44,7 @@ class CommonImage extends StatelessWidget {
             isFilter: isFilter,
             borderRadius: borderRadius,
             isType: isType,
+            fit: fit,
           ),
           Material(
             type: MaterialType.transparency,
@@ -62,6 +66,7 @@ class SettingImage extends StatelessWidget {
   final bool isFilter;
   final bool isType;
   final double borderRadius;
+  final BoxFit fit;
 
   const SettingImage({
     Key key,
@@ -71,6 +76,7 @@ class SettingImage extends StatelessWidget {
     this.isFilter,
     this.borderRadius,
     this.isType,
+    this.fit: BoxFit.fill,
   }) : super(key: key);
 
   @override
@@ -79,11 +85,13 @@ class SettingImage extends StatelessWidget {
       children: <Widget>[
         isType
             ? HttpImage(
+                width: width,
                 height: height,
                 url: image,
                 errUrl: 'assets/nothing.png',
                 borderRadius: borderRadius,
                 alignment: Alignment.center,
+                fit: fit,
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius),

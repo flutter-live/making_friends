@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:makingfriends/model/article_details.dart';
-import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/viewModel/trends_v_m.dart';
@@ -10,7 +9,7 @@ import 'package:makingfriends/widgets/skeleton.dart';
 import 'package:makingfriends/widgets/view_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-/// @description： guanzhu
+/// @description：关注
 /// @author：liuzhidong
 /// @date：2020/3/29 23:36
 /// @version：1.0

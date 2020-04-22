@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/viewModel/tocpic_class_v_m.dart';
 import 'package:makingfriends/viewModel/tocpic_v_m.dart';
 import 'package:makingfriends/widgets/article_skeleton.dart';
 import 'package:makingfriends/widgets/custom_division_line.dart';
@@ -32,12 +34,17 @@ class _TocpicPageState extends State<TocpicPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ProviderWidget<TocpicVM>(
-      model: TocpicVM(),
-      onModelReady: (model) {
+    return ProviderWidget2<TocpicVM, TocpicClassVM>(
+      model1: TocpicVM(),
+      model2: TocpicClassVM(),
+      onModelReady: (model, model2) {
+        model2.initData();
         model.initData();
       },
-      builder: (context, model, child) {
+      builder: (context, model, model2, child) {
+        if(model2.isBusy){
+          return ViewStateBusyWidget();
+        }
         if (model.isBusy) {
           return Skeleton(
             betweeChild: (BuildContext context, int index) => ArticleSkeleton(),
@@ -47,7 +54,6 @@ class _TocpicPageState extends State<TocpicPage>
           return ViewStateErrorWidget(
               error: model.viewStateError, onPressed: model.initData);
         }
-
         return Container(
           child: ListView(
             children: <Widget>[
@@ -150,14 +156,15 @@ class LateTocpic extends StatelessWidget {
 class TocpicRecommendation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<TocpicVM>(
+    return Consumer<TocpicClassVM>(
       builder: (context, model, child) {
+        List<PostClass> list = model.list;
         return SingleChildScrollView(
           padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
           scrollDirection: Axis.horizontal,
           child: ButtonBar(
             buttonPadding: EdgeInsets.all(0),
-            children: model.listPostClass
+            children: list
                 .map(
                   (item) => Padding(
                     padding: EdgeInsets.only(right: 10),

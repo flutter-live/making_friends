@@ -6,7 +6,9 @@ import 'package:makingfriends/provider/view_state.dart';
 class ViewStateBusyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator());
+    return Scaffold(
+      body: Center(child: CircularProgressIndicator()),
+    );
   }
 }
 
@@ -35,40 +37,41 @@ class ViewStateWidget extends StatelessWidget {
         Theme.of(context).textTheme.subhead.copyWith(color: Colors.grey);
     var messageStyle = titleStyle.copyWith(
         color: titleStyle.color.withOpacity(0.7), fontSize: 14);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-//                title ?? S.of(context).viewStateMessageError,
-                style: titleStyle,
-              ),
-              SizedBox(height: 20),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
-                child: SingleChildScrollView(
-                  child: Text(message ?? '', style: messageStyle),
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: titleStyle,
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
+                  child: SingleChildScrollView(
+                    child: Text(message ?? '', style: messageStyle),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Center(
-          child: ViewStateButton(
-            child: buttonText,
-            textData: buttonTextData,
-            onPressed: onPressed,
+          Center(
+            child: ViewStateButton(
+              child: buttonText,
+              textData: buttonTextData,
+              onPressed: onPressed,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -99,7 +102,7 @@ class ViewStateErrorWidget extends StatelessWidget {
     var defaultImage;
     var defaultTitle;
     var errorMessage = error.message;
-    String defaultTextData = '111';
+    String defaultTextData = '刷新';
     switch (error.errorType) {
       case ViewStateErrorType.networkTimeOutError:
         defaultImage = Transform.translate(
@@ -141,6 +144,7 @@ class ViewStateEmptyWidget extends StatelessWidget {
   final String message;
   final Widget image;
   final Widget buttonText;
+  final String buttonTextData;
   final VoidCallback onPressed;
 
   const ViewStateEmptyWidget(
@@ -148,6 +152,7 @@ class ViewStateEmptyWidget extends StatelessWidget {
       this.image,
       this.message,
       this.buttonText,
+      this.buttonTextData,
       @required this.onPressed})
       : super(key: key);
 
@@ -156,10 +161,9 @@ class ViewStateEmptyWidget extends StatelessWidget {
     return ViewStateWidget(
       onPressed: this.onPressed,
       image: image ?? ViewStateImage(),
-      //title: message ?? S.of(context).viewStateMessageEmpty,
       title: message,
       buttonText: buttonText,
-      //buttonTextData: S.of(context).viewStateButtonRefresh,
+      buttonTextData: buttonTextData,
     );
   }
 }
@@ -188,7 +192,7 @@ class ViewStateUnAuthWidget extends StatelessWidget {
       //title: message ?? S.of(context).viewStateMessageUnAuth,
       title: message,
       buttonText: buttonText,
-      buttonTextData: '111',
+      buttonTextData: '登陆',
     );
   }
 }
@@ -201,10 +205,9 @@ class ViewStateImage extends StatelessWidget {
       tag: 'error',
       child: Image.asset(
         'assets/nothing.png',
-        width: 130,
-        height: 100,
-        fit: BoxFit.fitWidth,
-        color: Theme.of(context).accentColor,
+        width: 150,
+        height: 150,
+        fit: BoxFit.fill,
         colorBlendMode: BlendMode.srcIn,
       ),
     );
@@ -225,7 +228,6 @@ class ViewStateButton extends StatelessWidget {
     return OutlineButton(
       child: child ??
           Text(
-           // textData ?? S.of(context).viewStateButtonRetry,
             textData,
             style: TextStyle(wordSpacing: 5),
           ),

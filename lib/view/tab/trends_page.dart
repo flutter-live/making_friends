@@ -3,7 +3,6 @@ import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/view/trends/tocpic_page.dart';
 import 'package:makingfriends/view/trends/trends_list_page.dart';
 import 'package:makingfriends/viewModel/trends_v_m.dart';
-import 'package:provider/provider.dart';
 
 /// @description： 动态
 /// @author：liuzhidong

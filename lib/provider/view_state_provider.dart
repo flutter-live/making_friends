@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:makingfriends/config/net/base_http.dart';
 import 'package:makingfriends/provider/view_state.dart';
+import 'package:oktoast/oktoast.dart';
 
 /// @description： provider 更新状态码
 /// @author：liuzhidong
@@ -75,18 +79,18 @@ class ViewStateProvider with ChangeNotifier {
         print(e);
         // dio将原error重新套了一层
         e = e.error;
-//        if (e is UnAuthorizedException) {
-//          stackTrace = null;
-//          errorType = ViewStateErrorType.unauthorizedError;
-//        } else if (e is NotSuccessException) {
-//          stackTrace = null;
-//          message = e.message;
-//        } else if (e is SocketException) {
-//          errorType = ViewStateErrorType.networkTimeOutError;
-//          message = e.message;
-//        } else {
-//          message = e.message;
-//        }
+        if (e is UnAuthorizedException) {
+          stackTrace = null;
+          errorType = ViewStateErrorType.unauthorizedError;
+        } else if (e is NotSuccessException) {
+          stackTrace = null;
+          message = e.message;
+        } else if (e is SocketException) {
+          errorType = ViewStateErrorType.networkTimeOutError;
+          message = e.message;
+        } else {
+          message = e.message;
+        }
       }
     }
     viewState = ViewState.error;
@@ -95,7 +99,7 @@ class ViewStateProvider with ChangeNotifier {
       message: message,
       errorMessage: e.toString(),
     );
-    //printErrorStack(e, stackTrace);
+    printErrorStack(e, stackTrace);
     onError(viewStateError);
   }
 
@@ -105,13 +109,13 @@ class ViewStateProvider with ChangeNotifier {
   showErrorMessage(context, {String message}) {
     if (viewStateError != null || message != null) {
       if (viewStateError.isNetworkTimeOut) {
-        //message ??= S.of(context).viewStateMessageNetworkError;
+        message = message;
       } else {
         message ??= viewStateError.message;
       }
-//      Future.microtask(() {
-//        showToast(message, context: context);
-//      });
+      Future.microtask(() {
+        showToast(message, context: context);
+      });
     }
   }
 
@@ -129,4 +133,19 @@ class ViewStateProvider with ChangeNotifier {
     super.dispose();
   }
 
+
+}
+
+/// [e]为错误类型 :可能为 Error , Exception ,String
+/// [s]为堆栈信息
+printErrorStack(e, s) {
+  debugPrint('''
+<-----↓↓↓↓↓↓↓↓↓↓-----error-----↓↓↓↓↓↓↓↓↓↓----->
+$e
+<-----↑↑↑↑↑↑↑↑↑↑-----error-----↑↑↑↑↑↑↑↑↑↑----->''');
+  if (s != null) debugPrint('''
+<-----↓↓↓↓↓↓↓↓↓↓-----trace-----↓↓↓↓↓↓↓↓↓↓----->
+$s
+<-----↑↑↑↑↑↑↑↑↑↑-----trace-----↑↑↑↑↑↑↑↑↑↑----->
+    ''');
 }

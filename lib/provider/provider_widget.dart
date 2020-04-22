@@ -15,8 +15,8 @@ class ProviderWidget<A extends ChangeNotifier> extends StatefulWidget {
 
   const ProviderWidget(
       {Key key,
-      @required this.builder,
       @required this.model,
+      @required this.builder,
       this.onModelReady,
       this.autoDispose: true,
       this.child})
@@ -69,9 +69,9 @@ class ProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
 
   const ProviderWidget2({
     Key key,
-    this.builder,
-    this.model1,
-    this.model2,
+    @required this.model1,
+    @required this.model2,
+    @required this.builder,
     this.onModelReady,
     this.autoDispose: true,
     this.child,
@@ -134,10 +134,10 @@ class ProviderWidget3<A extends ChangeNotifier, B extends ChangeNotifier, C exte
 
   const ProviderWidget3({
     Key key,
-    this.builder,
-    this.model1,
-    this.model2,
-    this.model3,
+    @required this.model1,
+    @required this.model2,
+    @required this.model3,
+    @required this.builder,
     this.onModelReady,
     this.autoDispose: true,
     this.child,

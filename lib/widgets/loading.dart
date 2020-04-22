@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:makingfriends/config/global.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:makingfriends/config/application.dart';
 
 /// @description 加载框
 /// @author: liuzhidong
@@ -22,7 +22,6 @@ enum Category{
 ///加载框
 class ProgressDialog {
   static bool _isShowing = false;
-  static BuildContext context = navigatorKey.currentState.overlay.context;
 
   ///展示
   static void showProgress({
@@ -37,7 +36,7 @@ class ProgressDialog {
     if (!_isShowing) {
       _isShowing = true;
       Navigator.push(
-        context,
+        Application.context,
         _PopRoute(
           child: _Progress(
             child: child,
@@ -47,7 +46,7 @@ class ProgressDialog {
             titlePadding: titlePadding,
             dismiss: dismiss,
             category: category,
-            spinKitColor: spinKitColor ?? Theme.of(context).primaryColor,
+            spinKitColor: spinKitColor ?? Theme.of(Application.context).primaryColor,
           ),
         ),
       );
@@ -56,9 +55,9 @@ class ProgressDialog {
 
   ///隐藏
   static void dismiss() {
-    BuildContext context = navigatorKey.currentState.overlay.context;
+
     if (_isShowing) {
-      Future.delayed(Duration(milliseconds: 0), () => Navigator.of(context).pop());
+      Future.delayed(Duration(milliseconds: 0), () => Navigator.of(Application.context).pop());
       _isShowing = false;
     }
   }

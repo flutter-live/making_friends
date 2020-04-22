@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:makingfriends/model/article_details.dart';
-import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/viewModel/tab/community_v_m.dart';
@@ -35,7 +34,6 @@ class _CommunityListPageState extends State<CommunityListPage>
     return ProviderWidget<CommunityListPageVM>(
       model: CommunityListPageVM(),
       onModelReady: (model) {
-        print(widget.id);
         model.id = widget.id;
         model.initData();
       },
@@ -48,7 +46,15 @@ class _CommunityListPageState extends State<CommunityListPage>
         if(model.isError){
           return ViewStateErrorWidget(error: model.viewStateError, onPressed: model.initData);
         }
-
+        if (model.isEmpty) {
+          return ViewStateEmptyWidget(
+            message: '没有话题哦',
+            buttonTextData: '刷新',
+            onPressed: (){
+              model.initData();
+            },
+          );
+        }
         List<ArticleDetails> list = model.list;
         return Container(
           color: Color.fromRGBO(245, 245, 245, 1),

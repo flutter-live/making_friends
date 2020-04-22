@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/view/community/category_page.dart';
 import 'package:makingfriends/view/search/search_page.dart';
+import 'package:makingfriends/viewModel/user_v_m.dart';
+import 'package:makingfriends/widgets/image_setting.dart';
 import 'package:makingfriends/widgets/view_state.dart';
 import '../../provider/provider_widget.dart';
 import '../../viewModel/tab/community_v_m.dart';
@@ -28,20 +30,28 @@ class _CommunityPageState extends State<CommunityPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ProviderWidget<CommunityVM>(
-      model: CommunityVM(),
-      onModelReady: (model) {
+    return ProviderWidget2<CommunityVM, UserVM>(
+      model1: CommunityVM(),
+      model2: UserVM(),
+      onModelReady: (model, model1) {
         model.initData();
       },
-      builder: (context, model, child) {
+      builder: (context, model, model1, child) {
         if(model.isBusy){
           return ViewStateBusyWidget();
         }
-
         if(model.isError){
           return ViewStateErrorWidget(error: model.viewStateError, onPressed: model.initData);
         }
-
+        if (model.isEmpty) {
+          return ViewStateEmptyWidget(
+            message: '没有话题哦',
+            buttonTextData: '刷新',
+            onPressed: (){
+              model.initData();
+            },
+          );
+        }
         List<PostClass> list = model.list;
         return DefaultTabController(
           length: list.length,
@@ -90,21 +100,24 @@ class _CommunityPageState extends State<CommunityPage>
                     child: Container(
                       margin: EdgeInsets.only(left: 10, top: 5, bottom: 5),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 2),
+                        border: Border.all(color: Colors.white, width: 1),
                         borderRadius: BorderRadius.all(Radius.circular(100)),
                       ),
-//                      child: Container(
-//                        width: 60,
-//                        height: 60,
-//                        child: HttpImage(
-//                          url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
-//                          imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
-//                          errUrl: 'assets/nothing.png',
-//                          borderRadius: 100,
-//                          placeholderWidth: 10,
-//                          placeholderHeight: 10,
-//                        ),
-//                      ),
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 2),
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                          ),
+                          child: HttpImage(
+                            url: model1.user.userpic ?? 'assets/wb.png',
+                            errUrl: 'assets/wb.png',
+                            borderRadius: 100,
+                            placeholderWidth: 10,
+                            placeholderHeight: 10,
+                          ),
+                        ),
                     ),
                     onTap: () {
                       _scaffoldKey.currentState.openDrawer();

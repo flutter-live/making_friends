@@ -6,7 +6,6 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'config/application.dart';
-import 'config/global.dart';
 import 'routes/page_routes.dart';
 import 'viewModel/theme_v_m.dart';
 import 'viewModel/user_v_m.dart';
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
                   ///主题
                   theme: themeVM.themeData(),
                   ///全局key
-                  navigatorKey: navigatorKey,
+                  navigatorKey: Application.navigatorKey,
                   ///路由
                   onGenerateRoute: Application.router.generator,
                   localizationsDelegates: const [

@@ -11,7 +11,7 @@ class TocpicClassificationVM extends ViewStateRefresh<HotTopic> {
 
   List<Map<String, dynamic>> map = [];
 
-  String id;
+  int id;
 
   @override
   Future<List<HotTopic>> loadData({int pageFirst}) async{

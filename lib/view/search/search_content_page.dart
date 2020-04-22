@@ -9,6 +9,10 @@ import 'package:makingfriends/widgets/list_item.dart';
 /// @version：1.0
 
 class SearchContent extends StatelessWidget {
+  final String query;
+
+  const SearchContent({Key key, this.query}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

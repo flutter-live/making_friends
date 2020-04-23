@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/widgets/image_setting.dart';
 
 /// @description： 未登陆
@@ -50,16 +51,23 @@ class LandPage extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('账号/邮箱/手机登陆', style: TextStyle(color: Colors.black87),),
-              Padding(
-                padding: EdgeInsets.only(left: 5),
-                child: Icon(Icons.chevron_right),
-              ),
-            ],
-          ),
+          child:
+    GestureDetector(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text('账号/邮箱/手机登陆', style: TextStyle(color: Colors.black87),),
+        Padding(
+          padding: EdgeInsets.only(left: 5),
+          child: Icon(Icons.chevron_right),
+        ),
+      ],
+    ),
+      onTap: (){
+        Jump.push('view/login/login_page');
+      },
+    )
+
         )
       ],
     );

@@ -35,10 +35,12 @@ abstract class BaseHttp extends DioForNative {
 class HeaderInterceptor extends InterceptorsWrapper {
   @override
   Future onRequest(RequestOptions options) async{
-    String token = Provider.of<UserVM>(Application.context, listen: false).user.token;
+    String token = Provider.of<UserVM>(Application.context, listen: false).user?.token;
     options.connectTimeout = 3000;
     options.receiveTimeout = 3000;
-    options.headers['token'] = token;
+    if(token != null){
+      options.headers['token'] = token;
+    }
     return options;
   }
 }

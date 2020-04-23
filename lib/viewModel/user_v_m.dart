@@ -16,7 +16,7 @@ class UserVM extends ChangeNotifier {
 
   UserVM(){
     var userStr = Application.sharedPreferences.getString(keyLoginName);
-    user = userStr.isNotEmpty && userStr != null ? User.fromJson(jsonDecode(userStr)) : null;
+    user = userStr != null && userStr.isNotEmpty ? User.fromJson(jsonDecode(userStr)) : null;
   }
 
   void setUser(User u) async{

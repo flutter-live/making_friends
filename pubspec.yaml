@@ -72,6 +72,9 @@ dependencies:
   flutter_swiper: ^1.1.6
   #loading
   flutter_spinkit: ^4.1.2+1
+  photo_manager: ^0.5.1-dev.2
+  photo: 0.5.0-dev.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

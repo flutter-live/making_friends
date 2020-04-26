@@ -111,7 +111,7 @@ class _CommunityPageState extends State<CommunityPage>
                             borderRadius: BorderRadius.all(Radius.circular(100)),
                           ),
                           child: HttpImage(
-                            url: model1.user.userpic ?? 'assets/wb.png',
+                            url: model1.user?.userpic ?? 'assets/wb.png',
                             errUrl: 'assets/wb.png',
                             borderRadius: 100,
                             placeholderWidth: 10,

@@ -52,6 +52,7 @@ class HttpImage extends StatelessWidget {
           height: height,
           fit: fit,
           placeholder: (context, url) => Container(
+            height: double.infinity,
             child: ImageHelper.placeHolder(height: placeholderHeight, width: placeholderWidth),
           ),
           errorWidget: (context, url, error) =>

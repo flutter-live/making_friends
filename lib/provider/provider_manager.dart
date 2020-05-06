@@ -1,3 +1,4 @@
+import 'package:makingfriends/viewModel/global_state_model.dart';
 import 'package:makingfriends/viewModel/user_v_m.dart';
 import '../viewModel/theme_v_m.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,9 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<UserVM>(
     create: (context) => UserVM(),
+  ),
+  ChangeNotifierProvider<GlobalStateModel>(
+    create: (context) => GlobalStateModel(),
   )
 
 ];

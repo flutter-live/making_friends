@@ -11,7 +11,7 @@ abstract class ViewStateList<T> extends ViewStateProvider{
 
   initData() async{
     setBusy();
-    findData();
+    await findData();
   }
 
   Future<List<T>> findData() async{

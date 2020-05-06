@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:makingfriends/model/article_details.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/viewModel/global_state_model.dart';
 import 'package:makingfriends/viewModel/tab/community_v_m.dart';
 import 'package:makingfriends/widgets/article_skeleton.dart';
 import 'package:makingfriends/widgets/list_item.dart';
 import 'package:makingfriends/widgets/skeleton.dart';
 import 'package:makingfriends/widgets/view_state.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// @description： 社区首页

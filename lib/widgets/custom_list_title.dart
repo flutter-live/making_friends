@@ -145,7 +145,7 @@ class CoustomHeadLine extends StatelessWidget {
                       DefaultTextStyle(
                         style: TextStyle(
                             fontSize: titleSize,
-                            letterSpacing: 1,
+                            //letterSpacing: 1,
                             color: Colors.black),
                         child: title,
                       ),

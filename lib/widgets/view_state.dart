@@ -6,9 +6,7 @@ import 'package:makingfriends/provider/view_state.dart';
 class ViewStateBusyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
+    return Center(child: CircularProgressIndicator());
   }
 }
 
@@ -37,41 +35,39 @@ class ViewStateWidget extends StatelessWidget {
         Theme.of(context).textTheme.subhead.copyWith(color: Colors.grey);
     var messageStyle = titleStyle.copyWith(
         color: titleStyle.color.withOpacity(0.7), fontSize: 14);
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: titleStyle,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                title,
+                style: titleStyle,
+              ),
+              SizedBox(height: 20),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
+                child: SingleChildScrollView(
+                  child: Text(message ?? '', style: messageStyle),
                 ),
-                SizedBox(height: 20),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
-                  child: SingleChildScrollView(
-                    child: Text(message ?? '', style: messageStyle),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Center(
-            child: ViewStateButton(
-              child: buttonText,
-              textData: buttonTextData,
-              onPressed: onPressed,
-            ),
+        ),
+        Center(
+          child: ViewStateButton(
+            child: buttonText,
+            textData: buttonTextData,
+            onPressed: onPressed,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
     return OKToast(
       child: MultiProvider(
         providers: providers,
-        child: Consumer2<ThemeVM, UserVM>(
-            builder: (context, themeVM, userVM, child){
+        child: Consumer<ThemeVM>(
+            builder: (context, themeVM, child){
               return RefreshConfiguration(
                 hideFooterWhenNotFull: true,
                 child: MaterialApp(

@@ -22,10 +22,12 @@ class ArticleDetails {
   int status;
   int dingCount;
   int caiCount;
+  int commentCount;
   User user;
   List<Images> images;
   Share share;
-  List<String> support;
+  List<Support> support;
+  DataProcessing processing;
 
   ArticleDetails(
       {this.id,
@@ -46,7 +48,10 @@ class ArticleDetails {
       this.user,
       this.images,
       this.share,
-      this.support});
+      this.support,
+      this.commentCount,
+      this.processing,
+      });
 
   ArticleDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,8 +67,9 @@ class ArticleDetails {
     shareId = json['share_id'];
     isopen = json['isopen'];
     status = json['status'];
-    dingCount = json['dingCount'];
-    caiCount = json['caiCount'];
+    dingCount = json['ding_count'];
+    caiCount = json['cai_count'];
+    commentCount = json['comment_count'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     if (json['images'] != null) {
       images = new List<Images>();
@@ -72,7 +78,13 @@ class ArticleDetails {
       });
     }
     share = json['share'] != null ? new Share.fromJson(json['share']) : null;
-    support = json['support'].cast<String>();
+    if (json['support'] != null) {
+      support = new List<Support>();
+      json['support'].forEach((v) {
+        support.add(new Support.fromJson(v));
+      });
+    }
+    processing = json['data_processing'] != null ? new DataProcessing.fromJson(json['data_processing']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -90,8 +102,9 @@ class ArticleDetails {
     data['share_id'] = this.shareId;
     data['isopen'] = this.isopen;
     data['status'] = this.status;
-    data['dingCount'] = this.dingCount;
-    data['caiCount'] = this.caiCount;
+    data['ding_count'] = this.dingCount;
+    data['cai_count'] = this.caiCount;
+    data['comment_count'] = this.commentCount;
     if (this.user != null) {
       data['user'] = this.user.toJson();
     }
@@ -101,7 +114,12 @@ class ArticleDetails {
     if (this.share != null) {
       data['share'] = this.share.toJson();
     }
-    data['support'] = this.support;
+    if (this.support != null) {
+      data['support'] = this.support.map((v) => v.toJson()).toList();
+    }
+    if (this.processing != null) {
+      data['data_processing'] = this.processing.toJson();
+    }
     return data;
   }
 }
@@ -148,6 +166,81 @@ class Pivot {
     data['post_id'] = this.postId;
     data['image_id'] = this.imageId;
     data['create_time'] = this.createTime;
+    return data;
+  }
+}
+
+
+class Support {
+  int id;
+  int userId;
+  int postId;
+  int type;
+  int createTime;
+  int supportCount;
+  int unsupportCount;
+
+  Support({this.id, this.userId, this.postId, this.type, this.createTime});
+
+  Support.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    postId = json['post_id'];
+    type = json['type'];
+    createTime = json['create_time'];
+    supportCount = json['support_count'];
+    unsupportCount = json['unsupport_count'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['post_id'] = this.postId;
+    data['type'] = this.type;
+    data['create_time'] = this.createTime;
+    data['support_count'] = this.supportCount;
+    data['unsupport_count'] = this.unsupportCount;
+    return data;
+  }
+}
+
+class DataProcessing {
+  int id;
+  int userId;
+  int postId;
+  int type;
+  int createTime;
+  int supportCount;
+  int unsupportCount;
+  int commentCount;
+  bool isFollow;
+
+  DataProcessing({this.id, this.userId, this.postId, this.type, this.createTime, this.commentCount});
+
+  DataProcessing.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    postId = json['post_id'];
+    type = json['type'];
+    createTime = json['create_time'];
+    supportCount = json['support_count'];
+    unsupportCount = json['unsupport_count'];
+    commentCount = json['comment_count'];
+    isFollow = json['is_follow'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['post_id'] = this.postId;
+    data['type'] = this.type;
+    data['create_time'] = this.createTime;
+    data['support_count'] = this.supportCount;
+    data['unsupport_count'] = this.unsupportCount;
+    data['comment_count'] = this.commentCount;
+    data['is_follow'] = this.isFollow;
     return data;
   }
 }

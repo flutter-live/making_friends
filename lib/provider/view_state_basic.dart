@@ -27,8 +27,8 @@ abstract class ViewStateBasic<T> extends ViewStateProvider {
     }catch(e, s){
       setError(e, s);
       return null;
-    }
-  }
+}
+}
 
   ///上传数据
   Future<T> saveData({Map map}) async{
@@ -52,6 +52,6 @@ abstract class ViewStateBasic<T> extends ViewStateProvider {
 
   Future<T> save({Map data});
 
-  Future<void> onCompleted(T data, ViewFunction type);
+  Future<void> onCompleted(T data, ViewFunction type){}
 
 }

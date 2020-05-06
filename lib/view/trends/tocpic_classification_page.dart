@@ -13,6 +13,10 @@ import '../../config/string.dart';
 /// @version: 1.0
 
 class TocpicClassificationPage extends StatefulWidget {
+  final int type;
+
+  const TocpicClassificationPage({Key key, this.type = 1}) : super(key: key); //"0" 选择话题
+
   @override
   _TocpicClassificationPageState createState() =>
       _TocpicClassificationPageState();
@@ -58,7 +62,7 @@ class _TocpicClassificationPageState extends State<TocpicClassificationPage>
             ),
             body: TabBarView(
               children: listPostClass
-                  .map((item) => TocpicClassificationItemPage(id: item.id))
+                  .map((item) => TocpicClassificationItemPage(id: item.id, type: widget.type,))
                   .toList(),
             ),
           ),

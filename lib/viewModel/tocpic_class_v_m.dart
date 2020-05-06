@@ -1,3 +1,4 @@
+import 'package:makingfriends/model/making_friends_code.dart';
 import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/provider/view_state_list.dart';
 import 'package:makingfriends/service/makng_friends_api.dart';
@@ -8,6 +9,15 @@ import 'package:makingfriends/service/makng_friends_api.dart';
 /// @version：1.0
 
 class TocpicClassVM extends ViewStateList<PostClass> {
+  ///话题分类
+  MakingFriendsCode _makingFriendsCode;
+
+  MakingFriendsCode get makingFriendsCode => _makingFriendsCode;
+
+  set makingFriendsCode(MakingFriendsCode model){
+    _makingFriendsCode = model;
+    notifyListeners();
+  }
 
   @override
   Future<List<PostClass>> loadData() async{

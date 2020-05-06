@@ -16,8 +16,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TocpicClassificationItemPage extends StatefulWidget {
   final int id;
+  final int type;
 
-  const TocpicClassificationItemPage({Key key, this.id}) : super(key: key);
+  const TocpicClassificationItemPage({Key key, this.id, this.type = 1}) : super(key: key);
 
   @override
   _TocpicClassificationItemPageState createState() =>
@@ -78,6 +79,10 @@ class _TocpicClassificationItemPageState
                     devDayNumber: list[index].todaypostCount,
                     devNumber: list[index].postCount,
                     onTap: () {
+                      if(widget.type == 0){
+                        Navigator.pop(context, list[index]);
+                        return;
+                      }
                       Jump.push('view/trends/tocpic_details_page');
                     },
                   ),

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:makingfriends/model/article_details.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:makingfriends/provider/provider_widget.dart';
+import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/utils/date_utils.dart';
+import 'package:makingfriends/utils/fluro_convert_utils.dart';
+import 'package:makingfriends/viewModel/global_state_model.dart';
+import 'package:makingfriends/viewModel/tab/community_v_m.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'custom_image.dart';
 import 'image_setting.dart';
@@ -20,6 +26,23 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Consumer<GlobalStateModel>(
+      builder: (context, model, child) {
+        article.processing = model[article?.id] ?? article.processing;
+        return ListItemMenu(article: article);
+      },
+    );
+  }
+}
+
+///主要内容
+class ListItemMenu extends StatelessWidget {
+  final ArticleDetails article;
+
+  const ListItemMenu({Key key, this.article}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       elevation: 0,
       shape: const RoundedRectangleBorder(
@@ -31,68 +54,64 @@ class ListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 HeadLine(
-                  isIcon: false,
-                  leadingWidget: Container(
-                    width: 40,
-                    height: 40,
-                    child: HttpImage(
-                      url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
-                      errUrl: 'assets/nothing.png',
-                      borderRadius: 100,
-                      placeholderWidth: 10,
-                      placeholderHeight: 10,
-                    ),
-                  ),
-                  title: Text(article.user.username),
-                  titleWidget: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    padding: EdgeInsets.only(left: 5, right: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.pinkAccent,
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        FaIcon(
-                          FontAwesomeIcons.mars,
-                          size: 12,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 5,),
-                        Text(
-                          article.user.userinfo.sex == 0 ? '男' : '女',
-                          style:
-                              TextStyle(fontSize: 12, color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ),
-                  subtitle: DateUtils.instance.getFormartData(timeSamp: article.createTime, format: 'yyyy-MM-dd hh:mm:ss'),
-                  trailingWidget: Material(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    color: Theme.of(context).primaryColor,
-                    child: InkWell(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        child: Text(
-                          '关注',
-                          style: TextStyle(
-                              letterSpacing: 5, color: Colors.white),
-                        ),
+                    isIcon: false,
+                    leadingWidget: Container(
+                      width: 40,
+                      height: 40,
+                      child: HttpImage(
+                        url: article.user.userpic == null ||
+                                article.user.userpic.isEmpty
+                            ? 'nothing.png'
+                            : article.user.userpic,
+                        errUrl: 'assets/nothing.png',
+                        borderRadius: 100,
+                        placeholderWidth: 10,
+                        placeholderHeight: 10,
                       ),
-                      onTap: () {},
                     ),
-                  ),
-                ),
+                    title: Text(article.user.username),
+                    titleWidget: Container(
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 5, right: 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.pinkAccent,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          FaIcon(
+                            FontAwesomeIcons.mars,
+                            size: 12,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            article.user.userinfo.sex == 0 ? '男' : '女',
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                    subtitle: DateUtils.instance.getFormartData(
+                        timeSamp: article.createTime,
+                        format: 'yyyy-MM-dd hh:mm:ss'),
+                    trailingWidget: Follow(
+                      article: article,
+                    )),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text(article.title, style: TextStyle(fontSize: 18),),
+                  child: Text(
+                    article.title,
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
                 article.titlepic.isEmpty
                     ? Container()
                     : Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: CommonImage(
                           height: 150,
                           image: article.titlepic,
@@ -100,75 +119,190 @@ class ListItem extends StatelessWidget {
                       ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Operation(),
+                  child: Operation(
+                    article: article,
+                  ),
                 ),
               ],
             ),
           ),
-          onTap: onTap,
+          onTap: () {
+            String item = FluroConvertUtils.object2string(article);
+            Jump.push('view/community/community_details_page?article=$item');
+          },
         ),
       ),
     );
   }
 }
 
-class Operation extends StatelessWidget {
+///关注操作
+class Follow extends StatelessWidget {
+  final ArticleDetails article;
+
+  const Follow({Key key, this.article}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        FlatButton(
-          onPressed: () {},
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.thumb_up),
-              SizedBox(
-                width: 5,
+    return ProviderWidget<FollowVM>(
+      model: FollowVM(),
+      builder: (context, model, child) {
+        bool isFollow = article.processing.isFollow;
+        return isFollow
+            ? Container()
+            : Material(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: Theme.of(context).primaryColor,
+                child: InkWell(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text(
+                      '关注',
+                      style: TextStyle(letterSpacing: 5, color: Colors.white),
+                    ),
+                  ),
+                  onTap: () => model.loadData(article),
+                ),
+              );
+      },
+    );
+  }
+}
+
+///操作栏
+class Operation extends StatelessWidget {
+  final ArticleDetails article;
+
+  const Operation({Key key, this.article}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ProviderWidget<TopStepVM>(
+      model: TopStepVM(),
+      builder: (context, model, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            TopListItem(
+              article: article,
+            ),
+            StopListItem(
+              article: article,
+            ),
+            FlatButton(
+              onPressed: () {},
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.message),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(article.processing.commentCount.toString()),
+                ],
               ),
-              Text('顶'),
-            ],
-          ),
-        ),
-        FlatButton(
-          onPressed: () {},
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.thumb_down),
-              SizedBox(
-                width: 5,
+            ),
+            FlatButton(
+              onPressed: () =>
+                  Share.share('${article.title} /n ${article.titlepic}'),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.launch),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text('分享'),
+                ],
               ),
-              Text('踩'),
-            ],
-          ),
-        ),
-        FlatButton(
-          onPressed: () {},
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.message),
-              SizedBox(
-                width: 5,
-              ),
-              Text('1'),
-            ],
-          ),
-        ),
-        FlatButton(
-          onPressed: () {
-            Share.share('check out my website https://example.com');
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+///顶
+class TopListItem extends StatelessWidget {
+  final ArticleDetails article;
+
+  const TopListItem({Key key, this.article}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    DataProcessing processing = article.processing;
+    return Consumer<TopStepVM>(
+      builder: (context, model, child) {
+        String supportStr = processing.supportCount > 0
+            ? processing.supportCount.toString()
+            : '顶';
+        return FlatButton(
+          onPressed: () async {
+            model.loadData(article, 0);
           },
           child: Row(
             children: <Widget>[
-              Icon(Icons.launch),
+              Icon(
+                Icons.thumb_up,
+                color: processing.type == 0
+                    ? Theme.of(context).primaryColor
+                    : null,
+              ),
               SizedBox(
                 width: 5,
               ),
-              Text('分享'),
+              Text(
+                supportStr,
+                style: TextStyle(
+                    color: processing.type == 0
+                        ? Theme.of(context).primaryColor
+                        : null),
+              ),
             ],
           ),
-        ),
-      ],
+        );
+      },
+    );
+  }
+}
+
+///踩
+class StopListItem extends StatelessWidget {
+  final ArticleDetails article;
+
+  const StopListItem({Key key, this.article}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    DataProcessing processing = article.processing;
+    return Consumer<TopStepVM>(
+      builder: (context, model, child) {
+        String unsupportStr = processing.unsupportCount > 0
+            ? processing.unsupportCount.toString()
+            : '踩';
+        return FlatButton(
+          onPressed: () => model.loadData(article, 1),
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.thumb_down,
+                color: processing.type == 1
+                    ? Theme.of(context).primaryColor
+                    : null,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                unsupportStr,
+                style: TextStyle(
+                    color: processing.type == 1
+                        ? Theme.of(context).primaryColor
+                        : null),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

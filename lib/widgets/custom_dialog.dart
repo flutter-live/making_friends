@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
+import 'package:makingfriends/config/application.dart';
 
 /// @description： 自定义对话框
 /// @author：liuzhidong
@@ -9,8 +10,8 @@ import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 class CustomDialog {
   ///对话框
   static dialogDivider(
-    String title,
-    Function onConfirom, {
+    String title, {
+    Function onConfirom,
     double width = 220,
     double borderRadius = 4,
     Alignment titleAlignment = Alignment.center,
@@ -28,6 +29,7 @@ class CustomDialog {
       ..width = width
       ..borderRadius = borderRadius
       ..barrierDismissible = false
+      ..context = Application.context
       ..text(
         padding: EdgeInsets.all(25.0),
         alignment: titleAlignment,
@@ -58,7 +60,7 @@ class CustomDialog {
   ///弹出框默认底部
   static dialogBottomSheet(
       {BuildContext context,
-        double width: double.infinity,
+      double width: double.infinity,
       double borderRadius: 0,
       Gravity gravity: Gravity.bottom}) {
     return YYDialog().build(context)

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
-
 import 'custom_image.dart';
 
 /// @description: 话题列表部件

@@ -69,9 +69,15 @@ class TabPage extends StatelessWidget {
             width: 65,
             height: 65,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-            ),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                boxShadow: <BoxShadow>[
+                  //设置阴影
+                  new BoxShadow(
+                    color: Colors.grey[300],
+                    blurRadius: 10,
+                  ),
+                ]),
             child: FloatingActionButton(
               highlightElevation: 0,
               elevation: 0,

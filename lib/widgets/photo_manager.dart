@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:makingfriends/config/application.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -81,6 +82,19 @@ class CustomPhotoManager with LoadingDelegate {
         r.add(file.absolute.path);
       }
       return r;
+    }
+  }
+
+  ///拍照获取
+  // ignore: missing_return
+  static Future<String> photoPath({
+    ImageSource source = ImageSource.camera,
+  }) async {
+    var image = await ImagePicker.pickImage(source: source);
+    if(image != null){
+      return image.absolute.path;
+    }else{
+      return null;
     }
   }
 }

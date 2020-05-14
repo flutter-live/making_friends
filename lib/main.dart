@@ -8,7 +8,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'config/application.dart';
 import 'routes/page_routes.dart';
 import 'viewModel/theme_v_m.dart';
-import 'viewModel/user_v_m.dart';
 
 void main() async{
   Router router = Router();

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide showSearch;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:makingfriends/flutter/search.dart';
 import 'package:makingfriends/view/information/find_friends_state_page.dart';
 import 'package:makingfriends/view/search/search_page.dart';
 
@@ -17,7 +18,7 @@ class FindFriendsPage extends StatelessWidget {
         appBar: AppBar(
           title: GestureDetector(
             onTap: () {
-              showSearch(context: context, delegate: DefaultSearchDelegate());
+              showSearch(context: context, delegate: DefaultSearchDelegate(hintText: '查找好友'));
             },
             child: Container(
               decoration: BoxDecoration(

@@ -40,19 +40,20 @@ class _CommunityListPageState extends State<CommunityListPage>
         model.initData();
       },
       builder: (context, model, child) {
-        if(model.isBusy){
+        if (model.isBusy) {
           return Skeleton(
             betweeChild: (BuildContext context, int index) => ArticleSkeleton(),
           );
         }
-        if(model.isError){
-          return ViewStateErrorWidget(error: model.viewStateError, onPressed: model.initData);
+        if (model.isError) {
+          return ViewStateErrorWidget(
+              error: model.viewStateError, onPressed: model.initData);
         }
         if (model.isEmpty) {
           return ViewStateEmptyWidget(
             message: '没有话题哦',
             buttonTextData: '刷新',
-            onPressed: (){
+            onPressed: () {
               model.initData();
             },
           );
@@ -70,12 +71,7 @@ class _CommunityListPageState extends State<CommunityListPage>
             child: ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
-                return ListItem(
-                  article: list[index],
-                  onTap: (){
-                    Jump.push('view/community/community_details_page');
-                  },
-                );
+                return ListItem(article: list[index]);
               },
             ),
           ),

@@ -6,7 +6,10 @@ import 'package:makingfriends/provider/view_state.dart';
 class ViewStateBusyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator());
+    return Material(
+      color: Colors.white,
+      child: Center(child: CircularProgressIndicator()),
+    );
   }
 }
 
@@ -35,39 +38,42 @@ class ViewStateWidget extends StatelessWidget {
         Theme.of(context).textTheme.subhead.copyWith(color: Colors.grey);
     var messageStyle = titleStyle.copyWith(
         color: titleStyle.color.withOpacity(0.7), fontSize: 14);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                style: titleStyle,
-              ),
-              SizedBox(height: 20),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
-                child: SingleChildScrollView(
-                  child: Text(message ?? '', style: messageStyle),
+    return Material(
+      color: Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: titleStyle,
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: 200, minHeight: 150),
+                  child: SingleChildScrollView(
+                    child: Text(message ?? '', style: messageStyle),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Center(
-          child: ViewStateButton(
-            child: buttonText,
-            textData: buttonTextData,
-            onPressed: onPressed,
+          Center(
+            child: ViewStateButton(
+              child: buttonText,
+              textData: buttonTextData,
+              onPressed: onPressed,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -103,8 +109,7 @@ class ViewStateErrorWidget extends StatelessWidget {
       case ViewStateErrorType.networkTimeOutError:
         defaultImage = Transform.translate(
           offset: Offset(-50, 0),
-          child: const Icon(Icons.error,
-              size: 100, color: Colors.grey),
+          child: const Icon(Icons.error, size: 100, color: Colors.grey),
         );
         defaultTitle = '网络错误';
         // errorMessage = ''; // 网络异常移除message提示
@@ -133,7 +138,6 @@ class ViewStateErrorWidget extends StatelessWidget {
     );
   }
 }
-
 
 /// 页面无数据
 class ViewStateEmptyWidget extends StatelessWidget {
@@ -164,7 +168,6 @@ class ViewStateEmptyWidget extends StatelessWidget {
   }
 }
 
-
 /// 页面未授权
 class ViewStateUnAuthWidget extends StatelessWidget {
   final String message;
@@ -174,10 +177,10 @@ class ViewStateUnAuthWidget extends StatelessWidget {
 
   const ViewStateUnAuthWidget(
       {Key key,
-        this.image,
-        this.message,
-        this.buttonText,
-        @required this.onPressed})
+      this.image,
+      this.message,
+      this.buttonText,
+      @required this.onPressed})
       : super(key: key);
 
   @override
@@ -197,8 +200,7 @@ class ViewStateUnAuthWidget extends StatelessWidget {
 class ViewStateImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: 'error',
+    return Container(
       child: Image.asset(
         'assets/nothing.png',
         width: 150,

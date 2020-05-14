@@ -20,8 +20,13 @@ class DrawerPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          CommonImage(
-            image: 'assets/3.jpg',
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 5),
+            child: CommonImage(
+              image: 'assets/2.jpg',
+              isType: false,
+              width: double.infinity,
+            ),
           ),
           SizedBox(
             height: 10,
@@ -59,8 +64,10 @@ class _HeadState extends State<Head> {
           CommonImage(
             image: 'assets/1.jpg',
             height: h,
+            width: double.infinity,
             borderRadius: 0,
             isFilter: true,
+            isType: false,
           ),
           Column(
             children: <Widget>[
@@ -99,8 +106,7 @@ class _HqgdState extends State<Hqgd> with AfterLayoutMixin<Hqgd> {
   @override
   void afterFirstLayout(BuildContext context) {
     RenderBox box = context.findRenderObject();
-    double height =
-        box.getMaxIntrinsicHeight(MediaQuery.of(context).size.height);
+    double height = box.getMaxIntrinsicHeight(MediaQuery.of(context).size.height);
     widget.comtupeHeight(height + widget.height + 10);
   }
 }

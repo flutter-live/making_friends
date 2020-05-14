@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide showSearch;
+import 'package:makingfriends/flutter/search.dart';
 import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/view/community/category_page.dart';
 import 'package:makingfriends/view/search/search_page.dart';
@@ -63,7 +64,7 @@ class _CommunityPageState extends State<CommunityPage>
                   title: GestureDetector(
                     onTap: () {
                       showSearch(
-                          context: context, delegate: DefaultSearchDelegate());
+                          context: context, delegate: DefaultSearchDelegate(hintText: '搜索帖子', type: 'post'));
                     },
                     child: Container(
                       decoration: BoxDecoration(

@@ -8,6 +8,7 @@ import 'package:makingfriends/widgets/custom_division_line.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'package:makingfriends/widgets/list_item.dart';
 import 'package:makingfriends/widgets/view_state.dart';
+import 'package:provider/provider.dart';
 
 /// @description: 社区内容详情页
 /// @author: liuzhidong
@@ -28,14 +29,13 @@ class CommunityDetailsPage extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
       ),
-      body: ProviderWidget2<CommentVM, GlobalStateModel>(
-          model1: CommentVM(),
-          model2: GlobalStateModel(),
-          onModelReady: (model, model2) {
+      body: ProviderWidget<CommentVM>(
+          model: CommentVM(),
+          onModelReady: (model) {
             model.id = article.id;
             model.initData();
           },
-          builder: (context, model, model2, child) {
+          builder: (context, model, child) {
             return Column(
               children: <Widget>[
                 Expanded(
@@ -62,7 +62,7 @@ class CommunityDetailsPage extends StatelessWidget {
                     decoration: BoxDecoration(
                         border: Border(
                             top:
-                                BorderSide(width: 0.5, color: Colors.black87))),
+                            BorderSide(width: 0.5, color: Colors.black87))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -87,10 +87,12 @@ class CommunityDetailsPage extends StatelessWidget {
                     if(model.isDef){
                       model.findData();
                       ++article.processing.commentCount;
-                      model2.addFavourite(article.id, article.processing);
+                      GlobalStateModel globalStateModel = Provider.of<GlobalStateModel>(context, listen: false);
+                      globalStateModel.addFavourite(article.id, article.processing);
                     }
                   },
-                )
+                ),
+
               ],
             );
           }),

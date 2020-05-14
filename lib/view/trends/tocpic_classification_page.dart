@@ -14,8 +14,9 @@ import '../../config/string.dart';
 
 class TocpicClassificationPage extends StatefulWidget {
   final int type;
+  final int page;
 
-  const TocpicClassificationPage({Key key, this.type = 1}) : super(key: key); //"0" 选择话题
+  const TocpicClassificationPage({Key key, this.type = 1, this.page = 0}) : super(key: key); //"0" 选择话题
 
   @override
   _TocpicClassificationPageState createState() =>
@@ -50,6 +51,7 @@ class _TocpicClassificationPageState extends State<TocpicClassificationPage>
         }
         List<PostClass> listPostClass = model.list;
         return DefaultTabController(
+          initialIndex: widget.page,
           length: listPostClass.length,
           child: Scaffold(
             appBar: AppBar(

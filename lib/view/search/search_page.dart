@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchDelegate;
+import 'package:makingfriends/flutter/search.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/view/search/historical_record_page.dart';
 import 'package:makingfriends/view/search/search_content_page.dart';
 import 'package:makingfriends/viewModel/historical_record_v_m.dart';
+import 'package:makingfriends/viewModel/search/search_history_v_m.dart';
+import 'package:provider/provider.dart';
 
 /// @description: 搜索页面
 /// @author: liuzhidong
@@ -16,25 +19,27 @@ class DefaultSearchDelegate extends SearchDelegate<String> {
   //"topic" 搜索话题
   final String type;
 
-  DefaultSearchDelegate({this.hintText, this.type}) : super(
-    searchFieldLabel: hintText,
-  );
+  DefaultSearchDelegate({this.hintText, this.type})
+      : super(
+          searchFieldLabel: hintText,
+        );
+
+  SearchHistoryVM _searchHistory = SearchHistoryVM();
 
   //清空按钮
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          if (query.isEmpty) {
-            close(context, null);
-          } else {
-            query = '';
-            showSuggestions(context);
-          }
-        }
-      )
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            if (query.isEmpty) {
+              close(context, null);
+            } else {
+              query = '';
+              showSuggestions(context);
+            }
+          })
     ];
   }
 
@@ -48,7 +53,17 @@ class DefaultSearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     if (query.length > 0) {
-      return SearchContent(query: query,);
+      switch (type) {
+        case 'post':
+          return SearchContent(
+            query: query,
+            searchHistoryVM: _searchHistory,
+          );
+        case 'user':
+          return null;
+        case 'topic':
+          return null;
+      }
     }
     return SizedBox.shrink();
   }
@@ -56,15 +71,17 @@ class DefaultSearchDelegate extends SearchDelegate<String> {
   //设置默认内容
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ProviderWidget<HistoricalRecordVM>(
-        model: HistoricalRecordVM(),
-        builder: (context, model, child){
-          return HistoricalRecordPage();
-        }
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<SearchHistoryVM>.value(value: _searchHistory..keyHistory = type)
+      ],
+      child: HistoricalRecordPage(delegate: this),
     );
-
-
   }
 
-
+  @override
+  void close(BuildContext context, result) {
+    _searchHistory.dispose();
+    super.close(context, result);
+  }
 }

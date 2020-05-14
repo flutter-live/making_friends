@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/viewModel/tocpic_classification_v_m.dart';
 import 'package:makingfriends/widgets/article_skeleton.dart';
 import 'package:makingfriends/widgets/skeleton.dart';
@@ -83,7 +84,8 @@ class _TocpicClassificationItemPageState
                         Navigator.pop(context, list[index]);
                         return;
                       }
-                      Jump.push('view/trends/tocpic_details_page');
+                      String item = FluroConvertUtils.object2string(list[index]);
+                      Jump.push('view/trends/tocpic_details_page?hotTopic=$item');
                     },
                   ),
                 );

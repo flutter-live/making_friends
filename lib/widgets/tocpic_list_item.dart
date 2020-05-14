@@ -84,14 +84,14 @@ class TocpicListTile extends StatelessWidget {
           Container(
             child: Text(
               '#$title#',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 16),
             ),
           ),
           Container(
             child: Text(
               title,
               style: TextStyle(
-                  color: Colors.grey, fontSize: 16),
+                  color: Colors.grey, fontSize: 14),
             ),
           ),
           Container(
@@ -101,7 +101,7 @@ class TocpicListTile extends StatelessWidget {
                   child: Text(
                     '动态 $devNumber',
                     style: TextStyle(
-                        color: Colors.grey, fontSize: 16),
+                        color: Colors.grey, fontSize: 14),
                   ),
                 ),
                 Container(
@@ -109,7 +109,7 @@ class TocpicListTile extends StatelessWidget {
                   child: Text(
                     '今日 $devDayNumber',
                     style: TextStyle(
-                        color: Colors.grey, fontSize: 16),
+                        color: Colors.grey, fontSize: 14),
                   ),
                 )
               ],

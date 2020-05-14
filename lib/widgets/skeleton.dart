@@ -38,7 +38,7 @@ class Skeleton extends StatelessWidget {
     return SingleChildScrollView(
       physics: NeverScrollableScrollPhysics(),
       child: Shimmer.fromColors(
-        period: Duration(milliseconds: 1200),
+        period: Duration(milliseconds: 600),
         baseColor: isDark ? Colors.grey[700] : Colors.grey[350],
         highlightColor: isDark ? Colors.grey[500] : Colors.grey[200],
         child: Padding(

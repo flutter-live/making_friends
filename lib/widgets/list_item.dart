@@ -28,9 +28,12 @@ class ListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GlobalStateModel>(
       builder: (context, model, child) {
-        article.processing = model[article?.id] ?? article.processing;
-        return ListItemMenu(article: article);
+        if (model[article?.id] == null) {
+          return child;
+        }
+        return ListItemMenu(article: article..processing = model[article?.id]);
       },
+      child: ListItemMenu(article: article),
     );
   }
 }

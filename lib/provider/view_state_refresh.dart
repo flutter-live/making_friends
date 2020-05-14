@@ -26,18 +26,18 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
 
   initData() async {
     setBusy();
-    await refresh();
+    await refresh(init: true);
   }
 
   ///下拉刷新
-  Future<List<T>> refresh() async {
+  Future<List<T>> refresh({bool init = false}) async {
     try {
       _currentPage = pageFirst;
       List<T> data = await loadData(pageFirst: pageFirst);
       if (data.isEmpty || data.length == 0) {
-        refreshController.refreshCompleted(resetFooterState: true);
-        setEmpty();
+        refreshController.refreshCompleted();
         list.clear();
+        setEmpty();
       } else {
         onCompleted(data);
         list.clear();
@@ -54,9 +54,9 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
       }
       return data;
     } catch (e, s) {
-      list.clear();
+      if (init) list.clear();
+      refreshController.refreshFailed();
       setError(e, s);
-      refreshController.loadFailed();
       return null;
     }
   }
@@ -94,7 +94,7 @@ abstract class ViewStateRefresh<T> extends ViewStateProvider {
 
   @override
   void dispose() {
-    refreshController.dispose();
+    _refreshController.dispose();
     super.dispose();
   }
 

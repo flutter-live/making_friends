@@ -16,16 +16,17 @@ class UserVM extends ChangeNotifier {
 
   bool get hasUser => user != null;
 
-  UserVM(){
+  UserVM() {
     var userStr = Application.sharedPreferences.getString(keyLoginName);
-    user = userStr != null && userStr.isNotEmpty ? User.fromJson(jsonDecode(userStr)) : null;
+    user = userStr != null && userStr.isNotEmpty
+        ? User.fromJson(jsonDecode(userStr))
+        : null;
   }
 
-  void setUser(User u) async{
+  void setUser(User u) async {
     user = u;
     notifyListeners();
-    Application.sharedPreferences.setString(keyLoginName, json.encode(user.toJson()));
+    Application.sharedPreferences
+        .setString(keyLoginName, json.encode(user.toJson()));
   }
-
-
 }

@@ -4,6 +4,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/viewModel/tocpic_class_v_m.dart';
 import 'package:makingfriends/viewModel/tocpic_v_m.dart';
 import 'package:makingfriends/widgets/article_skeleton.dart';
@@ -42,7 +43,7 @@ class _TocpicPageState extends State<TocpicPage>
         model.initData();
       },
       builder: (context, model, model2, child) {
-        if(model2.isBusy){
+        if (model2.isBusy) {
           return ViewStateBusyWidget();
         }
         if (model.isBusy) {
@@ -143,6 +144,10 @@ class LateTocpic extends StatelessWidget {
                 devDayNumber: item.todaypostCount,
                 devNumber: item.postCount,
                 image: item.titlepic,
+                onTap: (){
+                  String hotTopic = FluroConvertUtils.object2string(item);
+                  Jump.push('view/trends/tocpic_details_page?hotTopic=$hotTopic');
+                },
               ),
             );
           }).toList(),
@@ -164,20 +169,19 @@ class TocpicRecommendation extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: ButtonBar(
             buttonPadding: EdgeInsets.all(0),
-            children: list
-                .map(
-                  (item) => Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: RaisedButton(
-                        child: Text(
-                          item.classname,
-                          style:
-                              TextStyle(color: Colors.white, letterSpacing: 5),
-                        ),
-                        onPressed: () {}),
-                  ),
-                )
-                .toList(),
+            children: List.generate(
+              list.length,
+              (index) => Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: RaisedButton(
+                    child: Text(
+                      list[index].classname,
+                      style: TextStyle(color: Colors.white, letterSpacing: 5),
+                    ),
+                    onPressed: () => Jump.push(
+                        'view/trends/tocpic_classification_page?page=$index')),
+              ),
+            ),
           ),
         );
       },

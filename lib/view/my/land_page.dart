@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:makingfriends/routes/jump.dart';
-import 'package:makingfriends/widgets/image_setting.dart';
 
 /// @description： 未登陆
 /// @author：liuzhidong

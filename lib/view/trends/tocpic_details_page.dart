@@ -1,6 +1,7 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/view/trends/tocpic_details_item_page.dart';
 import 'package:makingfriends/viewModel/tocpic_details_v_m.dart';
@@ -14,9 +15,9 @@ import 'package:after_layout/after_layout.dart';
 /// @version: 1.0
 
 class TocpicDetailsPage extends StatefulWidget {
-  final int type;
+  final HotTopic hotTopic;
 
-  const TocpicDetailsPage({Key key, this.type: 0}) : super(key: key);
+  const TocpicDetailsPage({Key key, this.hotTopic}) : super(key: key);
 
   @override
   _TocpicDetailsPageState createState() => _TocpicDetailsPageState();
@@ -108,88 +109,98 @@ class _TocpicDetailsPageState extends State<TocpicDetailsPage>
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     var pinnedHeaderHeight = statusBarHeight + kToolbarHeight;
-    return Scaffold(
-      body: Listener(
-        onPointerMove: (result) {
-          updatePicHeight(result.position.dy);
-        },
-        onPointerUp: (_) {
-          runAnimate();
-          animationController.forward(from: 0);
-        },
-        child: NestedScrollView(
-          physics: ClampingScrollPhysics(),
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                pinned: true,
-                title: Text(title),
-                actions: <Widget>[
-                  IconButton(icon: Icon(Icons.more_horiz), onPressed: () {}),
-                ],
-                expandedHeight:
-                    (expanedHeight + extraPicHeight) - statusBarHeight,
-                flexibleSpace: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    constraints.biggest.height < 140.0
-                        ? title = '话题详情'
-                        : title = '';
-                    return FlexibleSpaceBar(
-                      background: TocpicDetailsHeadContent(
-                        type: widget.type,
-                        extraPicHeight: extraPicHeight,
-                        comtupeHeight: comtupeHeight,
+    return ProviderWidget<TocpicDetailsVM>(
+        model: TocpicDetailsVM(),
+        builder: (context, model, child) {
+          return Scaffold(
+            body: Listener(
+              onPointerMove: (result) {
+                updatePicHeight(result.position.dy);
+              },
+              onPointerUp: (_) {
+                runAnimate();
+                animationController.forward(from: 0);
+              },
+              child: NestedScrollView(
+                physics: ClampingScrollPhysics(),
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverAppBar(
+                      pinned: true,
+                      title: Text(title),
+                      actions: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.more_horiz), onPressed: () {}),
+                      ],
+                      expandedHeight:
+                          (expanedHeight + extraPicHeight) - statusBarHeight,
+                      flexibleSpace: LayoutBuilder(
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          constraints.biggest.height < 140.0
+                              ? title = widget.hotTopic.title
+                              : title = '';
+                          return FlexibleSpaceBar(
+                            background: TocpicDetailsHeadContent(
+                              extraPicHeight: extraPicHeight,
+                              comtupeHeight: comtupeHeight,
+                              hotTopic: widget.hotTopic,
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
-            ];
-          },
-          pinnedHeaderSliverHeightBuilder: () {
-            return pinnedHeaderHeight;
-          },
-          innerScrollPositionKeyBuilder: () {
-            var index = "Tab";
-            index += primaryTC.index.toString();
-            return Key(index);
-          },
-          body: Column(
-            children: <Widget>[
-              TabBar(
-                controller: primaryTC,
-                labelColor: Theme.of(context).accentColor,
-                indicatorColor: Theme.of(context).accentColor,
-                unselectedLabelColor: Colors.black54,
-                tabs: [
-                  Tab(child: Text('默认')),
-                  Tab(child: Text('最新')),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: primaryTC,
+                    ),
+                  ];
+                },
+                pinnedHeaderSliverHeightBuilder: () {
+                  return pinnedHeaderHeight;
+                },
+                innerScrollPositionKeyBuilder: () {
+                  var index = "Tab";
+                  index += primaryTC.index.toString();
+                  return Key(index);
+                },
+                body: Column(
                   children: <Widget>[
-                    TocpicDetailsItemPage(control: control, reality: 'Tab0'),
-                    TocpicDetailsItemPage(control: control, reality: 'Tab1'),
+                    TabBar(
+                      controller: primaryTC,
+                      labelColor: Theme.of(context).accentColor,
+                      indicatorColor: Theme.of(context).accentColor,
+                      unselectedLabelColor: Colors.black54,
+                      tabs:
+                          model.map.map((v) => Tab(text: v['title'])).toList(),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: primaryTC,
+                        children: List.generate(
+                          model.map.length,
+                          (index) => TocpicDetailsItemPage(
+                            control: control,
+                            reality: 'Tab$index',
+                            id: widget.hotTopic.id,
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          );
+        });
   }
 }
 
 class TocpicDetailsHeadContent extends StatefulWidget {
   final Function comtupeHeight;
   final double extraPicHeight;
-  final int type;
+  final HotTopic hotTopic;
 
-
-  const TocpicDetailsHeadContent({Key key, this.extraPicHeight, this.comtupeHeight, this.type}) : super(key: key);
+  const TocpicDetailsHeadContent(
+      {Key key, this.extraPicHeight, this.comtupeHeight, this.hotTopic})
+      : super(key: key);
 
   @override
   _TocpicDetailsHeadContentState createState() =>
@@ -209,15 +220,20 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
             children: <Widget>[
               ///图片
               CommonImage(
-                image: 'assets/3.jpg',
+                width: double.infinity,
+                image: widget.hotTopic.titlepic == null ||
+                        widget.hotTopic.titlepic.isEmpty
+                    ? 'assets/nothing.png'
+                    : widget.hotTopic.titlepic,
                 height: 150 + widget.extraPicHeight,
                 isFilter: true,
                 borderRadius: 0,
               ),
+
               Container(
                 margin: EdgeInsets.only(left: 190.w, top: 5),
                 child: Text(
-                  '#话题名称哈哈哈#',
+                  '#${widget.hotTopic.title}#',
                   style: TextStyle(fontSize: 30.sp),
                 ),
               ),
@@ -227,14 +243,14 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
                   children: <Widget>[
                     Container(
                       child: Text(
-                        '动态 42',
+                        '动态 ${widget.hotTopic.postCount}',
                         style: TextStyle(color: Colors.grey, fontSize: 26.sp),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        '今日 0',
+                        '今日 ${widget.hotTopic.todaypostCount}',
                         style: TextStyle(color: Colors.grey, fontSize: 26.sp),
                       ),
                     )
@@ -244,7 +260,7 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
               Container(
                 margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
                 child: Text(
-                  '话题描述',
+                  widget.hotTopic.desc,
                   style: TextStyle(color: Colors.grey, fontSize: 30.sp),
                 ),
               ),
@@ -260,7 +276,10 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
             left: 10,
             top: 110 + widget.extraPicHeight,
             child: CommonImage(
-              image: 'assets/3.jpg',
+              image: widget.hotTopic.titlepic == null ||
+                  widget.hotTopic.titlepic.isEmpty
+                  ? 'assets/nothing.png'
+                  : widget.hotTopic.titlepic,
               height: 80,
               width: 80,
             ),
@@ -273,7 +292,8 @@ class _TocpicDetailsHeadContentState extends State<TocpicDetailsHeadContent>
   @override
   void afterFirstLayout(BuildContext context) {
     RenderBox box = context.findRenderObject();
-    double height = box.getMaxIntrinsicHeight(MediaQuery.of(context).size.height);
+    double height =
+        box.getMaxIntrinsicHeight(MediaQuery.of(context).size.height);
     widget.comtupeHeight(height);
   }
 }

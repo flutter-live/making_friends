@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:makingfriends/model/article_details.dart';
+import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/view/community/community_details_page.dart';
 import 'package:makingfriends/view/information/chat_page.dart';
@@ -48,11 +49,16 @@ final Map<String, Handler> pageRouters = {
   'view/login/login_page': Handler(handlerFunc: (context, params) => LoginPage()),
   //话题分类
   'view/trends/tocpic_classification_page': Handler(handlerFunc: (context, params) {
-    String index = params['type']?.first;
-    return TocpicClassificationPage(type: int.parse(index),);
+    String index = params['type']?.first ?? '1';
+    String page = params['page']?.first ?? '0';
+    return TocpicClassificationPage(type: int.parse(index), page: int.parse(page),);
   }),
   //话题详情页
-  'view/trends/tocpic_details_page': Handler(handlerFunc: (context, params) => TocpicDetailsPage()),
+  'view/trends/tocpic_details_page': Handler(handlerFunc: (context, params) {
+    Map<String, dynamic> item = FluroConvertUtils.string2map(params['hotTopic']?.first);
+    HotTopic hotTopic = HotTopic.fromJson(item);
+    return TocpicDetailsPage(hotTopic: hotTopic);
+}),
   //社区内容详情页
   'view/community/community_details_page': Handler(handlerFunc: (context, params) {
     Map<String, dynamic> article = FluroConvertUtils.string2map(params['article']?.first);

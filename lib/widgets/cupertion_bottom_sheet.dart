@@ -9,8 +9,8 @@ import 'package:makingfriends/model/making_friends_code.dart';
 /// @version：1.0
 
 cupertinoBottomSheet({
-  @required List<MakingFriendsCode> data,
-  @required Function(MakingFriendsCode v) onConfirm,
+   List<MakingFriendsCode> data,
+   Function(MakingFriendsCode v) onConfirm,
 }) async {
   var v = await showCupertinoModalPopup(
     context: Application.context,

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:makingfriends/config/net/http.dart';
 import 'package:makingfriends/model/Comment.dart';
+import 'package:makingfriends/model/UserCounts.dart';
 import 'package:makingfriends/model/adsense.dart';
 import 'package:makingfriends/model/article_details.dart';
 import 'package:makingfriends/model/hot_topic.dart';
@@ -145,6 +146,38 @@ class MakingFriendsApi {
     FormData formData = FormData.fromMap({"fid": fid, "data": data, "post_id": postId});
     var response = await http.post('post/comment', data: formData);
     return response.data;
+  }
+
+  ///搜索文章
+  static Future fetchSearchPost(keyword	, page) async {
+    var response = await http.post('search/post?keyword=$keyword&&page=$page');
+    List<ArticleDetails> list = response.data['list']
+        .map<ArticleDetails>((item) => ArticleDetails.fromJson(item))
+        .toList();
+    List<ArticleDetails> listHandle = list
+        .map(
+            (item) => item = item..processing = ClassUntils.getProcessing(item))
+        .toList();
+    return listHandle;
+  }
+
+  ///获取用户相关数据
+  static Future fetchGetUserCounts(id) async {
+    var response = await http.get('user/getcounts/$id');
+    return UserCounts.fromJson(response.data);
+  }
+
+  ///获取指定话题下的文章列表
+  static Future fetchTopicPostList(id, page) async {
+    var response = await http.get('topic/$id/post/$page');
+    List<ArticleDetails> list = response.data['list']
+        .map<ArticleDetails>((item) => ArticleDetails.fromJson(item))
+        .toList();
+    List<ArticleDetails> listHandle = list
+        .map(
+            (item) => item = item..processing = ClassUntils.getProcessing(item))
+        .toList();
+    return listHandle;
   }
 
 }

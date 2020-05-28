@@ -8,18 +8,12 @@ import 'package:makingfriends/service/makng_friends_api.dart';
 /// @version：1.0
 
 class TocpicClassificationVM extends ViewStateRefresh<HotTopic> {
-
   List<Map<String, dynamic>> map = [];
 
   int id;
 
   @override
-  Future<List<HotTopic>> loadData({int pageFirst}) async{
-
+  Future<List<HotTopic>> loadData({int pageFirst}) async {
     return await MakingFriendsApi.fetchTopic(id, pageFirst);
   }
-
-
-
-
 }

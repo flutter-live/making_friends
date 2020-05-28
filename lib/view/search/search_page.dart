@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' hide SearchDelegate;
 import 'package:makingfriends/flutter/search.dart';
-import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/view/search/historical_record_page.dart';
 import 'package:makingfriends/view/search/search_content_page.dart';
-import 'package:makingfriends/viewModel/historical_record_v_m.dart';
+import 'package:makingfriends/view/search/topic_search_content_page.dart';
+import 'package:makingfriends/view/search/user_search_content_page.dart';
 import 'package:makingfriends/viewModel/search/search_history_v_m.dart';
 import 'package:provider/provider.dart';
 
@@ -20,9 +20,7 @@ class DefaultSearchDelegate extends SearchDelegate<String> {
   final String type;
 
   DefaultSearchDelegate({this.hintText, this.type})
-      : super(
-          searchFieldLabel: hintText,
-        );
+      : super(searchFieldLabel: hintText);
 
   SearchHistoryVM _searchHistory = SearchHistoryVM();
 
@@ -31,15 +29,16 @@ class DefaultSearchDelegate extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            if (query.isEmpty) {
-              close(context, null);
-            } else {
-              query = '';
-              showSuggestions(context);
-            }
-          })
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          if (query.isEmpty) {
+            close(context, null);
+          } else {
+            query = '';
+            showSuggestions(context);
+          }
+        },
+      )
     ];
   }
 
@@ -55,14 +54,11 @@ class DefaultSearchDelegate extends SearchDelegate<String> {
     if (query.length > 0) {
       switch (type) {
         case 'post':
-          return SearchContent(
-            query: query,
-            searchHistoryVM: _searchHistory,
-          );
+          return SearchContent(query: query, searchHistoryVM: _searchHistory);
         case 'user':
-          return null;
+          return UserSearchContent(query: query, searchHistoryVM: _searchHistory);
         case 'topic':
-          return null;
+          return TopicSearchContent(query: query, searchHistoryVM: _searchHistory);
       }
     }
     return SizedBox.shrink();
@@ -73,7 +69,8 @@ class DefaultSearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<SearchHistoryVM>.value(value: _searchHistory..keyHistory = type)
+        ChangeNotifierProvider<SearchHistoryVM>.value(
+            value: _searchHistory..keyHistory = type)
       ],
       child: HistoricalRecordPage(delegate: this),
     );

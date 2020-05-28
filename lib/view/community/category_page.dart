@@ -71,7 +71,7 @@ class _CommunityListPageState extends State<CommunityListPage>
             child: ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
-                return ListItem(article: list[index]);
+                return ListItem(article: model.list[index]);
               },
             ),
           ),

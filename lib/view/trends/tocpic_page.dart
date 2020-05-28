@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart' hide showSearch;
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:makingfriends/flutter/search.dart';
 import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
+import 'package:makingfriends/view/search/search_page.dart';
 import 'package:makingfriends/viewModel/tocpic_class_v_m.dart';
 import 'package:makingfriends/viewModel/tocpic_v_m.dart';
 import 'package:makingfriends/widgets/article_skeleton.dart';
@@ -15,7 +16,6 @@ import 'package:makingfriends/widgets/skeleton.dart';
 import 'package:makingfriends/widgets/tocpic_list_item.dart';
 import 'package:makingfriends/widgets/view_state.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// @description： 话题
 /// @author：liuzhidong
@@ -144,9 +144,10 @@ class LateTocpic extends StatelessWidget {
                 devDayNumber: item.todaypostCount,
                 devNumber: item.postCount,
                 image: item.titlepic,
-                onTap: (){
+                onTap: () {
                   String hotTopic = FluroConvertUtils.object2string(item);
-                  Jump.push('view/trends/tocpic_details_page?hotTopic=$hotTopic');
+                  Jump.push(
+                      'view/trends/tocpic_details_page?hotTopic=$hotTopic');
                 },
               ),
             );
@@ -197,28 +198,37 @@ class TocpicSearch extends StatelessWidget {
       margin: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
       child: Column(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.grey[200],
-            ),
-            height: 35,
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.search,
-                  color: Colors.black45,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5),
-                  child: Text(
-                    '搜索帖子',
-                    style: TextStyle(color: Colors.black45, fontSize: 16),
+          GestureDetector(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.grey[200],
+              ),
+              height: 35,
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.search,
+                    color: Colors.black45,
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      '搜索帖子',
+                      style: TextStyle(color: Colors.black45, fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            onTap: () => showSearch(
+              context: context,
+              delegate: DefaultSearchDelegate(
+                hintText: '搜索话题',
+                type: 'topic',
+              ),
             ),
           )
         ],

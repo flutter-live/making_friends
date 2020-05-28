@@ -14,14 +14,13 @@ class TocpicClassVM extends ViewStateList<PostClass> {
 
   MakingFriendsCode get makingFriendsCode => _makingFriendsCode;
 
-  set makingFriendsCode(MakingFriendsCode model){
+  set makingFriendsCode(MakingFriendsCode model) {
     _makingFriendsCode = model;
     notifyListeners();
   }
 
   @override
-  Future<List<PostClass>> loadData() async{
+  Future<List<PostClass>> loadData() async {
     return await MakingFriendsApi.fetchTopicClass();
   }
-
 }

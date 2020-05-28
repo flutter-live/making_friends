@@ -8,50 +8,67 @@ import 'package:makingfriends/provider/view_state_provider.dart';
 
 abstract class ViewStateBasic<T> extends ViewStateProvider {
   ///初始化加载
-  initData({Map map}) async{
+  initData({Map map}) async {
     setBusy();
     findData(map: map);
   }
 
   ///查询数据
-  Future<T> findData({Map map}) async{
-    try{
+  Future<T> findData({Map map}) async {
+    try {
       T data = await find(data: map);
-      if(data == null){
+      if (data == null) {
         setEmpty();
-      }else{
-        await onCompleted(data, ViewFunction.find);
+      } else {
+        onCompleted(data, ViewFunction.find);
         setDef();
       }
       return data;
-    }catch(e, s){
-      setError(e, s);
-      return null;
-}
-}
-
-  ///上传数据
-  Future<T> saveData({Map map}) async{
-    try{
-      T data = await save(data: map);
-      if(data == null){
-        setEmpty();
-      }else{
-        await onCompleted(data, ViewFunction.save);
-        setDef();
-      }
-      return data;
-    }catch(e, s){
+    } catch (e, s) {
       setError(e, s);
       return null;
     }
   }
 
+  ///上传数据
+  Future<T> saveData({Map map}) async {
+    try {
+      T data = await save(data: map);
+      if (data == null) {
+        setEmpty();
+      } else {
+        onCompleted(data, ViewFunction.save);
+        setDef();
+      }
+      return data;
+    } catch (e, s) {
+      setError(e, s);
+      return null;
+    }
+  }
+
+  ///修改数据
+  Future<T> updateData({Map map}) async {
+    try {
+      T data = await update(data: map);
+      if (data == null) {
+        setEmpty();
+      } else {
+        onCompleted(data, ViewFunction.update);
+        setDef();
+      }
+      return data;
+    } catch (e, s) {
+      setError(e, s);
+      return null;
+    }
+  }
 
   Future<T> find({Map data});
 
   Future<T> save({Map data});
 
-  Future<void> onCompleted(T data, ViewFunction type){}
+  Future<T> update({Map data});
 
+  onCompleted(T data, ViewFunction type) {}
 }

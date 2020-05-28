@@ -10,8 +10,7 @@ import 'package:makingfriends/view/tab/trends_page.dart';
 /// @date：2020/4/12 11:02
 /// @version：1.0
 
-class TabVM extends ChangeNotifier  {
-
+class TabVM extends ChangeNotifier {
   List<Widget> _pages = <Widget>[
     CommunityPage(),
     TrendsPage(),
@@ -21,7 +20,6 @@ class TabVM extends ChangeNotifier  {
   ];
 
   List<Widget> get pages => _pages;
-
 
   List<TaBottomNavigtionBar> _navigtionBars = [
     TaBottomNavigtionBar(icon: Icons.home, name: '社区'),
@@ -37,12 +35,8 @@ class TabVM extends ChangeNotifier  {
 
   int get selectedIndex => _selectedIndex;
 
-  void setIndex(int index){
+  void setIndex(int index) {
     _selectedIndex = index;
     notifyListeners();
   }
-
-
-
-
 }

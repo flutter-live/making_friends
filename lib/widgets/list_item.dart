@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:makingfriends/model/article_details.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/utils/date_utils.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/viewModel/global_state_model.dart';
 import 'package:makingfriends/viewModel/tab/community_v_m.dart';
+import 'package:makingfriends/viewModel/user_v_m.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -26,14 +26,27 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GlobalStateModel>(
-      builder: (context, model, child) {
-        if (model[article?.id] == null) {
+    return Consumer2<GlobalStateModel, UserVM>(
+      builder: (context, model, userModel, child) {
+        if (model[article?.id] != null) {
+          article..processing = model[article?.id];
+        }
+        if (userModel.user.userinfo.userId == article.userId) {
+          article..processing.isFollow = true;
+        }
+        if (model[article?.userId] == null) {
           return child;
         }
-        return ListItemMenu(article: article..processing = model[article?.id]);
+        DataProcessing processing = model[article?.userId];
+        bool isFollow = processing?.isFollow ?? article.processing.isFollow;
+        article..processing.isFollow = isFollow;
+
+        return ListItemMenu(
+          article: article,
+          onTap: onTap,
+        );
       },
-      child: ListItemMenu(article: article),
+      child: ListItemMenu(article: article, onTap: onTap),
     );
   }
 }
@@ -41,8 +54,9 @@ class ListItem extends StatelessWidget {
 ///主要内容
 class ListItemMenu extends StatelessWidget {
   final ArticleDetails article;
+  final Function onTap;
 
-  const ListItemMenu({Key key, this.article}) : super(key: key);
+  const ListItemMenu({Key key, this.article, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +72,22 @@ class ListItemMenu extends StatelessWidget {
               children: <Widget>[
                 HeadLine(
                     isIcon: false,
-                    leadingWidget: Container(
-                      width: 40,
-                      height: 40,
-                      child: HttpImage(
-                        url: article.user.userpic == null ||
-                                article.user.userpic.isEmpty
-                            ? 'nothing.png'
-                            : article.user.userpic,
-                        errUrl: 'assets/nothing.png',
-                        borderRadius: 100,
-                        placeholderWidth: 10,
-                        placeholderHeight: 10,
+                    leadingWidget: GestureDetector(
+                      onTap: () => Jump.push(
+                          'view/my/my_details_page?id=${article.user.id}&&isFollow=${article.processing.isFollow}'),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        child: HttpImage(
+                          url: article.user.userpic == null ||
+                                  article.user.userpic.isEmpty
+                              ? 'nothing.png'
+                              : article.user.userpic,
+                          errUrl: 'assets/nothing.png',
+                          borderRadius: 100,
+                          placeholderWidth: 10,
+                          placeholderHeight: 10,
+                        ),
                       ),
                     ),
                     title: Text(article.user.username),
@@ -77,24 +95,16 @@ class ListItemMenu extends StatelessWidget {
                       margin: EdgeInsets.only(left: 10),
                       padding: EdgeInsets.only(left: 5, right: 5),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(2)),
                         color: Colors.pinkAccent,
                       ),
-                      child: Row(
-                        children: <Widget>[
-                          FaIcon(
-                            FontAwesomeIcons.mars,
-                            size: 12,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            article.user.userinfo.sex == 0 ? '男' : '女',
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          )
-                        ],
+                      child: Text(
+                        article.user.userinfo.qg == 0
+                            ? '保密'
+                            : (article.user.userinfo.qg == 1
+                            ? '未婚'
+                            : '已婚'),
+                        style: TextStyle(fontSize: 12, color: Colors.white),
                       ),
                     ),
                     subtitle: DateUtils.instance.getFormartData(
@@ -102,6 +112,7 @@ class ListItemMenu extends StatelessWidget {
                         format: 'yyyy-MM-dd hh:mm:ss'),
                     trailingWidget: Follow(
                       article: article,
+                      onTap: onTap,
                     )),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -122,9 +133,7 @@ class ListItemMenu extends StatelessWidget {
                       ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Operation(
-                    article: article,
-                  ),
+                  child: Operation(article: article),
                 ),
               ],
             ),
@@ -142,16 +151,16 @@ class ListItemMenu extends StatelessWidget {
 ///关注操作
 class Follow extends StatelessWidget {
   final ArticleDetails article;
+  final Function onTap;
 
-  const Follow({Key key, this.article}) : super(key: key);
+  const Follow({Key key, this.article, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<FollowVM>(
       model: FollowVM(),
       builder: (context, model, child) {
-        bool isFollow = article.processing.isFollow;
-        return isFollow
+        return article.processing.isFollow
             ? Container()
             : Material(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -164,7 +173,10 @@ class Follow extends StatelessWidget {
                       style: TextStyle(letterSpacing: 5, color: Colors.white),
                     ),
                   ),
-                  onTap: () => model.loadData(article),
+                  onTap: () async {
+                    await model.loadData(article);
+                    onTap ?? null;
+                  },
                 ),
               );
       },
@@ -186,12 +198,8 @@ class Operation extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            TopListItem(
-              article: article,
-            ),
-            StopListItem(
-              article: article,
-            ),
+            TopListItem(article: article),
+            StopListItem(article: article),
             FlatButton(
               onPressed: () {},
               child: Row(
@@ -240,7 +248,7 @@ class TopListItem extends StatelessWidget {
             : '顶';
         return FlatButton(
           onPressed: () async {
-            model.loadData(article, 0);
+            await model.loadData(article, 0);
           },
           child: Row(
             children: <Widget>[
@@ -283,7 +291,9 @@ class StopListItem extends StatelessWidget {
             ? processing.unsupportCount.toString()
             : '踩';
         return FlatButton(
-          onPressed: () => model.loadData(article, 1),
+          onPressed: () async {
+            await model.loadData(article, 1);
+          },
           child: Row(
             children: <Widget>[
               Icon(

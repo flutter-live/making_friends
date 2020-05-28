@@ -22,8 +22,10 @@ class ClassUntils {
 
   ///评论
   static List<Comment> commentdata = [];
-  static List<Comment> getCommentData(List<Comment> list, {int id = 0, init = true}) {
-    if(init) commentdata = [];
+
+  static Future<List<Comment>> getCommentData(List<Comment> list,
+      {int id = 0, init = true}) async {
+    if (init) commentdata = [];
 
     list.forEach((item) {
       if (item.fid == id) {

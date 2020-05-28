@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// @date：2020/5/8 21:03
 /// @version：1.0
 
-class SearchHistoryVM extends ViewStateList<String>{
+class SearchHistoryVM extends ViewStateList<String> {
   String keyHistory;
 
   clearHistory() async {
@@ -26,14 +26,10 @@ class SearchHistoryVM extends ViewStateList<String>{
     notifyListeners();
   }
 
-
   @override
-  Future<List<String>> loadData() async{
+  Future<List<String>> loadData() async {
     var sharedPreferences = await SharedPreferences.getInstance();
     print(sharedPreferences.getStringList(keyHistory));
     return sharedPreferences.getStringList(keyHistory) ?? [];
   }
-
-
-
 }

@@ -21,6 +21,7 @@ enum ViewStateErrorType {
 enum ViewFunction {
   find,
   save,
+  update,
 }
 
 class ViewStateError {

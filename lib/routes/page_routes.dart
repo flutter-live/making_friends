@@ -7,11 +7,11 @@ import 'package:makingfriends/view/community/community_details_page.dart';
 import 'package:makingfriends/view/information/chat_page.dart';
 import 'package:makingfriends/view/information/find_friends_page.dart';
 import 'package:makingfriends/view/login/login_page.dart';
+import 'package:makingfriends/view/my/browse_history.dart';
 import 'package:makingfriends/view/my/my_details_page.dart';
 import 'package:makingfriends/view/release/release_page.dart';
 import 'package:makingfriends/view/setting/about_page.dart';
 import 'package:makingfriends/view/setting/account_security_page.dart';
-import 'package:makingfriends/view/setting/clear_cache_page.dart';
 import 'package:makingfriends/view/setting/editing_from_page.dart';
 import 'package:makingfriends/view/setting/editing_materials_page.dart';
 import 'package:makingfriends/view/setting/feedback_page.dart';
@@ -65,13 +65,15 @@ final Map<String, Handler> pageRouters = {
     return CommunityDetailsPage(article: ArticleDetails.fromJson(article));
   }),
   //我的详情页
-  'view/my/my_details_page': Handler(handlerFunc: (context, params) => MyDetailsPage()),
+  'view/my/my_details_page': Handler(handlerFunc: (context, params) {
+     String id = params['id']?.first;
+     bool isFollow = FluroConvertUtils.string2bool(params['isFollow']?.first);
+     return MyDetailsPage(id: int.parse(id), isFollow: isFollow,);
+    }),
   //设置
   'setting/setting_page': Handler(handlerFunc: (context, params) => SettingPage()),
   //账号与安全
   'setting/account_security_page': Handler(handlerFunc: (context, params) => AccountSecurityPage()),
-  //清除缓存
-  'setting/clear_cache_page': Handler(handlerFunc: (context, params) => ClearCachePage()),
   //编辑资料
   'setting/editing_materials_page': Handler(handlerFunc: (context, params) => EditingMaterials()),
   //意见反馈
@@ -96,6 +98,6 @@ final Map<String, Handler> pageRouters = {
   'information/chat_page': Handler(handlerFunc: (context, params) => ChatPage()),
   //发布页
   'release/release_page': Handler(handlerFunc: (context, params) => ReleasePage()),
-
-
+  //浏览历史
+  'my/browse_history': Handler(handlerFunc: (context, params) => BrowseHistory()),
 };

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart' hide showSearch;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:makingfriends/flutter/search.dart';
-import 'package:makingfriends/view/information/find_friends_state_page.dart';
+import 'package:makingfriends/view/information/find_friends_correlation_page.dart';
+import 'package:makingfriends/view/information/find_friends_fens_page.dart';
+import 'package:makingfriends/view/information/find_friends_follow_page.dart';
 import 'package:makingfriends/view/search/search_page.dart';
 
 /// @description： 查找好友
@@ -27,22 +29,28 @@ class FindFriendsPage extends StatelessWidget {
               ),
               width: 750.w,
               height: 50.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.search,
-                    color: Colors.black26,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text(
-                      '搜索用户',
-                      style: TextStyle(color: Colors.black26, fontSize: 24.sp),
+              child: GestureDetector(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.search,
+                      color: Colors.black26,
                     ),
-                  ),
-                ],
-              ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text(
+                        '搜索用户',
+                        style: TextStyle(color: Colors.black26, fontSize: 24.sp),
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: (){
+                  showSearch(
+                      context: context, delegate: DefaultSearchDelegate(hintText: '搜索好友', type: 'user'));
+                },
+              )
             ),
           ),
           bottom: TabBar(
@@ -55,9 +63,9 @@ class FindFriendsPage extends StatelessWidget {
         ),
         body: TabBarView(
             children: <Widget>[
-              FindFriendsStatePage(),
-              FindFriendsStatePage(),
-              FindFriendsStatePage(),
+              FindFriendsCorrelation(),
+              FindFriendsFollowPage(),
+              FindFriendsFensPage(),
             ],
         ),
       ),

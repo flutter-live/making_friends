@@ -17,7 +17,7 @@ class TocpicVM extends ViewStateList {
   List<HotTopic> get listHotTopic => _listHotTopic;
 
   @override
-  Future<List> loadData({int pageFirst}) async{
+  Future<List> loadData({int pageFirst}) async {
     List<Future> futures = [];
     futures.add(MakingFriendsApi.fetchAdsense());
     futures.add(MakingFriendsApi.fetchHotTopic());
@@ -26,5 +26,4 @@ class TocpicVM extends ViewStateList {
     _listHotTopic = respose[1];
     return futures;
   }
-
 }

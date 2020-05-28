@@ -21,8 +21,7 @@ class SearchContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<SearchPostResultVM>(
-        model:
-            SearchPostResultVM(query: query, searchHistoryVM: searchHistoryVM),
+        model: SearchPostResultVM(query: query, searchHistoryVM: searchHistoryVM),
         onModelReady: (model) {
           model.initData();
         },

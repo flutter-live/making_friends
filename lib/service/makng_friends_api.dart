@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:makingfriends/config/net/http.dart';
 import 'package:makingfriends/model/Comment.dart';
@@ -137,7 +139,7 @@ class MakingFriendsApi {
     List<Comment> comments = response.data['list']
         .map<Comment>((item) => Comment.fromJson(item))
         .toList();
-    List<Comment> list = ClassUntils.getCommentData(comments);
+    List<Comment> list = await ClassUntils.getCommentData(comments);
     return list;
   }
 
@@ -161,10 +163,24 @@ class MakingFriendsApi {
     return listHandle;
   }
 
+  ///搜索话题
+  static Future fetchSearchTopic(keyword, page) async {
+    var response = await http.post('search/topic?keyword=$keyword&&page=$page');
+    return response.data['list']
+        .map<HotTopic>((item) => HotTopic.fromJson(item))
+        .toList();
+  }
+
   ///获取用户相关数据
   static Future fetchGetUserCounts(id) async {
     var response = await http.get('user/getcounts/$id');
     return UserCounts.fromJson(response.data);
+  }
+
+  ///获取用户详细信息
+  static Future fetchGetUserInfo(id) async {
+    var response = await http.post('getuserinfo?user_id=$id');
+    return User.fromJson(response.data);
   }
 
   ///获取指定话题下的文章列表
@@ -179,5 +195,93 @@ class MakingFriendsApi {
         .toList();
     return listHandle;
   }
+
+  ///指定用户下的文章列表
+  static Future fetchGetUserPostList(id, page) async {
+    var response = await http.get('user/$id/post/$page');
+    List<ArticleDetails> list = response.data['list']
+        .map<ArticleDetails>((item) => ArticleDetails.fromJson(item))
+        .toList();
+    List<ArticleDetails> listHandle = list
+        .map(
+            (item) => item = item..processing = ClassUntils.getProcessing(item))
+        .toList();
+    return listHandle;
+  }
+
+  ///绑定手机号
+  ///api有问题 不能使用
+  static Future fetchBindPhone({String phone, String code}) async {
+    print(phone);
+    print(code);
+    FormData formData = FormData.fromMap({"phone": phone, "code": code});
+    var response = await http.post('user/bindphone', data: formData);
+    return response.data;
+  }
+
+  ///修改密码
+  static Future fetchRePassword({String newPassword, String renewPassword, String oldPassword}) async {
+    FormData formData = FormData.fromMap({"oldpassword": oldPassword, "newpassword": newPassword, "renewpassword": renewPassword});
+    var response = await http.post('repassword', data: formData);
+    return response.data;
+  }
+
+  ///绑定邮箱
+  static Future fetchBindEmail({String email}) async {
+    print(email);
+    FormData formData = FormData.fromMap({"email": email});
+    var response = await http.post('user/bindemail', data: formData);
+    return response.data;
+  }
+
+  ///修改资料
+  static Future fetchEditUserInfo(Map<String, dynamic> userinfo) async {
+    FormData formData = FormData.fromMap(userinfo);
+    var response = await http.post('edituserinfo', data: formData);
+    return response.data;
+  }
+
+  ///修改头像
+  static Future fetchEditUserPic(String path) async {
+    FormData formData = FormData.fromMap({
+      "name": "userpic",
+      "userpic": await MultipartFile.fromFile(path),
+    });
+    var response = await http.post('edituserpic', data: formData);
+    return response.data;
+  }
+
+  ///搜素用户
+  static Future fetchSearchUser(keyword, page) async {
+    var response = await http.post('search/user?keyword=$keyword&&page=$page');
+    return response.data['list']
+        .map<User>((item) => User.fromJson(item))
+        .toList();
+  }
+
+  ///互关
+  static Future fetchFindCorrelation(page) async {
+    var response = await http.get('friends/$page');
+    return response.data['list']
+        .map<User>((item) => User.fromJson(item))
+        .toList();
+  }
+
+  ///粉丝
+  static Future fetchFindFens(page) async {
+    var response = await http.get('fens/$page');
+    return response.data['list']
+        .map<User>((item) => User.fromJson(item))
+        .toList();
+  }
+
+  ///关注
+  static Future fetchFindFollow(page) async {
+    var response = await http.get('follows/$page');
+    return response.data['list']
+        .map<User>((item) => User.fromJson(item))
+        .toList();
+  }
+
 
 }

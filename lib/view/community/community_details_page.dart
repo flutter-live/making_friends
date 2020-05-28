@@ -31,9 +31,10 @@ class CommunityDetailsPage extends StatelessWidget {
       ),
       body: ProviderWidget<CommentVM>(
           model: CommentVM(),
-          onModelReady: (model) {
+          onModelReady: (model) async{
             model.id = article.id;
-            model.initData();
+            await model.initData();
+            model.browseHistory(article);
           },
           builder: (context, model, child) {
             return Column(

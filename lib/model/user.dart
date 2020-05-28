@@ -88,6 +88,7 @@ class Userinfo {
   String job;
   String path;
   String birthday;
+  String name;
 
   Userinfo(
       {this.id,
@@ -97,7 +98,9 @@ class Userinfo {
         this.qg,
         this.job,
         this.path,
-        this.birthday});
+        this.birthday,
+        this.name,
+      });
 
   Userinfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -108,6 +111,7 @@ class Userinfo {
     job = json['job'];
     path = json['path'];
     birthday = json['birthday'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -120,6 +124,7 @@ class Userinfo {
     data['job'] = this.job;
     data['path'] = this.path;
     data['birthday'] = this.birthday;
+    data['name'] = this.name;
     return data;
   }
 }

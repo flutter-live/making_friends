@@ -7,14 +7,12 @@ import 'package:flutter/material.dart';
 /// @version：1.0
 
 class ThemeVM with ChangeNotifier {
-  themeData(){
+  themeData() {
     return ThemeData(
-      primaryColor: Colors.pinkAccent,
-      primaryColorBrightness: Brightness.dark,
-      accentColor: Colors.pinkAccent,
-      accentColorBrightness: Brightness.dark,
-      buttonColor: Colors.pinkAccent
-    );
+        primaryColor: Colors.pinkAccent,
+        primaryColorBrightness: Brightness.dark,
+        accentColor: Colors.pinkAccent,
+        accentColorBrightness: Brightness.dark,
+        buttonColor: Colors.pinkAccent);
   }
-
 }

@@ -10,8 +10,6 @@ import 'package:makingfriends/viewModel/user_v_m.dart';
 /// @date：2020/4/18 13:17
 /// @version：1.0
 
-const String keyLoginName = 'KeyLoginName';
-
 class LoginVM extends ViewStateProvider {
   final UserVM userVM;
 
@@ -63,7 +61,4 @@ class LoginVM extends ViewStateProvider {
       return '';
     }
   }
-
-
-
 }

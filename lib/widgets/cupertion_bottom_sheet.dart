@@ -35,6 +35,7 @@ cupertinoBottomSheet({
       );
     },
   );
+  if(v == null) return;
   onConfirm(v);
 }
 

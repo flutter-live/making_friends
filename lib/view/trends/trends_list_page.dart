@@ -57,7 +57,7 @@ class _TrendsListPageState extends State<TrendsListPage>
               itemBuilder: (context, index) {
                 return ListItem(
                   article: list[index],
-                  onTap: (){
+                  onTap: (flag, value){
                     Jump.push('view/community/community_details_page');
                   },
                 );

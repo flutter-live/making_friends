@@ -17,7 +17,7 @@ abstract class ViewStateList<T> extends ViewStateProvider{
   Future<List<T>> findData() async{
     try{
       List<T> data = await loadData();
-      if(data.isEmpty){
+      if(data.isEmpty || data.length == 0){
         setEmpty();
         list.clear();
       }else{

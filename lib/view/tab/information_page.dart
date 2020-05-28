@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide showSearch;
+import 'package:makingfriends/flutter/search.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/view/search/search_page.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
+import 'package:makingfriends/widgets/image_setting.dart';
 import '../../config/string.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,77 +38,81 @@ class _InformationPageState extends State<InformationPage>
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.view_list),
-            onPressed: () async {
-              final result = await showMenu(
-                context: context,
-                position: RelativeRect.fromLTRB(750.w, h, 0.0, 0.0),
-                items: <PopupMenuItem<String>>[
-                  PopupMenuItem<String>(
-                    value: '0',
-                    child: ListTile(
-                      leading: Icon(Icons.search),
-                      title: Text('添加好友'),
-                    ),
+            onPressed: () => showMenu(
+              context: context,
+              position: RelativeRect.fromLTRB(750.w, h, 0.0, 0.0),
+              items: <PopupMenuItem<String>>[
+                PopupMenuItem<String>(
+                  child: ListTile(
+                    leading: Icon(Icons.search),
+                    title: Text('添加好友'),
+                    onTap: () => showSearch(
+                        context: context,
+                        delegate: DefaultSearchDelegate(
+                            hintText: '搜索好友', type: 'user')),
                   ),
-                  PopupMenuItem<String>(
-                    value: '1',
-                    child: ListTile(
-                      leading: Icon(Icons.delete),
-                      title: Text('清除列表'),
-                    ),
+                ),
+                PopupMenuItem<String>(
+                  child: ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text('清除列表'),
                   ),
-                ],
-              );
-              print(result);
-            },
+                ),
+              ],
+            ),
           ),
         ],
       ),
       body: ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 10.w),
         itemBuilder: (BuildContext context, int index) {
-          return HeadLine(
-            isIcon: false,
-//            leadingWidget: Container(
-//              width: 80,
-//              height: 80,
-//              child: HttpImage(
-//                url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
-//                imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
-//                errUrl: 'assets/nothing.png',
-//                borderRadius: 100,
-//                placeholderWidth: 10,
-//                placeholderHeight: 10,
-//              ),
-//            ),
-            title: Text('18811475898'),
-            subtitle: '2019-06-30 下午 9：16',
-            trailingWidget: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    '下午 6：10',
-                    style: TextStyle(color: Colors.black54, fontSize: 22.sp),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5.w),
-                    padding: EdgeInsets.all(4.w),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                    ),
-                    child: Text(
-                      '12',
-                      style: TextStyle(color: Colors.white, fontSize: 20.sp),
-                    ),
-                  )
-                ],
-              ),
+          return Container(
+            decoration: BoxDecoration(
+              border:
+                  Border(bottom: BorderSide(color: Colors.black38, width: 0.5)),
             ),
-            onTop: () {
-              Jump.push('information/chat_page');
-            },
+            child: HeadLine(
+              isIcon: false,
+              leadingWidget: Container(
+                width: 40,
+                height: 40,
+                child: HttpImage(
+                  url: 'nothing.png',
+                  errUrl: 'assets/nothing.png',
+                  borderRadius: 100,
+                  placeholderWidth: 10,
+                  placeholderHeight: 10,
+                ),
+              ),
+              title: Text('18811475898'),
+              subtitle: '2019-06-30 下午 9：16',
+              trailingWidget: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      '下午 6：10',
+                      style: TextStyle(color: Colors.black54, fontSize: 22.sp),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5.w),
+                      padding: EdgeInsets.all(4.w),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                      ),
+                      child: Text(
+                        '12',
+                        style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              onTop: () {
+                Jump.push('information/chat_page');
+              },
+            ),
           );
         },
         itemCount: 20,

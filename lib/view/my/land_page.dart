@@ -14,7 +14,10 @@ class LandPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          child: Text('登陆社区，体验更多功能', style: TextStyle(fontSize: 18),),
+          child: Text(
+            '登陆社区，体验更多功能',
+            style: TextStyle(fontSize: 18),
+          ),
         ),
         Container(
           margin: EdgeInsets.symmetric(vertical: 20),
@@ -50,23 +53,24 @@ class LandPage extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.center,
-          child:
-    GestureDetector(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('账号/邮箱/手机登陆', style: TextStyle(color: Colors.black87),),
-        Padding(
-          padding: EdgeInsets.only(left: 5),
-          child: Icon(Icons.chevron_right),
-        ),
-      ],
-    ),
-      onTap: (){
-        Jump.push('view/login/login_page');
-      },
-    )
-
+          child: GestureDetector(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  '账号/邮箱/手机登陆',
+                  style: TextStyle(color: Colors.black87),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                  child: Icon(Icons.chevron_right),
+                ),
+              ],
+            ),
+            onTap: () {
+              Jump.push('view/login/login_page');
+            },
+          ),
         )
       ],
     );

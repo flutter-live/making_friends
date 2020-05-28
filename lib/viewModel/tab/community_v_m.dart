@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:makingfriends/config/application.dart';
 import 'package:makingfriends/model/article_details.dart';
 import 'package:makingfriends/model/post_class.dart';
+import 'package:makingfriends/provider/view_state_provider.dart';
 import 'package:makingfriends/provider/view_state_refresh.dart';
 import 'package:makingfriends/service/makng_friends_api.dart';
 import 'package:provider/provider.dart';
@@ -37,44 +38,51 @@ class CommunityListPageVM extends ViewStateRefresh<ArticleDetails> {
 }
 
 ///操作栏操作
-class TopStepVM with ChangeNotifier {
+class TopStepVM extends ViewStateProvider {
   ///踩顶
-  void loadData(ArticleDetails article, int categ) async {
-    GlobalStateModel globalStateModel =
-        Provider.of<GlobalStateModel>(Application.context, listen: false);
-    DataProcessing item = DataProcessing();
-    DataProcessing newItem = article.processing;
-    if (categ == newItem.type) return;
-    dynamic data = await MakingFriendsApi.fetchSupport(article.id, categ);
-    if (data.length == 0) {
-      item.id = article.id;
-      if (categ == 0) {
-        item.supportCount = ++newItem.supportCount;
-        if (newItem.type == 1) {
-          item.unsupportCount = --newItem.unsupportCount;
-        } else if (newItem.type == 2) {
-          item.unsupportCount = newItem.unsupportCount;
+  Future<void> loadData(ArticleDetails article, int categ) async {
+    setBusy();
+    try {
+      GlobalStateModel globalStateModel =
+          Provider.of<GlobalStateModel>(Application.context, listen: false);
+      DataProcessing item = DataProcessing();
+      DataProcessing newItem = article.processing;
+      if (categ == newItem.type) return;
+      dynamic data = await MakingFriendsApi.fetchSupport(article.id, categ);
+      if (data.length == 0) {
+        item.id = article.id;
+        if (categ == 0) {
+          item.supportCount = ++newItem.supportCount;
+          if (newItem.type == 1) {
+            item.unsupportCount = --newItem.unsupportCount;
+          } else if (newItem.type == 2) {
+            item.unsupportCount = newItem.unsupportCount;
+          }
+        } else {
+          item.unsupportCount = ++newItem.unsupportCount;
+          if (newItem.type == 0) {
+            item.supportCount = --newItem.supportCount;
+          } else if (newItem.type == 2) {
+            item.supportCount = newItem.supportCount;
+          }
         }
-      } else {
-        item.unsupportCount = ++newItem.unsupportCount;
-        if (newItem.type == 0) {
-          item.supportCount = --newItem.supportCount;
-        } else if (newItem.type == 2) {
-          item.supportCount = newItem.supportCount;
-        }
+        item.type = categ;
+        item.commentCount = newItem.commentCount;
+        item.isFollow = newItem.isFollow;
+        globalStateModel.addFavourite(article.id, item);
+        notifyListeners();
       }
-      item.type = categ;
-      item.commentCount = newItem.commentCount;
-      item.isFollow = newItem.isFollow;
-      globalStateModel.addFavourite(article.id, item);
+      setDef();
+    } catch (e, s) {
+      setError(e, s);
     }
   }
 }
 
 ///关注
-class FollowVM with ChangeNotifier {
+class FollowVM extends ViewStateProvider {
   ///关注
-  void loadData(ArticleDetails article) async {
+  Future<void> loadData(ArticleDetails article) async {
     GlobalStateModel globalStateModel =
         Provider.of<GlobalStateModel>(Application.context, listen: false);
     dynamic data = await MakingFriendsApi.fetchEachFollow(article.userId);
@@ -82,6 +90,7 @@ class FollowVM with ChangeNotifier {
       DataProcessing item = article.processing;
       item.isFollow = !item.isFollow;
       globalStateModel.addFavourite(article.id, item);
+      globalStateModel.addFavourite(article.userId, item);
     }
   }
 }

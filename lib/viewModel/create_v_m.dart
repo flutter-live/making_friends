@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:makingfriends/config/application.dart';
+import 'package:makingfriends/config/cache.dart';
 import 'package:makingfriends/model/create.dart';
 import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/model/making_friends_code.dart';
@@ -15,10 +16,8 @@ import 'package:makingfriends/service/makng_friends_api.dart';
 /// @date：2020/4/27 23:23
 /// @version：1.0
 
-class CreateVM extends ViewStateBasic{
-  static const keyDraft = 'keyDraft';
-
-  CreateVM(){
+class CreateVM extends ViewStateBasic {
+  CreateVM() {
     getDraft();
   }
 
@@ -27,7 +26,7 @@ class CreateVM extends ViewStateBasic{
 
   MakingFriendsCode get makingFriendsCode => _makingFriendsCode;
 
-  set makingFriendsCode(MakingFriendsCode model){
+  set makingFriendsCode(MakingFriendsCode model) {
     _makingFriendsCode = model;
     notifyListeners();
   }
@@ -37,7 +36,7 @@ class CreateVM extends ViewStateBasic{
 
   List<Upload> get imageList => _imageList;
 
-  set imageList(List<Upload> l){
+  set imageList(List<Upload> l) {
     _imageList = l;
     notifyListeners();
   }
@@ -47,7 +46,7 @@ class CreateVM extends ViewStateBasic{
 
   int get isopen => _isopen;
 
-  set isopen(int i){
+  set isopen(int i) {
     _isopen = i;
     notifyListeners();
   }
@@ -57,7 +56,7 @@ class CreateVM extends ViewStateBasic{
 
   String get title => _title;
 
-  set title(String t){
+  set title(String t) {
     _title = t;
     notifyListeners();
   }
@@ -67,7 +66,7 @@ class CreateVM extends ViewStateBasic{
 
   HotTopic get hotTopic => _hotTopic;
 
-  set hotTopic(HotTopic item){
+  set hotTopic(HotTopic item) {
     _hotTopic = item;
     notifyListeners();
   }
@@ -75,30 +74,36 @@ class CreateVM extends ViewStateBasic{
   TextEditingController titleContoller = TextEditingController();
 
   ///保存草稿
-  void saveDraft(){
+  void saveDraft() {
     Map<String, dynamic> draft = {
       "title": title,
       "hotTopic": hotTopic?.toJson(),
       "isopen": isopen,
       "makingFriendsCode": makingFriendsCode
     };
-    Application.sharedPreferences.setString(keyDraft, jsonEncode(draft));
+    Application.sharedPreferences
+        .setString(CacheKey.keyDraft, jsonEncode(draft));
   }
+
   ///获取草稿
-  void getDraft(){
-    String d = Application.sharedPreferences.getString(keyDraft);
-    if(d != null){
+  void getDraft() {
+    String d = Application.sharedPreferences.getString(CacheKey.keyDraft);
+    if (d != null) {
       Map<String, dynamic> draft = jsonDecode(d);
       title = draft['title'].toString();
-      hotTopic = draft['hotTopic'] == null ? null : HotTopic.fromJson(draft['hotTopic']);
+      hotTopic = draft['hotTopic'] == null
+          ? null
+          : HotTopic.fromJson(draft['hotTopic']);
       isopen = draft['isopen'];
-      makingFriendsCode = draft['makingFriendsCode'] == null ? null : MakingFriendsCode.fromJson(draft['makingFriendsCode']);
+      makingFriendsCode = draft['makingFriendsCode'] == null
+          ? null
+          : MakingFriendsCode.fromJson(draft['makingFriendsCode']);
     }
   }
 
   ///取消草稿
-  void clearDraft(){
-    Application.sharedPreferences.remove(keyDraft);
+  void clearDraft() {
+    Application.sharedPreferences.remove(CacheKey.keyDraft);
   }
 
   @override
@@ -114,9 +119,10 @@ class CreateVM extends ViewStateBasic{
   }
 
   @override
-  Future save({Map data}) async{
+  Future save({Map data}) async {
     Map<String, dynamic> map = {
-      "imglist": jsonEncode(imageList.map((item)=> Imglist.fromJson({'id': item.id})).toList()),
+      "imglist": jsonEncode(
+          imageList.map((item) => Imglist.fromJson({'id': item.id})).toList()),
       "text": title,
       "isopen": isopen,
       "topic_id": hotTopic.id,
@@ -124,7 +130,10 @@ class CreateVM extends ViewStateBasic{
     };
     return await MakingFriendsApi.fetchCreate(map);
   }
+
+  @override
+  Future update({Map data}) {
+    // TODO: implement update
+    throw UnimplementedError();
+  }
 }
-
-
-

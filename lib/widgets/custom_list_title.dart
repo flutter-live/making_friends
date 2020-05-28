@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class HeadLine extends StatelessWidget {
   final Widget title;
+  final EdgeInsetsGeometry contentPadding;
   final Widget titleWidget;
   final Widget leadingWidget;
   final double leadingWidgetRight;
@@ -26,7 +27,7 @@ class HeadLine extends StatelessWidget {
   const HeadLine({
     Key key,
     @required this.title,
-    this.titleSize: 18,
+    this.titleSize: 17,
     this.trailing,
     this.trailingSize,
     this.subtitle,
@@ -41,101 +42,50 @@ class HeadLine extends StatelessWidget {
     this.titleWidget,
     this.isRipple: true,
     this.crossAxisAlignment: CrossAxisAlignment.center,
+    this.contentPadding =
+        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return onTop == null
-        ? CoustomHeadLine(
-            title: title,
-            trailingWidget: trailingWidget,
-            leadingWidget: leadingWidget,
-            leadingWidgetRight: leadingWidgetRight,
-            titleSize: titleSize,
-            trailing: trailing,
-            trailingSize: trailingSize,
-            subtitle: subtitle,
-            subtitleSize: subtitleSize,
-            isIcon: isIcon,
-            icon: icon,
-            iconSize: iconSize,
-            titleWidget: titleWidget,
-            crossAxisAlignment: crossAxisAlignment)
-        : Material(
-            color: Colors.transparent,
-            child: InkWell(
-              highlightColor: isRipple ? null : Colors.transparent,
-              splashColor: isRipple ? null : Colors.transparent,
-              child: CoustomHeadLine(
-                  title: title,
-                  trailingWidget: trailingWidget,
-                  leadingWidget: leadingWidget,
-                  leadingWidgetRight: leadingWidgetRight,
-                  titleSize: titleSize,
-                  trailing: trailing,
-                  trailingSize: trailingSize,
-                  subtitle: subtitle,
-                  subtitleSize: subtitleSize,
-                  isIcon: isIcon,
-                  icon: icon,
-                  iconSize: iconSize,
-                  titleWidget: titleWidget,
-                  crossAxisAlignment: crossAxisAlignment),
-              onTap: onTop,
-            ),
-          );
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        highlightColor: isRipple ? null : Colors.transparent,
+        splashColor: isRipple ? null : Colors.transparent,
+        child: CoustomHeadLine(
+          headLine: this,
+        ),
+        onTap: onTop,
+      ),
+    );
   }
 }
 
 class CoustomHeadLine extends StatelessWidget {
-  final Widget title;
-  final Widget titleWidget;
-  final Widget leadingWidget;
-  final double leadingWidgetRight;
-  final double titleSize;
-  final String trailing;
-  final Widget trailingWidget;
-  final double trailingSize;
-  final String subtitle;
-  final double subtitleSize;
-  final IconData icon;
-  final bool isIcon;
-  final double iconSize;
-  final CrossAxisAlignment crossAxisAlignment;
+  final HeadLine headLine;
 
   const CoustomHeadLine({
     Key key,
-    this.title,
-    this.titleWidget,
-    this.leadingWidget,
-    this.leadingWidgetRight,
-    this.titleSize,
-    this.trailing,
-    this.trailingWidget,
-    this.trailingSize,
-    this.subtitle,
-    this.subtitleSize,
-    this.icon,
-    this.isIcon,
-    this.iconSize,
-    this.crossAxisAlignment,
+    this.headLine,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: headLine.contentPadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Row(
-            crossAxisAlignment: crossAxisAlignment,
+            crossAxisAlignment: headLine.crossAxisAlignment,
             children: <Widget>[
-              leadingWidget == null
+              headLine.leadingWidget == null
                   ? Container()
                   : Container(
-                      margin: EdgeInsets.only(right: leadingWidgetRight),
-                      child: leadingWidget,
+                      margin:
+                          EdgeInsets.only(right: headLine.leadingWidgetRight),
+                      child: headLine.leadingWidget,
                     ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,21 +94,26 @@ class CoustomHeadLine extends StatelessWidget {
                     children: <Widget>[
                       DefaultTextStyle(
                         style: TextStyle(
-                            fontSize: titleSize,
-                            //letterSpacing: 1,
-                            color: Colors.black),
-                        child: title,
+                            fontSize: headLine.titleSize,
+                            color: Colors.black87),
+                        child: headLine.title,
                       ),
-                      titleWidget ?? Container(),
+                      DefaultTextStyle(
+                        style: TextStyle(
+                            fontSize: headLine.titleSize,
+                            color: Colors.black87),
+                        child: headLine.titleWidget ?? Container(),
+                      ),
                     ],
                   ),
-                  subtitle == null
+                  headLine.subtitle == null
                       ? Container()
                       : Container(
+                          margin: EdgeInsets.only(top: 3),
                           child: Text(
-                            subtitle,
+                            headLine.subtitle,
                             style: TextStyle(
-                                fontSize: subtitleSize,
+                                fontSize: headLine.subtitleSize,
                                 color: Colors.black54),
                           ),
                         )
@@ -168,17 +123,17 @@ class CoustomHeadLine extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              trailingWidget == null
-                  ? trailing == null
+              headLine.trailingWidget == null
+                  ? headLine.trailing == null
                       ? Container()
                       : Text(
-                          trailing,
+                          headLine.trailing,
                           style: TextStyle(color: Colors.grey),
                         )
-                  : trailingWidget,
-              isIcon
+                  : headLine.trailingWidget,
+              headLine.isIcon
                   ? Icon(
-                      icon,
+                      headLine.icon,
                       color: Colors.grey,
                     )
                   : Container()

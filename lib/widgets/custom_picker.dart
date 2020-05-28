@@ -16,16 +16,18 @@ class CustomPicker {
     double itemExtent = 40, //每一项的高
     double height = 250, //底部弹出层的高
     List<int> selected, //默认选中的值
-    @required void Function(MakingFriendsCode picker, List<int> selected) onConfirm, //选中回调函数
+    @required
+        void Function(MakingFriendsCode picker, List<int> selected)
+            onConfirm, //选中回调函数
     void Function() onCancel, //取消回调函数
     void Function(Map<String, dynamic> picker, int index, List<int> selected)
-    onSelect, //选中值回调
+        onSelect, //选中值回调
     Widget cancel, //自定义取消样式
     Widget confirm, //自定义确认样式
     String cancelText = '取消', //取消文本
     String confirmText = '确认', //确认文本
     TextStyle cancelTextStyle =
-    const TextStyle(color: Colors.grey, fontSize: 20), //取消样式
+        const TextStyle(color: Colors.grey, fontSize: 20), //取消样式
     TextStyle confirmTextStyle, //确认样式
   }) {
     Picker(
@@ -38,19 +40,19 @@ class CustomPicker {
       confirmText: confirmText,
       cancelTextStyle: cancelTextStyle,
       confirmTextStyle: confirmTextStyle,
-      adapter: PickerDataAdapter(data: arrangement(value: data)),
+      adapter: PickerDataAdapter(data: _arrangement(value: data)),
       onConfirm: (Picker picker, List<int> selected) =>
           onConfirm(picker.adapter.getSelectedValues()[0], selected),
       onCancel: onCancel,
       onSelect: (Picker picker, int index, List<int> selected) => onSelect ==
-          null
+              null
           ? null
           : onSelect(picker.adapter.getSelectedValues()[0], index, selected),
     ).showModal(Application.context);
   }
 
   //梳理返回数据
-  static List<PickerItem> arrangement(
+  static List<PickerItem> _arrangement(
       {@required List<MakingFriendsCode> value}) {
     List<PickerItem> listItem = List();
     value.forEach((MakingFriendsCode map) {
@@ -64,7 +66,7 @@ class CustomPicker {
               child: Text(map.name),
             ),
             value: map,
-            children: arrangement(value: children),
+            children: _arrangement(value: children),
           ),
         );
       } else {
@@ -89,14 +91,17 @@ class CustomPicker {
     double itemExtent = 40, //每一项的高
     double height = 250, //底部弹出层的高
     List<int> selected, //默认选中的值
-    @required void Function(String picker, List<int> selected) onConfirm, //选中回调函数
+    @required
+        void Function(String picker, List<int> selected) onConfirm, //选中回调函数
     void Function() onCancel, //取消回调函数
-    void Function(String picker, int index, List<int> selected) onSelect, //选中值回调
+    void Function(String picker, int index, List<int> selected)
+        onSelect, //选中值回调
     Widget cancel, //自定义取消样式
     Widget confirm, //自定义确认样式
     String cancelText = '取消', //取消文本
     String confirmText = '确认', //确认文本
-    TextStyle cancelTextStyle = const TextStyle(color: Colors.grey, fontSize: 20), //取消样式
+    TextStyle cancelTextStyle =
+        const TextStyle(color: Colors.grey, fontSize: 20), //取消样式
     TextStyle confirmTextStyle, //确认样式
     bool isNumberMonth = true, //是否显示数字中文
     String yearSuffix = '年', //自定义年文本
@@ -105,12 +110,14 @@ class CustomPicker {
     List<String> strAMPM = const ["上午", "下午"], //自定义上午下午
   }) {
     final List<PickerDelimiter> delimiter = [
-      PickerDelimiter(column: 5, child: Container(
-        width: 16.0,
-        alignment: Alignment.center,
-        child: Text(':', style: TextStyle(fontWeight: FontWeight.bold)),
-        color: Colors.white,
-      ))
+      PickerDelimiter(
+          column: 5,
+          child: Container(
+            width: 16.0,
+            alignment: Alignment.center,
+            child: Text(':', style: TextStyle(fontWeight: FontWeight.bold)),
+            color: Colors.white,
+          ))
     ];
 
     Picker(
@@ -127,8 +134,13 @@ class CustomPicker {
       selecteds: selected,
       height: height,
       itemExtent: itemExtent,
-      onConfirm: (Picker picker, List<int> selected) => onConfirm(picker.adapter.text, selected),
-      onSelect: (Picker picker, int index, List<int> selected) => onSelect(picker.adapter.text, index, selected),
+      onConfirm: (Picker picker, List<int> selected) =>
+          onConfirm(picker.adapter.text, selected),
+      onSelect: (Picker picker, int index, List<int> selected) {
+        onSelect == null
+            ? null
+            : onSelect(picker.adapter.text, index, selected);
+      },
       cancel: cancel,
       confirm: confirm,
       cancelText: cancelText,

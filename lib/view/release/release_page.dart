@@ -9,7 +9,6 @@ import 'package:makingfriends/viewModel/create_v_m.dart';
 import 'package:makingfriends/viewModel/tocpic_class_v_m.dart';
 import 'package:makingfriends/viewModel/upload_v_m.dart';
 import 'package:makingfriends/widgets/cupertion_bottom_sheet.dart';
-import 'package:makingfriends/widgets/custom_dialog.dart';
 import 'package:makingfriends/widgets/custom_picker.dart';
 import 'package:makingfriends/widgets/dialog_helper.dart';
 import 'package:makingfriends/widgets/photo_manager.dart';

@@ -33,7 +33,7 @@ class MyPage extends StatelessWidget {
                 IconButton(
                     icon: Icon(Icons.more_horiz),
                     onPressed: () {
-                      Jump.push('view/my/my_details_page');
+                      Jump.push('setting/setting_page');
                     }),
               ],
               expandedHeight: model.expandedHeight,

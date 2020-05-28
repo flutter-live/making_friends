@@ -1,45 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// @description： 昵称，职业，情感
 /// @author：liuzhidong
 /// @date：2020/4/6 17:46
 /// @version：1.0
 
-class EditingFromPage extends StatelessWidget {
+class EditingFromPage extends StatefulWidget {
   final String title;
   final String hintText;
 
   const EditingFromPage({Key key, this.title, this.hintText}) : super(key: key);
 
   @override
+  _EditingFromPageState createState() => _EditingFromPageState();
+}
+
+class _EditingFromPageState extends State<EditingFromPage> {
+  String text;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: Container(
-        margin: EdgeInsets.all(20.w),
+        margin: EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
             Container(
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: hintText,
-                  hintStyle: TextStyle(fontSize: 26.sp),
+                  hintText: widget.hintText,
                 ),
+                onSubmitted: (value){
+                  setState(() {
+                    text = value;
+                  });
+                },
+                onChanged: (value){
+                  setState(() {
+                    text = value;
+                  });
+                },
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 40.w),
+              padding: EdgeInsets.symmetric(vertical: 20),
               width: double.infinity,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).pop(text),
                 child: Text(
                   '完成',
                   style: TextStyle(
-                    fontSize: 32.sp,
-                    letterSpacing: 10.w,
+                    fontSize: 18,
+                    letterSpacing: 3,
                     color: Colors.white,
                   ),
                 ),
@@ -51,3 +66,4 @@ class EditingFromPage extends StatelessWidget {
     );
   }
 }
+

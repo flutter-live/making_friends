@@ -7,12 +7,10 @@ import 'package:makingfriends/config/application.dart';
 /// @date：2020/3/27 23:50
 /// @version：1.0
 
-
-
 class Jump {
   static final router = Router();
 
-  static push(String path,
+  static Future push(String path,
       { bool token = true,
         bool replace = false,
         bool clearStack = false,

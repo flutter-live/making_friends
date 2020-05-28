@@ -14,6 +14,7 @@ class Application{
   /// app全局配置 eg:theme
   static SharedPreferences sharedPreferences;
 
+
   ///app 全局context
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static BuildContext context = navigatorKey.currentState.overlay.context;

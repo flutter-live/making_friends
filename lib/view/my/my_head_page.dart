@@ -3,10 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/viewModel/user_counts_v_m.dart';
-import 'package:makingfriends/viewModel/user_v_m.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'package:makingfriends/widgets/image_setting.dart';
-import 'package:provider/provider.dart';
 
 /// @description: 登陆后头像信息
 /// @author: liuzhidong
@@ -18,7 +16,7 @@ class MyHead extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderWidget<UserCountsVM>(
         model: UserCountsVM(),
-        onModelReady: (model){
+        onModelReady: (model) {
           model.getUserCounts();
         },
         builder: (context, model, child) {
@@ -42,11 +40,11 @@ class MyHead extends StatelessWidget {
                   ),
                 ),
                 title: Text(model.user.username),
-                subtitle: '总帖子${model.userCounts.totalDingCount} 今日发贴${model.userCounts.todayPostsCount}',
+                subtitle:
+                    '总帖子${model.userCounts.postCount} 今日发贴${model.userCounts.todayPostsCount}',
                 isIcon: false,
-                onTop: () {
-                  Jump.push('view/my/my_details_page');
-                },
+                onTop: () =>
+                    Jump.push('view/my/my_details_page?id=${model.user.id}'),
               ),
               SizedBox(
                 height: 20.h,

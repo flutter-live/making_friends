@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'dart:math' as math;
 
+import 'package:makingfriends/widgets/image_setting.dart';
+
 /// @description： 聊天
 /// @author：liuzhidong
 /// @date：2020/4/7 21:00
@@ -72,18 +74,17 @@ class LeftChat extends StatelessWidget {
           leadingWidgetRight: 10,
           crossAxisAlignment: CrossAxisAlignment.start,
           isIcon: false,
-//          leadingWidget: Container(
-//            width: 60,
-//            height: 60,
-//            child: HttpImage(
-//              url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
-//              imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
-//              errUrl: 'assets/nothing.png',
-//              borderRadius: 100,
-//              placeholderWidth: 10,
-//              placeholderHeight: 10,
-//            ),
-//          ),
+          leadingWidget: Container(
+            width: 40,
+            height: 40,
+            child: HttpImage(
+              url: 'nothing.png',
+              errUrl: 'assets/nothing.png',
+              borderRadius: 100,
+              placeholderWidth: 10,
+              placeholderHeight: 10,
+            ),
+          ),
           title: Row(
             children: <Widget>[
               Container(
@@ -157,18 +158,17 @@ class RightChat extends StatelessWidget {
                   ),
                 ),
               ),
-//              Container(
-//                width: 60,
-//                height: 60,
-//                child: HttpImage(
-//                  url: article.user.userpic == null || article.user.userpic.isEmpty ? 'nothing.png' : article.user.userpic,
-//                  imageType: article.user.userpic == null || article.user.userpic.isEmpty ? ImageType.assets : ImageType.normal,
-//                  errUrl: 'assets/nothing.png',
-//                  borderRadius: 100,
-//                  placeholderWidth: 10,
-//                  placeholderHeight: 10,
-//                ),
-//              ),
+              Container(
+                width: 40,
+                height: 40,
+                child: HttpImage(
+                  url: 'nothing.png',
+                  errUrl: 'assets/nothing.png',
+                  borderRadius: 100,
+                  placeholderWidth: 10,
+                  placeholderHeight: 10,
+                ),
+              ),
             ],
           ),
         ),
@@ -209,6 +209,7 @@ class ChatInputVBox extends StatelessWidget {
           Container(
             child: MaterialButton(
               color: Theme.of(context).primaryColor,
+              elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50))),
               minWidth: 110.w,

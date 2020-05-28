@@ -5,7 +5,7 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0528/220757_9796cb70_5029086.png "eb77a9b0c7c1d528b57f8a4f67ee7afe.png")
 
 # 成品图
-<img src="https://images.gitee.com/uploads/images/2020/0528/224913_f71b1caa_5029086.png" height="500" width="250" alt="评论"/>
+<img src="https://images.gitee.com/uploads/images/2020/0528/224913_f71b1caa_5029086.png" height="500" alt="评论"/>
 <img src="https://images.gitee.com/uploads/images/2020/0528/225126_c64faabd_5029086.png" height="600" alt="评论"/>
 <img src="https://images.gitee.com/uploads/images/2020/0528/223532_e73ce707_5029086.png" height="600" alt="评论"/><br/>
 <img src="https://images.gitee.com/uploads/images/2020/0528/225309_fb757d95_5029086.png" height="600" alt="评论"/>

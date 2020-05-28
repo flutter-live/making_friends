@@ -25,7 +25,6 @@
 # 项目地址
  > [项目地址]（https://gitee.com/lzd09183539/making_friends)
     
-# 更新
 
 # 项目结构
 <img src="https://images.gitee.com/uploads/images/2020/0528/231629_db8ca708_5029086.png" height="700" alt="评论"/><br/>

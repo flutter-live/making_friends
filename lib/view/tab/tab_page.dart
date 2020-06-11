@@ -1,9 +1,12 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:makingfriends/model/tab_bottom_navigtion_bar.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/viewModel/infromation/web_socket_chat.dart';
 import 'package:makingfriends/viewModel/tab/tab_v_m.dart';
+import 'package:provider/provider.dart';
 
 /// @description： tab
 /// @author：liuzhidong
@@ -38,7 +41,7 @@ class TabPage extends StatelessWidget {
             },
             child: PageView(
               children: model.pages,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               onPageChanged: (index) {
                 if (index == 2) return;
@@ -52,17 +55,26 @@ class TabPage extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 primaryColor: Theme.of(context).primaryColor),
             child: BottomNavigationBar(
-                selectedLabelStyle: TextStyle(color: Colors.pinkAccent),
-                type: BottomNavigationBarType.fixed,
-                items: model.navigtionBars
-                    .map((item) => BottomNavigationBarItem(
-                        icon: Icon(item.icon), title: Text(item.name)))
-                    .toList(),
-                currentIndex: model.selectedIndex,
-                onTap: (index) {
-                  if (index == 2) return;
-                  _pageController.jumpToPage(index);
-                }),
+              selectedLabelStyle: TextStyle(color: Colors.pinkAccent),
+              type: BottomNavigationBarType.fixed,
+              items: List.generate(model.navigtionBars.length, (index) {
+                if (index == 3) {
+                  return BottomNavigationBarItem(
+                    icon: InfromationIcon(model: model.navigtionBars[index]),
+                    title: Text(model.navigtionBars[index].name),
+                  );
+                }
+                return BottomNavigationBarItem(
+                  icon: Icon(model.navigtionBars[index].icon),
+                  title: Text(model.navigtionBars[index].name),
+                );
+              }),
+              currentIndex: model.selectedIndex,
+              onTap: (index) {
+                if (index == 2) return;
+                _pageController.jumpToPage(index);
+              },
+            ),
           ),
           floatingActionButton: Container(
             padding: EdgeInsets.all(5),
@@ -93,5 +105,56 @@ class TabPage extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+///消息图标
+class InfromationIcon extends StatelessWidget {
+  final TaBottomNavigtionBar model;
+
+  const InfromationIcon({Key key, this.model}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          Icon(model.icon),
+          Positioned(
+            left: 15,
+            top: -5,
+            child: Container(
+              padding: const EdgeInsets.all(1),
+              alignment: Alignment.center,
+              decoration: new BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              constraints: const BoxConstraints(
+                minWidth: 15,
+                minHeight: 15,
+              ),
+              child: Badge(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+///未读信息
+class Badge extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<WebSocketChat>(builder: (context, model, child) {
+      String total =
+          model.total > 99 ? '${model.total}+' : model.total.toString();
+      return Text(
+        total,
+        style: const TextStyle(fontSize: 12, color: Colors.white),
+      );
+    });
   }
 }

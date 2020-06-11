@@ -1,72 +1,93 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:makingfriends/model/chat_list_model.dart';
+import 'package:makingfriends/model/chat_model.dart';
+import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/view/information/triangle_custom_painter_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:makingfriends/viewModel/infromation/chat_v_m.dart';
+import 'package:makingfriends/viewModel/infromation/web_socket_chat.dart';
 import 'package:makingfriends/widgets/custom_list_title.dart';
 import 'dart:math' as math;
-
 import 'package:makingfriends/widgets/image_setting.dart';
+import 'package:provider/provider.dart';
 
 /// @description： 聊天
 /// @author：liuzhidong
 /// @date：2020/4/7 21:00
 /// @version：1.0
-
 class ChatPage extends StatelessWidget {
+  final ChatListModel chatListModel;
+  const ChatPage({Key key, this.chatListModel}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).padding.bottom;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('社区交友'),
-        actions: <Widget>[IconButton(icon: Icon(Icons.list), onPressed: () {})],
-      ),
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.only(top: 40.w),
+    return ProviderWidget<ChatVM>(
+        model: ChatVM(Provider.of<WebSocketChat>(context), chatListModel),
+        onModelReady: (model) {
+          model.webSocketChat.chatListModel = chatListModel;
+          model.webSocketChat.initChatDetailToUser();
+        },
+        onDispose: (model) {
+          model.webSocketChat.chatListModel = null;
+        },
+        builder: (context, model, child) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              title: Text(chatListModel.username),
+              actions: <Widget>[
+                IconButton(icon: Icon(Icons.list), onPressed: () {})
+              ],
+            ),
+            body: SafeArea(
+              child: Container(
+                child: Column(
                   children: <Widget>[
-                    LeftChat(),
-                    RightChat(),
-                    LeftChat(),
-                    RightChat(),
-                    LeftChat(),
-                    RightChat(),
-                    RightChat(),
-                    RightChat(),
-                    RightChat(),
-                    RightChat(),
-                    LeftChat(),
-                    RightChat(),
-                    LeftChat(),
-                    RightChat(),
-                    LeftChat(),
-                    RightChat(),
-                    RightChat(),
-                    RightChat(),
-                    RightChat(),
-                    RightChat(),
-
+                    Expanded(child: _ListMain()),
+                    Container(
+                      height: 80.h,
+                      child: ChatInputVBOX(chatListModel: chatListModel),
+                    )
                   ],
                 ),
               ),
-              Container(
-                height: 80.h,
-                child: ChatInputVBox(),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        });
+  }
+}
+
+class _ListMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer2<WebSocketChat, ChatVM>(
+        builder: (context, model, model2, child) {
+      Timer(
+          Duration(milliseconds: 0),
+          () => model2.scrollController
+              .jumpTo(model2.scrollController.position.maxScrollExtent));
+      return ListView.builder(
+        itemCount: model.chats.length,
+        controller: model2.scrollController,
+        padding: EdgeInsets.only(top: 40.w),
+        itemBuilder: (context, index) {
+          return model.chats[index].fromId == model.user.userinfo.userId
+              ? _RightChat(model: model.chats[index])
+              : _LeftChat(model: model.chats[index]);
+        },
+      );
+    });
   }
 }
 
 ///左侧聊天
-class LeftChat extends StatelessWidget {
+class _LeftChat extends StatelessWidget {
+  final ChatModel model;
+
+  const _LeftChat({Key key, this.model}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -78,7 +99,7 @@ class LeftChat extends StatelessWidget {
             width: 40,
             height: 40,
             child: HttpImage(
-              url: 'nothing.png',
+              url: model.fromUserpic,
               errUrl: 'assets/nothing.png',
               borderRadius: 100,
               placeholderWidth: 10,
@@ -95,13 +116,12 @@ class LeftChat extends StatelessWidget {
               ),
               Container(
                 child: Container(
-                  width: 450.w,
                   padding:
                       EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.w),
                   decoration: BoxDecoration(
                       color: Colors.grey[300],
                       borderRadius: BorderRadius.all(Radius.circular(10.w))),
-                  child: Text('dasdsdsdasdasdsdasda'),
+                  child: Text(model.data),
                 ),
               )
             ],
@@ -111,7 +131,11 @@ class LeftChat extends StatelessWidget {
 }
 
 ///右侧聊天
-class RightChat extends StatelessWidget {
+class _RightChat extends StatelessWidget {
+  final ChatModel model;
+
+  const _RightChat({Key key, this.model}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,7 +150,6 @@ class RightChat extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Container(
-                      width: 450.w,
                       padding: EdgeInsets.symmetric(
                           vertical: 10.w, horizontal: 10.w),
                       decoration: BoxDecoration(
@@ -134,7 +157,7 @@ class RightChat extends StatelessWidget {
                           borderRadius:
                               BorderRadius.all(Radius.circular(10.w))),
                       child: Text(
-                        'dasdsdsdasdasdsdasda',
+                        model.data,
                         style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.w,
@@ -162,7 +185,7 @@ class RightChat extends StatelessWidget {
                 width: 40,
                 height: 40,
                 child: HttpImage(
-                  url: 'nothing.png',
+                  url: model.fromUserpic,
                   errUrl: 'assets/nothing.png',
                   borderRadius: 100,
                   placeholderWidth: 10,
@@ -178,51 +201,69 @@ class RightChat extends StatelessWidget {
 }
 
 ///输入框
-class ChatInputVBox extends StatelessWidget {
+class ChatInputVBOX extends StatelessWidget {
+  final ChatListModel chatListModel;
+  const ChatInputVBOX({Key key, this.chatListModel}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(
-                right: 20.w,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                color: Colors.grey[300],
-              ),
-              height: 50.h,
-              child: TextField(
-                scrollPadding: EdgeInsets.all(0),
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.only(bottom: 30.w, left: 30.w, top: 5.w),
-                  border: InputBorder.none,
+    TextEditingController controller = TextEditingController();
+    String data = '';
+    return Consumer<WebSocketChat>(builder: (context, model, child) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(
+                  right: 20.w,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  color: Colors.grey[300],
+                ),
+                height: 50.h,
+                child: TextField(
+                  controller: controller,
+                  scrollPadding: EdgeInsets.all(0),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.only(bottom: 30.w, left: 30.w, top: 5.w),
+                    border: InputBorder.none,
+                  ),
+                  onSubmitted: (value) {
+                    data = value;
+                  },
+                  onChanged: (value) {
+                    data = value;
+                  },
                 ),
               ),
             ),
-          ),
-          Container(
-            child: MaterialButton(
-              color: Theme.of(context).primaryColor,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50))),
-              minWidth: 110.w,
-              height: 50.h,
-              onPressed: () {},
-              child: Text(
-                '发送',
-                style: TextStyle(color: Colors.white, fontSize: 26.sp),
+            Container(
+              child: MaterialButton(
+                color: Theme.of(context).primaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50))),
+                minWidth: 110.w,
+                height: 50.h,
+                onPressed: () async {
+                  await model.sendChatMessage(data);
+                  controller.text = '';
+                  data = '';
+                },
+                child: Text(
+                  '发送',
+                  style: TextStyle(color: Colors.white, fontSize: 26.sp),
+                ),
               ),
-            ),
-          )
-        ],
-      ),
-    );
+            )
+          ],
+        ),
+      );
+    });
   }
 }

@@ -53,7 +53,7 @@ class DateUtils {
   ///结果： 2019?08?04  02?08?02
   getFormartData({timeSamp: int, format: String}) {
     var dataFormart = new DateFormat(format);
-    var dateTime = new DateTime.fromMillisecondsSinceEpoch(timeSamp);
+    var dateTime = new DateTime.fromMillisecondsSinceEpoch(timeSamp * 1000);
     String formartResult = dataFormart.format(dateTime);
     return formartResult;
   }

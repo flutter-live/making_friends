@@ -11,6 +11,7 @@ class ProviderWidget<A extends ChangeNotifier> extends StatefulWidget {
   final A model;
   final Widget child;
   final Function(A model) onModelReady;
+  final Function(A model) onDispose;
   final bool autoDispose;
 
   const ProviderWidget(
@@ -19,7 +20,7 @@ class ProviderWidget<A extends ChangeNotifier> extends StatefulWidget {
       @required this.builder,
       this.onModelReady,
       this.autoDispose: true,
-      this.child})
+      this.child, this.onDispose})
       : super(key: key);
 
   @override
@@ -42,6 +43,7 @@ class _ProviderWidgetState<A extends ChangeNotifier>
   void dispose() {
     // TODO: implement dispose
     if (widget.autoDispose) model.dispose();
+    widget.onDispose?.call(model);
     super.dispose();
   }
 

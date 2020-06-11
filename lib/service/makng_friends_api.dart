@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:makingfriends/config/net/http.dart';
 import 'package:makingfriends/model/Comment.dart';
 import 'package:makingfriends/model/UserCounts.dart';
 import 'package:makingfriends/model/adsense.dart';
 import 'package:makingfriends/model/article_details.dart';
+import 'package:makingfriends/model/chat_model.dart';
 import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/model/post_class.dart';
 import 'package:makingfriends/model/upload.dart';
@@ -283,5 +282,23 @@ class MakingFriendsApi {
         .toList();
   }
 
+  ///用户绑定
+  static Future fetchUserBind(clientId) async {
+    var response = await http.post('chat/bind?type=bind&&client_id=$clientId');
+    return response.data;
+  }
+
+  ///获取未读信息
+  static Future<List<ChatModel>> fetchGetUnreadMessages() async {
+    var response = await http.post('chat/get');
+    return response.data.map<ChatModel>((item) => ChatModel.fromJson(item)).toList();
+  }
+
+  ///发送消息
+  static Future fetchSendChatMessages(Map<String, dynamic> map) async {
+    FormData formData = FormData.fromMap(map);
+    var response = await http.post('chat/send', data: formData);
+    return response.data;
+  }
 
 }

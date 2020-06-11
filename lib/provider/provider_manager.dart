@@ -1,4 +1,5 @@
 import 'package:makingfriends/viewModel/global_state_model.dart';
+import 'package:makingfriends/viewModel/infromation/web_socket_chat.dart';
 import 'package:makingfriends/viewModel/user_v_m.dart';
 import '../viewModel/theme_v_m.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,10 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<GlobalStateModel>(
     create: (context) => GlobalStateModel(),
-  )
+  ),
+  //链接websocket
+  ChangeNotifierProvider<WebSocketChat>(
+    create: (context) => WebSocketChat(),
+  ),
 
 ];

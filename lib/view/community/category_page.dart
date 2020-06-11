@@ -4,6 +4,7 @@ import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
 import 'package:makingfriends/viewModel/global_state_model.dart';
 import 'package:makingfriends/viewModel/tab/community_v_m.dart';
+import 'package:makingfriends/viewModel/user_v_m.dart';
 import 'package:makingfriends/widgets/article_skeleton.dart';
 import 'package:makingfriends/widgets/list_item.dart';
 import 'package:makingfriends/widgets/skeleton.dart';
@@ -71,7 +72,7 @@ class _CommunityListPageState extends State<CommunityListPage>
             child: ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
-                return ListItem(article: model.list[index]);
+                return ListItem(article: list[index]);
               },
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:makingfriends/model/article_details.dart';
+import 'package:makingfriends/model/chat_list_model.dart';
 import 'package:makingfriends/model/hot_topic.dart';
 import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/view/community/community_details_page.dart';
@@ -95,7 +96,10 @@ final Map<String, Handler> pageRouters = {
   //查找好友
   'information/find_friends_page': Handler(handlerFunc: (context, params) => FindFriendsPage()),
   //聊天
-  'information/chat_page': Handler(handlerFunc: (context, params) => ChatPage()),
+  'information/chat_page': Handler(handlerFunc: (context, params) {
+    ChatListModel model = ChatListModel.fromJson(FluroConvertUtils.string2map(params['item']?.first));
+    return ChatPage(chatListModel: model);
+  }),
   //发布页
   'release/release_page': Handler(handlerFunc: (context, params) => ReleasePage()),
   //浏览历史

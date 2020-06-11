@@ -1,5 +1,5 @@
 # 简介
-> 这里是列表文本Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面。Flutter是完全免费、开源的。
+> Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面。Flutter是完全免费、开源的。
 本人接触Flutter有几个月，做了一个社区交友app
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0528/220757_9796cb70_5029086.png "eb77a9b0c7c1d528b57f8a4f67ee7afe.png")
@@ -35,7 +35,11 @@
 
 2.  页面样式，代码的优化
 
-3.  项目打包没做处理
+3.  夜间模式，更换皮肤还没完成，近期完成
+
+4.  国际化处理
+
+5.  项目打包没做处理
 
 
 # 感谢

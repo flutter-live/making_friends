@@ -45,12 +45,6 @@
 
 1.  完善聊天功能（造火箭就算了 :satisfied:  :satisfied:  :satisfied: ）
 
-# 感谢
-
-1.  感谢[《Fun Android》](https://github.com/phoenixsky/fun_android_flutter/blob/master/README.md)作者的开源项目，让我对Provider的用法有了新的了解，借鉴了他的Provider MVVM的架构。
-
-2.  借鉴了`楚棉老师`[社区交友](https://study.163.com/course/introduction/1209188809.htm)项目的UI，老师课的质量非常的好，有兴趣的小伙伴可以去听听 :smile:  :smile:  :smile: 。
-
 
 # 关于作者
 * Email: 1956252575@qq.com

@@ -12,7 +12,7 @@ class GlobalStateModel extends ChangeNotifier {
   /// [key]为Id,[value]为DataProcessing类型,代表操作数据
   ///
   /// 设置static的目的是,列表更新时,刷新该map中的值
-  static final Map<int, DataProcessing> _map = Map();
+  static final Map<String, DataProcessing> _map = Map();
 
   /// 列表数据刷新后,同步刷新该map数据
   ///
@@ -26,17 +26,17 @@ class GlobalStateModel extends ChangeNotifier {
     });
   }
 
-  addFavourite(int id, DataProcessing item) {
+  addFavourite(String id, DataProcessing item) {
     _map[id] = item;
     notifyListeners();
   }
 
-  removeFavourite(int id, DataProcessing item) {
+  removeFavourite(String id, DataProcessing item) {
     _map[id] = item;
     notifyListeners();
   }
 
-  operator [](int id) {
+  operator [](String id) {
     return _map[id];
   }
 }

@@ -4,7 +4,7 @@
 /// @version：1.0
 
 class ChatListModel {
-  int userId;
+  String userId;
   String avatar;
   String username;
   int updateTime;
@@ -14,7 +14,7 @@ class ChatListModel {
   int time;
 
   ChatListModel(
-      {this.userId = 0,
+      {this.userId = '0',
         this.avatar,
         this.username,
         this.updateTime,
@@ -25,7 +25,7 @@ class ChatListModel {
       });
 
   ChatListModel.fromJson(Map<String, dynamic> json) {
-    userId = json['user_id'];
+    userId = json['user_id']?.toString();
     avatar = json['avatar'];
     username = json['username'];
     updateTime = json['update_time'];

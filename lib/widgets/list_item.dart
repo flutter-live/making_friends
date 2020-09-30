@@ -31,7 +31,7 @@ class ListItem extends StatelessWidget {
         if (model[article?.id] != null) {
           article..processing = model[article?.id];
         }
-        if (userModel.user.userinfo.userId == article.userId) {
+        if (userModel.user?.userinfo?.userId == article.userId) {
           article..processing.isFollow = true;
         }
         DataProcessing processing = model[article?.userId];

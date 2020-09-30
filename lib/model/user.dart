@@ -4,7 +4,7 @@
 /// @version：1.0
 
 class User {
-  int id;
+  String id;
   String username;
   String userpic;
   bool password;
@@ -34,7 +34,7 @@ class User {
         this.blacklist});
 
   User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id']?.toString();
     username = json['username'];
     userpic = json['userpic'];
     password = json['password'];
@@ -80,8 +80,8 @@ class User {
 }
 
 class Userinfo {
-  int id;
-  int userId;
+  String id;
+  String userId;
   int age;
   int sex;
   int qg;
@@ -103,8 +103,8 @@ class Userinfo {
       });
 
   Userinfo.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
+    id = json['id']?.toString();
+    userId = json['user_id']?.toString();
     age = json['age'];
     sex = json['sex'];
     qg = json['qg'];

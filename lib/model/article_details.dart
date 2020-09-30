@@ -7,8 +7,8 @@ import '../model/user.dart';
 /// @version：1.0
 
 class ArticleDetails {
-  int id;
-  int userId;
+  String id;
+  String userId;
   String title;
   String titlepic;
   String content;
@@ -54,8 +54,8 @@ class ArticleDetails {
       });
 
   ArticleDetails.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
+    id = json['id']?.toString();
+    userId = json['user_id']?.toString();
     title = json['title'];
     titlepic = json['titlepic'];
     content = json['content'];
@@ -206,7 +206,7 @@ class Support {
 }
 
 class DataProcessing {
-  int id;
+  String id;
   int userId;
   int postId;
   int type;
@@ -219,7 +219,7 @@ class DataProcessing {
   DataProcessing({this.id, this.userId, this.postId, this.type, this.createTime, this.commentCount});
 
   DataProcessing.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id']?.toString();
     userId = json['user_id'];
     postId = json['post_id'];
     type = json['type'];

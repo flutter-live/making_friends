@@ -14,14 +14,14 @@ import 'package:makingfriends/service/makng_friends_api.dart';
 
 ///评论
 class CommentVM extends ViewStateList<Comment> {
-  int id;
+  String id;
 
   @override
   Future<List<Comment>> loadData() async {
     return await MakingFriendsApi.fetchGetComments(id);
   }
 
-  Future comment(int infoId, String data, replyId) async {
+  Future comment(int infoId, String data, String replyId) async {
     return await MakingFriendsApi.fetchSetComments(infoId, data, replyId);
   }
 

@@ -198,28 +198,28 @@ class WebSocketChat extends ViewStateProvider {
 
   ///存储到chatdetail
   Future updateChatDetailToUser({ChatModel model, bool send}) async {
-    int toId = send ? chatListModel.userId : model.fromId;
+    String toId = send ? chatListModel.userId : model.fromId;
     chats = await this.getChatDetailToUser(toId: toId)
       ..add(model);
     this.saveChatDetail(toId: toId, list: chats);
   }
 
   ///进入聊天页面初始化加载
-  Future initChatDetailToUser({int toId = 0}) async {
+  Future initChatDetailToUser({String toId = '0'}) async {
     chats = await this.getChatDetailToUser(toId: toId);
   }
 
   /// 获取与某个用户聊天内容列表
-  Future<List<ChatModel>> getChatDetailToUser({int toId = 0}) async {
-    toId = toId == 0 ? chatListModel.userId : toId;
+  Future<List<ChatModel>> getChatDetailToUser({String toId = '0'}) async {
+    toId = toId == '0' ? chatListModel.userId : toId;
     String key = 'chatdetail_${user.id}_$toId';
     List<String> list = Application.sharedPreferences.getStringList(key) ?? [];
     return list.map((e) => ChatModel.fromJson(jsonDecode(e))).toList();
   }
 
   /// 存储与某个用户聊天内容列表
-  Future saveChatDetail({int toId = 0, List<ChatModel> list}) async {
-    toId = toId == 0 ? chatListModel.userId : toId;
+  Future saveChatDetail({String toId = '0', List<ChatModel> list}) async {
+    toId = toId == '0' ? chatListModel.userId : toId;
     String key = 'chatdetail_${user.id}_$toId';
     List<String> kList =
         list.map<String>((e) => json.encode(e.toJson())).toList();

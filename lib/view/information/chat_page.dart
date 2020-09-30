@@ -34,7 +34,6 @@ class ChatPage extends StatelessWidget {
         },
         builder: (context, model, child) {
           return Scaffold(
-            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               title: Text(chatListModel.username),
               actions: <Widget>[
@@ -185,7 +184,7 @@ class _RightChat extends StatelessWidget {
                 width: 40,
                 height: 40,
                 child: HttpImage(
-                  url: model.fromUserpic,
+                  url: model.fromUserpic ?? '',
                   errUrl: 'assets/nothing.png',
                   borderRadius: 100,
                   placeholderWidth: 10,

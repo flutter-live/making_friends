@@ -1,13 +1,16 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:makingfriends/model/chat_list_model.dart';
 import 'package:makingfriends/provider/provider_widget.dart';
 import 'package:makingfriends/routes/jump.dart';
+import 'package:makingfriends/utils/fluro_convert_utils.dart';
 import 'package:makingfriends/view/my/my_basic_page.dart';
 import 'package:makingfriends/view/my/my_invitation_page.dart';
 import 'package:makingfriends/view/my/my_operation_button.dart';
 import 'package:makingfriends/view/my/my_relation_page.dart';
 import 'package:makingfriends/view/my/my_trends_page.dart';
+import 'package:makingfriends/viewModel/infromation/web_socket_chat.dart';
 import 'package:makingfriends/viewModel/user_counts_v_m.dart';
 import 'package:makingfriends/viewModel/user_info_v_m.dart';
 import 'package:makingfriends/widgets/custom_image.dart';
@@ -20,7 +23,7 @@ import 'package:provider/provider.dart';
 /// @version：1.0
 
 class MyDetailsPage extends StatefulWidget {
-  final int id;
+  final String id;
   final bool isFollow;
 
   const MyDetailsPage({Key key, this.id, this.isFollow}) : super(key: key);
@@ -168,7 +171,18 @@ class _MyDetailsPageState extends State<MyDetailsPage>
                     title: Text(title),
                     actions: <Widget>[
                       IconButton(
-                          icon: Icon(Icons.more_horiz), onPressed: () {}),
+                          icon: Icon(Icons.more_horiz), onPressed: () {
+                        WebSocketChat webSocketChat = Provider.of<WebSocketChat>(context, listen: false);
+                        ChatListModel chatListModel = ChatListModel(
+                          username: model.user.username,
+                          userId: model.user.userinfo.userId,
+                          avatar: model.user.userpic,
+                          noread: 1,
+                        );
+                        String item = FluroConvertUtils.object2string<ChatListModel>(chatListModel);
+                        Jump.push('information/chat_page?item=$item');
+                        webSocketChat.readChatMessage(chatListModel: chatListModel);
+                      }),
                     ],
                     flexibleSpace: LayoutBuilder(
                       builder:

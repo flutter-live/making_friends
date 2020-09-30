@@ -105,7 +105,7 @@ class CommunityDetailsPage extends StatelessWidget {
 ///评论
 class CommentItem extends StatelessWidget {
   final CommentVM model;
-  final int id;
+  final String id;
   final DataProcessing processing;
 
   const CommentItem({Key key, this.id, this.model, this.processing}) : super(key: key);

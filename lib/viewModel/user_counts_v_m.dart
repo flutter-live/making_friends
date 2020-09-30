@@ -38,7 +38,7 @@ class UserCountsVM extends ViewStateProvider {
   }
 
   //获取指定用户相关信息
-  void getAssignUserCounts(int userId) async {
+  void getAssignUserCounts(String userId) async {
     setBusy();
     try {
       userCounts = await MakingFriendsApi.fetchGetUserCounts(userId);

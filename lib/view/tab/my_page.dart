@@ -111,7 +111,10 @@ class _LandPageHeightState extends State<LandPageHeight>
     with AfterLayoutMixin<LandPageHeight> {
   @override
   Widget build(BuildContext context) {
-    return LandPage();
+    return Container(
+      margin: const EdgeInsets.only(top: 50),
+      child: LandPage(),
+    );
   }
 
   @override
@@ -133,7 +136,10 @@ class _MyHeadHeightState extends State<MyHeadHeight>
     with AfterLayoutMixin<MyHeadHeight> {
   @override
   Widget build(BuildContext context) {
-    return MyHead();
+    return Container(
+      margin: const EdgeInsets.only(top: 50),
+      child: MyHead(),
+    );
   }
 
   @override

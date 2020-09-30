@@ -14,7 +14,7 @@ import 'image_setting.dart';
 /// @version: 1.0
 
 class CustomComment extends StatelessWidget {
-  final int id;
+  final String id;
   final Comment comment;
   final DataProcessing processing;
 
@@ -100,7 +100,7 @@ class CustomComment extends StatelessWidget {
 
 ///二级聊天
 class SecondComment extends StatelessWidget {
-  final int id;
+  final String id;
   final Comment comment;
   final DataProcessing processing;
 

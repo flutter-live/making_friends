@@ -5,7 +5,7 @@
 
 class ChatModel {
   String toId;
-  int fromId;
+  String fromId;
   String fromUsername;
   String fromUserpic;
   String type;
@@ -23,7 +23,7 @@ class ChatModel {
       });
 
   ChatModel.fromJson(Map<String, dynamic> json) {
-    toId = json['to_id'];
+    toId = json['to_id']?.toString();
     fromId = json['from_id'];
     fromUsername = json['from_username'];
     fromUserpic = json['from_userpic'];

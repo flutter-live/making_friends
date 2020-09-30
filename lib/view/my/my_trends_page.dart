@@ -18,7 +18,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MyTrendsPage extends StatefulWidget {
   final Function(bool, int) control;
-  final int id;
+  final String id;
 
   const MyTrendsPage({Key key, this.control, this.id}) : super(key: key);
 

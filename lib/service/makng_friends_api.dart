@@ -119,21 +119,21 @@ class MakingFriendsApi {
   }
 
   ///用户顶踩
-  static Future fetchSupport(int id, int type) async {
+  static Future fetchSupport(String id, int type) async {
     FormData formData = FormData.fromMap({"post_id": id, "type": type});
     var response = await http.post('support', data: formData);
     return response.data;
   }
 
   ///关注用户
-  static Future fetchEachFollow(int userId) async {
+  static Future fetchEachFollow(String userId) async {
     FormData formData = FormData.fromMap({"follow_id": userId});
     var response = await http.post('follow', data: formData);
     return response.data;
   }
 
   ///获取评论列表
-  static Future fetchGetComments(int id) async {
+  static Future fetchGetComments(String id) async {
     var response = await http.get('post/$id/comment');
     List<Comment> comments = response.data['list']
         .map<Comment>((item) => Comment.fromJson(item))
@@ -143,7 +143,7 @@ class MakingFriendsApi {
   }
 
   ///提交评论
-  static Future fetchSetComments(int fid, String data, int postId) async {
+  static Future fetchSetComments(int fid, String data, String postId) async {
     FormData formData = FormData.fromMap({"fid": fid, "data": data, "post_id": postId});
     var response = await http.post('post/comment', data: formData);
     return response.data;
@@ -261,6 +261,7 @@ class MakingFriendsApi {
   ///互关
   static Future fetchFindCorrelation(page) async {
     var response = await http.get('friends/$page');
+    print(response.data);
     return response.data['list']
         .map<User>((item) => User.fromJson(item))
         .toList();

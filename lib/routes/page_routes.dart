@@ -69,7 +69,7 @@ final Map<String, Handler> pageRouters = {
   'view/my/my_details_page': Handler(handlerFunc: (context, params) {
      String id = params['id']?.first;
      bool isFollow = FluroConvertUtils.string2bool(params['isFollow']?.first);
-     return MyDetailsPage(id: int.parse(id), isFollow: isFollow,);
+     return MyDetailsPage(id: id, isFollow: isFollow,);
     }),
   //设置
   'setting/setting_page': Handler(handlerFunc: (context, params) => SettingPage()),

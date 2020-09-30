@@ -8,7 +8,7 @@ import 'package:makingfriends/service/makng_friends_api.dart';
 /// @version：1.0
 
 class MyInvitationVM extends ViewStateRefresh<ArticleDetails> {
-  final int id;
+  final String id;
 
   MyInvitationVM({this.id});
 

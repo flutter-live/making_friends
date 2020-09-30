@@ -20,7 +20,7 @@ class FindFriendsPage extends StatelessWidget {
         appBar: AppBar(
           title: GestureDetector(
             onTap: () {
-              showSearch(context: context, delegate: DefaultSearchDelegate(hintText: '查找好友'));
+              showSearch(context: context, delegate: DefaultSearchDelegate(hintText: '查找好友', type: 'user'));
             },
             child: Container(
               decoration: BoxDecoration(
